@@ -1,0 +1,22 @@
+[
+  {
+    "id": "demo-ramesh",
+    "name": "Ramesh Kumar",
+    "businessName": "Ramesh Furniture Works",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "products": [
+      "office chair",
+      "ergonomic chair",
+      "office desk",
+      "revolving chair"
+    ],
+    "monthlyCapacity": 50,
+    "certifications": ["BIS", "Udyam-Micro"],
+    "gstin": "22DEMOXXXXXX1Z5",
+    "pan": "DEMOXXXXX",
+    "mseCategory": "micro",
+    "cautionMoneyPaid": true,
+    "bankVerified": true
+  }
+]

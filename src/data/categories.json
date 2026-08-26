@@ -1,0 +1,141 @@
+{
+  "id": "furniture",
+  "name": "Furniture",
+  "code": "FURN",
+  "children": [
+    {
+      "id": "office-furniture",
+      "name": "Office Furniture",
+      "code": "FURN-OFF",
+      "children": [
+        {
+          "id": "chairs",
+          "name": "Chairs",
+          "code": "FURN-OFF-CHR",
+          "children": [
+            {
+              "id": "revolving-chairs",
+              "name": "Revolving Chairs",
+              "code": "FURN-OFF-CHR-REV",
+              "hsnCode": "94013000"
+            },
+            {
+              "id": "ergonomic-chairs",
+              "name": "Ergonomic Chairs",
+              "code": "FURN-OFF-CHR-ERG",
+              "hsnCode": "94013000"
+            },
+            {
+              "id": "office-chairs",
+              "name": "Office Chairs",
+              "code": "FURN-OFF-CHR-OFC",
+              "hsnCode": "94013000"
+            },
+            {
+              "id": "visitor-chairs",
+              "name": "Visitor Chairs",
+              "code": "FURN-OFF-CHR-VIS",
+              "hsnCode": "94017900"
+            }
+          ]
+        },
+        {
+          "id": "tables",
+          "name": "Tables",
+          "code": "FURN-OFF-TBL",
+          "children": [
+            {
+              "id": "office-desks",
+              "name": "Office Desks",
+              "code": "FURN-OFF-TBL-DSK",
+              "hsnCode": "94036000"
+            },
+            {
+              "id": "computer-tables",
+              "name": "Computer Tables",
+              "code": "FURN-OFF-TBL-CMP",
+              "hsnCode": "94036000"
+            },
+            {
+              "id": "conference-tables",
+              "name": "Conference Tables",
+              "code": "FURN-OFF-TBL-CNF",
+              "hsnCode": "94036000"
+            }
+          ]
+        },
+        {
+          "id": "storage",
+          "name": "Storage Units",
+          "code": "FURN-OFF-STR",
+          "children": [
+            {
+              "id": "filing-cabinets",
+              "name": "Filing Cabinets",
+              "code": "FURN-OFF-STR-FIL",
+              "hsnCode": "94031000"
+            },
+            {
+              "id": "pedestal-drawers",
+              "name": "Pedestal Drawers",
+              "code": "FURN-OFF-STR-PED",
+              "hsnCode": "94031000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "storage-furniture",
+      "name": "Storage Furniture",
+      "code": "FURN-STR",
+      "children": [
+        {
+          "id": "racks",
+          "name": "Racks",
+          "code": "FURN-STR-RCK",
+          "children": [
+            {
+              "id": "steel-storage-racks",
+              "name": "Steel Storage Racks",
+              "code": "FURN-STR-RCK-STL",
+              "hsnCode": "94032000"
+            },
+            {
+              "id": "library-racks",
+              "name": "Library Racks",
+              "code": "FURN-STR-RCK-LIB",
+              "hsnCode": "94031000"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "institutional-furniture",
+      "name": "Institutional Furniture",
+      "code": "FURN-INS",
+      "children": [
+        {
+          "id": "school-furniture",
+          "name": "School Furniture",
+          "code": "FURN-INS-SCH",
+          "children": [
+            {
+              "id": "student-desks",
+              "name": "Student Desks",
+              "code": "FURN-INS-SCH-DSK",
+              "hsnCode": "94036000"
+            },
+            {
+              "id": "classroom-chairs",
+              "name": "Classroom Chairs",
+              "code": "FURN-INS-SCH-CHR",
+              "hsnCode": "94017900"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

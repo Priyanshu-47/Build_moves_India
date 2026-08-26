@@ -1,0 +1,152 @@
+[
+  {
+    "id": "comp-001",
+    "title": "Revolving Office Chairs",
+    "department": "Rajasthan Police Headquarters, Jaipur",
+    "date": "2025-11-20",
+    "awardedPrice": 4050,
+    "quantity": 120,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Chairs",
+      "Revolving Chairs"
+    ]
+  },
+  {
+    "id": "comp-002",
+    "title": "Executive Revolving Chairs",
+    "department": "District Court, Jodhpur",
+    "date": "2025-08-14",
+    "awardedPrice": 4250,
+    "quantity": 60,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Chairs",
+      "Revolving Chairs"
+    ]
+  },
+  {
+    "id": "comp-003",
+    "title": "Mesh Back Revolving Chairs",
+    "department": "RIICO Industrial Area Office, Jaipur",
+    "date": "2026-01-09",
+    "awardedPrice": 3850,
+    "quantity": 90,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Chairs",
+      "Revolving Chairs"
+    ]
+  },
+  {
+    "id": "comp-004",
+    "title": "Ergonomic Office Chairs",
+    "department": "SMS Hospital, Jaipur",
+    "date": "2025-10-05",
+    "awardedPrice": 4200,
+    "quantity": 100,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Chairs",
+      "Ergonomic Chairs"
+    ]
+  },
+  {
+    "id": "comp-005",
+    "title": "Ergonomic Task Chairs",
+    "department": "Rajasthan University, Jaipur",
+    "date": "2025-12-18",
+    "awardedPrice": 3980,
+    "quantity": 75,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Chairs",
+      "Ergonomic Chairs"
+    ]
+  },
+  {
+    "id": "comp-006",
+    "title": "Office Desks with Drawers",
+    "department": "UP Secretariat, Lucknow",
+    "date": "2025-09-22",
+    "awardedPrice": 4100,
+    "quantity": 150,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Tables",
+      "Office Desks"
+    ]
+  },
+  {
+    "id": "comp-007",
+    "title": "Laminated Office Desks",
+    "department": "Kanpur Nagar Nigam, Kanpur",
+    "date": "2026-02-11",
+    "awardedPrice": 4350,
+    "quantity": 80,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Tables",
+      "Office Desks"
+    ]
+  },
+  {
+    "id": "comp-008",
+    "title": "Computer Tables for Schools",
+    "department": "Rajasthan Council of School Education, Jaipur",
+    "date": "2025-07-30",
+    "awardedPrice": 4650,
+    "quantity": 200,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Tables",
+      "Computer Tables"
+    ]
+  },
+  {
+    "id": "comp-009",
+    "title": "Computer Workstations",
+    "department": "Bikaner District Education Office",
+    "date": "2025-12-02",
+    "awardedPrice": 4520,
+    "quantity": 50,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Office Furniture",
+      "Tables",
+      "Computer Tables"
+    ]
+  },
+  {
+    "id": "comp-010",
+    "title": "Heavy Duty Steel Storage Racks",
+    "department": "Indian Railways Stores Depot, Delhi",
+    "date": "2025-06-15",
+    "awardedPrice": 22800,
+    "quantity": 40,
+    "unit": "Nos",
+    "categoryPath": [
+      "Furniture",
+      "Storage Furniture",
+      "Racks",
+      "Steel Storage Racks"
+    ]
+  }
+]
