@@ -1,0 +1,147 @@
+{
+  "vendorDeserts": [
+    {
+      "region": "Jammu & Kashmir",
+      "states": ["Jammu & Kashmir"],
+      "sellerCount": 12,
+      "demandCount": 45,
+      "avgOrderValue": 850000,
+      "winMultiplier": 3,
+      "scarcityLevel": "high",
+      "transportCostPerOrder": 4500,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Ladakh",
+      "states": ["Ladakh"],
+      "sellerCount": 1,
+      "demandCount": 8,
+      "avgOrderValue": 1200000,
+      "winMultiplier": 10,
+      "scarcityLevel": "critical",
+      "transportCostPerOrder": 8500,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Arunachal Pradesh",
+      "states": ["Arunachal Pradesh"],
+      "sellerCount": 3,
+      "demandCount": 18,
+      "avgOrderValue": 920000,
+      "winMultiplier": 5,
+      "scarcityLevel": "critical",
+      "transportCostPerOrder": 6200,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Meghalaya",
+      "states": ["Meghalaya"],
+      "sellerCount": 5,
+      "demandCount": 22,
+      "avgOrderValue": 680000,
+      "winMultiplier": 4,
+      "scarcityLevel": "high",
+      "transportCostPerOrder": 4800,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Nagaland",
+      "states": ["Nagaland"],
+      "sellerCount": 4,
+      "demandCount": 15,
+      "avgOrderValue": 720000,
+      "winMultiplier": 4,
+      "scarcityLevel": "high",
+      "transportCostPerOrder": 5100,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Mizoram",
+      "states": ["Mizoram"],
+      "sellerCount": 2,
+      "demandCount": 10,
+      "avgOrderValue": 650000,
+      "winMultiplier": 8,
+      "scarcityLevel": "critical",
+      "transportCostPerOrder": 5800,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Manipur",
+      "states": ["Manipur"],
+      "sellerCount": 6,
+      "demandCount": 20,
+      "avgOrderValue": 780000,
+      "winMultiplier": 3,
+      "scarcityLevel": "high",
+      "transportCostPerOrder": 4600,
+      "homeStateWinRate": 0.12
+    },
+    {
+      "region": "Sikkim",
+      "states": ["Sikkim"],
+      "sellerCount": 3,
+      "demandCount": 12,
+      "avgOrderValue": 890000,
+      "winMultiplier": 5,
+      "scarcityLevel": "high",
+      "transportCostPerOrder": 5500,
+      "homeStateWinRate": 0.12
+    }
+  ],
+  "categoryScarcity": [
+    {
+      "category": "Office Furniture",
+      "categoryKey": "office_furniture",
+      "neSellers": 8,
+      "neBids": 35,
+      "scarcityLevel": "high"
+    },
+    {
+      "category": "Electronics",
+      "categoryKey": "electronics",
+      "neSellers": 5,
+      "neBids": 28,
+      "scarcityLevel": "high"
+    },
+    {
+      "category": "Medical Equipment",
+      "categoryKey": "medical_equipment",
+      "neSellers": 2,
+      "neBids": 15,
+      "scarcityLevel": "critical"
+    },
+    {
+      "category": "School Supplies",
+      "categoryKey": "school_supplies",
+      "neSellers": 12,
+      "neBids": 40,
+      "scarcityLevel": "moderate"
+    }
+  ],
+  "sellerCategoryMap": {
+    "office chair": "office_furniture",
+    "ergonomic chair": "office_furniture",
+    "revolving chair": "office_furniture",
+    "office desk": "office_furniture",
+    "computer table": "office_furniture",
+    "furniture": "office_furniture"
+  },
+  "originPinByState": {
+    "Rajasthan": "302001",
+    "Kerala": "682001",
+    "Maharashtra": "400001",
+    "Delhi": "110001",
+    "Tamil Nadu": "600001"
+  },
+  "destPinByRegion": {
+    "Jammu & Kashmir": "190001",
+    "Ladakh": "194101",
+    "Arunachal Pradesh": "791001",
+    "Meghalaya": "793001",
+    "Nagaland": "797001",
+    "Mizoram": "796001",
+    "Manipur": "795001",
+    "Sikkim": "737101"
+  }
+}

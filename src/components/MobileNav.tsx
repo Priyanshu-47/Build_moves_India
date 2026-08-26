@@ -2,23 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Briefcase, Home, Wrench } from "lucide-react";
+import { BookOpen, Briefcase, Home, IndianRupee, User } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home, exact: true },
-  { href: "/setup", label: "Setup", icon: Wrench, exact: false },
+  { href: "/catalogue", label: "Catalogue", icon: BookOpen, exact: false },
   { href: "/opportunities", label: "Opportunities", icon: Briefcase, exact: false },
+  { href: "/payments", label: "Payments", icon: IndianRupee, exact: false },
+  { href: "/profile", label: "Profile", icon: User, exact: false },
 ] as const;
 
-function isActive(
-  pathname: string,
-  href: string,
-  exact: boolean
-): boolean {
+function isActive(pathname: string, href: string, exact: boolean): boolean {
   if (href === "/opportunities") {
     return pathname === href || pathname.startsWith("/opportunities/");
+  }
+  if (href === "/payments") {
+    return pathname === href || pathname.startsWith("/payments/");
   }
   if (exact) return pathname === href;
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -32,7 +33,7 @@ export function MobileNav() {
       aria-label="Main navigation"
       className="fixed inset-x-0 bottom-0 z-50 border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:hidden"
     >
-      <div className="mx-auto grid h-16 max-w-lg grid-cols-3">
+      <div className="mx-auto grid h-16 max-w-lg grid-cols-5">
         {NAV_ITEMS.map(({ href, label, icon: Icon, exact }) => {
           const active = isActive(pathname, href, exact);
           return (
@@ -40,14 +41,14 @@ export function MobileNav() {
               key={href}
               href={href}
               className={cn(
-                "flex min-h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-1 py-2 text-[11px] font-medium transition-colors",
+                "flex min-h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 py-2 text-[8px] font-medium transition-colors sm:text-[9px]",
                 active
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
               <Icon className="size-5 shrink-0" aria-hidden="true" />
-              <span className="truncate">{label}</span>
+              <span className="max-w-full truncate leading-tight">{label}</span>
             </Link>
           );
         })}

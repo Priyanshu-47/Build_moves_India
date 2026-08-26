@@ -1,0 +1,18 @@
+{
+  "overall": 3.5,
+  "onTimeDelivery": 3.6,
+  "qualityCompliance": 4.3,
+  "buyerSatisfaction": 3.2,
+  "responseRate": 3.8,
+  "orderCancellation": 5.0,
+  "totalOrders": 12,
+  "totalRevenue": 840000,
+  "catalogLastUpdate": "2026-07-12",
+  "lateDeliveriesThisMonth": 2,
+  "monthlyTrend": [
+    { "month": "Apr", "orders": 1, "revenue": 210000 },
+    { "month": "May", "orders": 2, "revenue": 420000 },
+    { "month": "Jun", "orders": 3, "revenue": 630000 },
+    { "month": "Jul", "orders": 4, "revenue": 840000 }
+  ]
+}

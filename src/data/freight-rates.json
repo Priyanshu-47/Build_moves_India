@@ -1,0 +1,210 @@
+{
+  "weightCategories": [
+    {
+      "id": "documents",
+      "label": "Documents (<1 kg)",
+      "maxKg": 1,
+      "baseRate": 50,
+      "perKm": 5
+    },
+    {
+      "id": "light",
+      "label": "Light (1–10 kg)",
+      "maxKg": 10,
+      "baseRate": 100,
+      "perKm": 8
+    },
+    {
+      "id": "medium",
+      "label": "Medium (10–50 kg)",
+      "maxKg": 50,
+      "baseRate": 200,
+      "perKm": 12
+    },
+    {
+      "id": "heavy",
+      "label": "Heavy (50–200 kg)",
+      "maxKg": 200,
+      "baseRate": 500,
+      "perKm": 18
+    },
+    {
+      "id": "bulky",
+      "label": "Bulky (200–500 kg)",
+      "maxKg": 500,
+      "baseRate": 1000,
+      "perKm": 25
+    },
+    {
+      "id": "oversized",
+      "label": "Oversized (>500 kg)",
+      "maxKg": 99999,
+      "baseRate": 2000,
+      "perKm": 35
+    }
+  ],
+  "zoneMultipliers": {
+    "same_state": 1.0,
+    "adjacent_state": 1.2,
+    "zone_same": 1.4,
+    "zone_different": 1.8,
+    "remote_northeast": 2.2,
+    "remote_jk_ladakh": 2.5,
+    "remote_island": 3.0
+  },
+  "transitTimeByDistance": [
+    { "maxKm": 500, "minDays": 2, "maxDays": 3 },
+    { "maxKm": 1000, "minDays": 3, "maxDays": 5 },
+    { "maxKm": 2000, "minDays": 5, "maxDays": 7 },
+    { "maxKm": 99999, "minDays": 7, "maxDays": 12 }
+  ],
+  "routeExamples": [
+    {
+      "id": "delhi-mumbai",
+      "origin": "Delhi",
+      "destination": "Mumbai",
+      "originPin": "110001",
+      "destPin": "400001",
+      "distanceKm": 1400,
+      "freightCost": 1200,
+      "category": "medium",
+      "description": "Office chairs"
+    },
+    {
+      "id": "jaipur-srinagar",
+      "origin": "Jaipur",
+      "destination": "Srinagar",
+      "originPin": "302001",
+      "destPin": "190001",
+      "distanceKm": 850,
+      "freightCost": 4500,
+      "category": "medium",
+      "description": "Furniture"
+    },
+    {
+      "id": "jaipur-imphal",
+      "origin": "Jaipur",
+      "destination": "Imphal",
+      "originPin": "302001",
+      "destPin": "795001",
+      "distanceKm": 2200,
+      "freightCost": 12000,
+      "category": "heavy",
+      "description": "Office equipment"
+    },
+    {
+      "id": "chennai-guwahati",
+      "origin": "Chennai",
+      "destination": "Guwahati",
+      "originPin": "600001",
+      "destPin": "781001",
+      "distanceKm": 2800,
+      "freightCost": 15000,
+      "category": "heavy",
+      "description": "Bulk supplies"
+    },
+    {
+      "id": "kerala-arunachal",
+      "origin": "Kerala",
+      "destination": "Arunachal Pradesh",
+      "originPin": "682001",
+      "destPin": "791001",
+      "distanceKm": 3100,
+      "freightCost": 2500,
+      "category": "light",
+      "description": "Water filter / small appliances"
+    },
+    {
+      "id": "kerala-tawang",
+      "origin": "Kerala",
+      "destination": "Tawang",
+      "originPin": "682001",
+      "destPin": "790104",
+      "distanceKm": 3200,
+      "freightCost": 18000,
+      "category": "light",
+      "description": "Water filter / small appliances"
+    }
+  ],
+  "pincodeRegions": [
+    { "prefix": "11", "state": "Delhi", "zone": "north", "remote": null },
+    { "prefix": "30", "state": "Rajasthan", "zone": "north", "remote": null },
+    { "prefix": "31", "state": "Rajasthan", "zone": "north", "remote": null },
+    { "prefix": "32", "state": "Rajasthan", "zone": "north", "remote": null },
+    { "prefix": "40", "state": "Maharashtra", "zone": "west", "remote": null },
+    { "prefix": "56", "state": "Karnataka", "zone": "south", "remote": null },
+    { "prefix": "60", "state": "Tamil Nadu", "zone": "south", "remote": null },
+    { "prefix": "68", "state": "Kerala", "zone": "south", "remote": null },
+    { "prefix": "69", "state": "Kerala", "zone": "south", "remote": null },
+    { "prefix": "70", "state": "West Bengal", "zone": "east", "remote": null },
+    { "prefix": "78", "state": "Assam", "zone": "northeast", "remote": "remote_northeast" },
+    { "prefix": "79", "state": "Arunachal Pradesh", "zone": "northeast", "remote": "remote_northeast" },
+    { "prefix": "19", "state": "Jammu & Kashmir", "zone": "north", "remote": "remote_jk_ladakh" },
+    { "prefix": "18", "state": "Ladakh", "zone": "north", "remote": "remote_jk_ladakh" },
+    { "prefix": "17", "state": "Himachal Pradesh", "zone": "north", "remote": null },
+    { "prefix": "50", "state": "Telangana", "zone": "south", "remote": null },
+    { "prefix": "80", "state": "Bihar", "zone": "east", "remote": null },
+    { "prefix": "74", "state": "West Bengal", "zone": "east", "remote": null }
+  ],
+  "adjacentStates": {
+    "Rajasthan": ["Punjab", "Haryana", "Uttar Pradesh", "Madhya Pradesh", "Gujarat"],
+    "Kerala": ["Tamil Nadu", "Karnataka"],
+    "Delhi": ["Haryana", "Uttar Pradesh"],
+    "Maharashtra": ["Gujarat", "Madhya Pradesh", "Karnataka", "Telangana", "Goa"],
+    "Tamil Nadu": ["Kerala", "Karnataka", "Andhra Pradesh"],
+    "Arunachal Pradesh": ["Assam"],
+    "Assam": ["Arunachal Pradesh", "Meghalaya", "Nagaland", "Manipur", "Mizoram", "Tripura", "West Bengal"],
+    "Jammu & Kashmir": ["Punjab", "Himachal Pradesh", "Ladakh"],
+    "Ladakh": ["Jammu & Kashmir", "Himachal Pradesh"]
+  },
+  "regionalScarcity": [
+    {
+      "region": "Jammu & Kashmir",
+      "sellerCount": 12,
+      "bidsPerMonth": 45,
+      "opportunityLevel": "high",
+      "winMultiplier": 3
+    },
+    {
+      "region": "Arunachal Pradesh",
+      "sellerCount": 3,
+      "bidsPerMonth": 18,
+      "opportunityLevel": "critical",
+      "winMultiplier": 5
+    },
+    {
+      "region": "Meghalaya",
+      "sellerCount": 5,
+      "bidsPerMonth": 22,
+      "opportunityLevel": "high",
+      "winMultiplier": 4
+    },
+    {
+      "region": "Ladakh",
+      "sellerCount": 1,
+      "bidsPerMonth": 8,
+      "opportunityLevel": "critical",
+      "winMultiplier": 10
+    },
+    {
+      "region": "Manipur",
+      "sellerCount": 4,
+      "bidsPerMonth": 15,
+      "opportunityLevel": "high",
+      "winMultiplier": 4
+    },
+    {
+      "region": "Nagaland",
+      "sellerCount": 2,
+      "bidsPerMonth": 12,
+      "opportunityLevel": "critical",
+      "winMultiplier": 6
+    }
+  ],
+  "defaultProductPrices": {
+    "water_filter": 1500,
+    "office_chair": 4200,
+    "computer_table": 3200,
+    "furniture": 5000
+  }
+}

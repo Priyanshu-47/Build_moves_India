@@ -90,6 +90,33 @@ export default function ProfilePage() {
       >
         Edit Profile
       </Link>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <Link
+          href="/payments"
+          className={buttonVariants({ variant: "outline", className: "h-10" })}
+        >
+          Payments
+        </Link>
+        <Link
+          href="/orders"
+          className={buttonVariants({ variant: "outline", className: "h-10" })}
+        >
+          Order Tracker
+        </Link>
+        <Link
+          href="/rating"
+          className={buttonVariants({ variant: "outline", className: "h-10" })}
+        >
+          Seller Rating
+        </Link>
+        <Link
+          href="/impact"
+          className={buttonVariants({ variant: "outline", className: "h-10 sm:col-span-2" })}
+        >
+          Economic Impact
+        </Link>
+      </div>
     </PageShell>
   );
 }

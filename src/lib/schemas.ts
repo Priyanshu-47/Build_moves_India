@@ -24,6 +24,8 @@ export const CurrencySchema = z.literal("INR");
 
 export const LanguageSchema = z.enum(["hi", "en", "hinglish"]);
 
+export const PaymentStatusSchema = z.enum(["paid", "pending", "stuck", "overdue"]);
+
 // --- Location ---
 
 export const LocationSchema = z.object({
@@ -73,6 +75,24 @@ export const BidOpportunitySchema = z.object({
 });
 
 export const BidsFileSchema = z.array(BidOpportunitySchema);
+
+// --- Payment tracking ---
+
+export const PaymentOrderSchema = z.object({
+  id: z.string(),
+  bidTitle: z.string(),
+  department: z.string(),
+  totalValue: z.number().positive(),
+  orderDate: z.string(),
+  deliveryDate: z.string(),
+  cracGenerated: z.boolean(),
+  cracDate: z.string().nullable(),
+  invoiceDate: z.string().nullable(),
+  paymentDate: z.string().nullable(),
+  status: PaymentStatusSchema,
+});
+
+export const PaymentsFileSchema = z.array(PaymentOrderSchema);
 
 // --- Blockers & warnings ---
 
@@ -236,6 +256,8 @@ export type CheckStatus = z.infer<typeof CheckStatusSchema>;
 export type Location = z.infer<typeof LocationSchema>;
 export type SellerProfile = z.infer<typeof SellerProfileSchema>;
 export type BidOpportunity = z.infer<typeof BidOpportunitySchema>;
+export type PaymentStatus = z.infer<typeof PaymentStatusSchema>;
+export type PaymentOrder = z.infer<typeof PaymentOrderSchema>;
 export type Blocker = z.infer<typeof BlockerSchema>;
 export type Warning = z.infer<typeof WarningSchema>;
 export type MatchDimensions = z.infer<typeof MatchDimensionsSchema>;
@@ -257,6 +279,10 @@ export function parseSellers(data: unknown): SellerProfile[] {
 
 export function parseBids(data: unknown): BidOpportunity[] {
   return BidsFileSchema.parse(data);
+}
+
+export function parsePayments(data: unknown): PaymentOrder[] {
+  return PaymentsFileSchema.parse(data);
 }
 
 export function parseComparables(data: unknown): ComparablePurchase[] {

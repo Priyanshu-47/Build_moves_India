@@ -1,0 +1,192 @@
+{
+  "categories": [
+    {
+      "id": "office-chair",
+      "productNames": ["office chair", "office chairs"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Office Chairs"
+      ],
+      "hsnCode": "94013000",
+      "hsnDisplay": "9401",
+      "gstRate": 18,
+      "bisRequired": true,
+      "goldenParameters": {
+        "Material": "Steel/Mesh",
+        "WeightCapacity": "120kg",
+        "AdjustableArms": "Yes",
+        "LumbarSupport": "Yes",
+        "Swivel": "Yes",
+        "GasLift": "Class 4",
+        "BaseType": "Aluminium/Nylon",
+        "WheelType": "Castor"
+      },
+      "priceRange": { "min": 3500, "max": 5000 },
+      "rejectionReasons": {
+        "product": "Wrong category selected — office chairs must map to HSN 9401 under Office Furniture.",
+        "hsn": "HSN mismatch is the #1 catalogue rejection. Chairs need 9401, not 9403 (tables).",
+        "parameters": "Missing golden parameters (material, gas lift class, wheel type) cause technical rejection.",
+        "images": "GeM requires 3+ images at 800×800px on white background. Lifestyle shots are rejected.",
+        "pricing": "Price far below market triggers quality suspicion; too high loses L1 ranking."
+      }
+    },
+    {
+      "id": "ergonomic-chair",
+      "productNames": ["ergonomic chair", "ergonomic chairs"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Ergonomic Chairs"
+      ],
+      "hsnCode": "94013000",
+      "hsnDisplay": "9401",
+      "gstRate": 18,
+      "bisRequired": true,
+      "goldenParameters": {
+        "Material": "High-density foam with breathable mesh",
+        "WeightCapacity": "130kg",
+        "AdjustableArms": "Yes",
+        "LumbarSupport": "S-curve ergonomic",
+        "Swivel": "Yes",
+        "GasLift": "Class 4",
+        "TiltMechanism": "Multi-lock synchro",
+        "BaseType": "Nylon reinforced",
+        "WheelType": "PU castor"
+      },
+      "priceRange": { "min": 3800, "max": 5500 },
+      "rejectionReasons": {
+        "product": "Ergonomic chairs need explicit adjustability specs — generic 'office chair' category fails.",
+        "hsn": "Use HSN 9401 for seating. Do not file under medical furniture codes.",
+        "parameters": "Ergonomic certification and tilt mechanism fields are mandatory for this sub-category.",
+        "images": "Show adjustment features clearly. Blurry or dark images fail automated QC.",
+        "pricing": "Ergonomic chairs below ₹3,000 are often flagged as non-compliant with IS specs."
+      }
+    },
+    {
+      "id": "revolving-chair",
+      "productNames": ["revolving chair", "revolving chairs"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Revolving Chairs"
+      ],
+      "hsnCode": "94013000",
+      "hsnDisplay": "9401",
+      "gstRate": 18,
+      "bisRequired": true,
+      "goldenParameters": {
+        "Material": "MS tube with PU foam",
+        "WeightCapacity": "110kg",
+        "Backrest": "Mesh with lumbar",
+        "Swivel": "360°",
+        "GasLift": "Class 3",
+        "BaseType": "5-star nylon",
+        "WheelType": "Dual castor",
+        "Warranty": "3 years"
+      },
+      "priceRange": { "min": 3850, "max": 4500 },
+      "rejectionReasons": {
+        "product": "Revolving chairs must specify swivel mechanism and gas lift class.",
+        "hsn": "HSN 9401 required. Sellers often wrongly select 940179 (other seating).",
+        "parameters": "Backrest type and warranty period are checked against bid golden parameters.",
+        "images": "White background mandatory. Watermarks or logos on images cause rejection.",
+        "pricing": "Government comparables for Rajasthan cluster around ₹3,850–₹4,250/unit."
+      }
+    },
+    {
+      "id": "office-desk",
+      "productNames": ["office desk", "office desks"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Tables",
+        "Office Desks"
+      ],
+      "hsnCode": "94036000",
+      "hsnDisplay": "9403",
+      "gstRate": 18,
+      "bisRequired": true,
+      "goldenParameters": {
+        "Material": "18mm commercial plywood with laminate",
+        "Dimensions": "1200mm x 600mm x 750mm",
+        "Finish": "Matte laminate, rounded edges",
+        "DrawerProvision": "Optional",
+        "LoadCapacity": "80kg",
+        "Warranty": "2 years"
+      },
+      "priceRange": { "min": 4000, "max": 4800 },
+      "rejectionReasons": {
+        "product": "Desks must be under Tables › Office Desks — not computer table category.",
+        "hsn": "Tables use HSN 9403. Using 9401 (chairs) is an automatic rejection.",
+        "parameters": "Dimensions must match IS/market standard format (L×W×H in mm).",
+        "images": "Minimum 3 angles: front, side, laminate close-up on white background.",
+        "pricing": "UP Secretariat comparables show ₹4,100–₹4,350 for similar desks."
+      }
+    },
+    {
+      "id": "computer-table",
+      "productNames": ["computer table", "computer tables", "computer desk"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Tables",
+        "Computer Tables"
+      ],
+      "hsnCode": "94036000",
+      "hsnDisplay": "9403",
+      "gstRate": 18,
+      "bisRequired": false,
+      "goldenParameters": {
+        "Material": "MDF with melamine finish",
+        "Dimensions": "1000mm x 500mm x 750mm",
+        "KeyboardTray": "Yes",
+        "CPUCompartment": "Yes",
+        "CableManagement": "Yes",
+        "Finish": "Matte melamine",
+        "Warranty": "2 years"
+      },
+      "priceRange": { "min": 4400, "max": 4800 },
+      "rejectionReasons": {
+        "product": "Computer tables need keyboard tray and CPU compartment in golden parameters.",
+        "hsn": "HSN 94036000 for tables. BIS may not apply but specs still mandatory.",
+        "parameters": "Cable management and tray fields are validated for school/education bids.",
+        "images": "Show tray and compartment open. Single hero image submissions fail 33% of reviews.",
+        "pricing": "Rajasthan school supply awards cluster at ₹4,520–₹4,650/unit."
+      }
+    },
+    {
+      "id": "visitor-chair",
+      "productNames": ["visitor chair", "visitor chairs", "waiting chair"],
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Visitor Chairs"
+      ],
+      "hsnCode": "94017900",
+      "hsnDisplay": "9401",
+      "gstRate": 18,
+      "bisRequired": false,
+      "goldenParameters": {
+        "Material": "Polypropylene shell with cushioned seat",
+        "WeightCapacity": "100kg",
+        "Stackable": "Yes",
+        "Armrest": "Optional",
+        "Finish": "UV-resistant",
+        "Warranty": "1 year"
+      },
+      "priceRange": { "min": 1800, "max": 2800 },
+      "rejectionReasons": {
+        "product": "Visitor/waiting chairs are a separate sub-category from revolving office chairs.",
+        "hsn": "Use 94017900 for other seating. Do not reuse revolving chair HSN mapping.",
+        "parameters": "Stackability and UV finish matter for outdoor/semi-outdoor government sites.",
+        "images": "Stacked view photo recommended. Minimum resolution 800×800px.",
+        "pricing": "Visitor chairs priced like executive chairs trigger manual review."
+      }
+    }
+  ]
+}

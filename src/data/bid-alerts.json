@@ -1,0 +1,52 @@
+[
+  {
+    "id": "alert-1",
+    "bidId": "GEM-2026-DSK-018",
+    "title": "New: Office Chairs for Central Secretariat",
+    "matchScore": 89,
+    "deadline": "2026-09-20",
+    "value": "₹6.2L",
+    "isNew": true,
+    "postedAgo": "2 hours ago"
+  },
+  {
+    "id": "alert-2",
+    "bidId": "GEM-2026-ERG-007",
+    "title": "Closing Soon: Ergonomic Chairs for AIIMS Delhi",
+    "matchScore": 76,
+    "deadline": "2026-09-08",
+    "value": "₹8.5L",
+    "isNew": false,
+    "postedAgo": "1 day ago"
+  },
+  {
+    "id": "alert-3",
+    "bidId": "GEM-2026-CHA-042",
+    "title": "Revolving Chairs — District Collectorate Jaipur",
+    "matchScore": 94,
+    "deadline": "2026-09-15",
+    "value": "₹4.2L",
+    "isNew": true,
+    "postedAgo": "5 hours ago"
+  },
+  {
+    "id": "alert-4",
+    "bidId": "GEM-2026-TBL-024",
+    "title": "Computer Tables for Rajasthan Schools",
+    "matchScore": 82,
+    "deadline": "2026-09-25",
+    "value": "₹3.8L",
+    "isNew": false,
+    "postedAgo": "3 days ago"
+  },
+  {
+    "id": "alert-5",
+    "bidId": "GEM-2026-RCK-031",
+    "title": "Steel Storage Racks — Northern Railways",
+    "matchScore": 42,
+    "deadline": "2026-09-10",
+    "value": "₹12L",
+    "isNew": false,
+    "postedAgo": "1 week ago"
+  }
+]

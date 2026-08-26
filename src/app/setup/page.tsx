@@ -1,10 +1,11 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import sellersData from "@/data/sellers.json";
+import { DocumentCheckerSection } from "@/components/DocumentCheckerSection";
 import { PageShell } from "@/components/PageShell";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -81,6 +82,9 @@ export default function SetupPage() {
   const router = useRouter();
   const [form, setForm] = useState<FormState>(sellerToFormState(defaultSeller));
   const [baseSeller, setBaseSeller] = useState<SellerProfile>(defaultSeller);
+  const [email, setEmail] = useState("ramesh@furnitureworks.demo");
+  const [bankAccount, setBankAccount] = useState("123456789012");
+  const [ifsc, setIfsc] = useState("SBIN0001234");
 
   useEffect(() => {
     const saved = getSeller();
@@ -89,6 +93,11 @@ export default function SetupPage() {
       setForm(sellerToFormState(saved));
     }
   }, []);
+
+  const liveSeller = useMemo(
+    () => formStateToSeller(form, baseSeller),
+    [form, baseSeller]
+  );
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setForm((current) => ({ ...current, [key]: value }));
@@ -111,7 +120,7 @@ export default function SetupPage() {
   }
 
   return (
-    <PageShell>
+    <PageShell className="space-y-6">
       <Card>
         <CardHeader>
           <CardTitle>Seller Setup</CardTitle>
@@ -241,12 +250,30 @@ export default function SetupPage() {
               </Button>
               <Link
                 href="/"
-                className={buttonVariants({ variant: "outline", size: "lg", className: "h-11 px-6" })}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "lg",
+                  className: "h-11 px-6",
+                })}
               >
                 Back
               </Link>
             </div>
           </form>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="pt-6">
+          <DocumentCheckerSection
+            seller={liveSeller}
+            email={email}
+            bankAccount={bankAccount}
+            ifsc={ifsc}
+            onEmailChange={setEmail}
+            onBankAccountChange={setBankAccount}
+            onIfscChange={setIfsc}
+          />
         </CardContent>
       </Card>
     </PageShell>

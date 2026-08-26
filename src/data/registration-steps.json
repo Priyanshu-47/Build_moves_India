@@ -1,0 +1,72 @@
+[
+  {
+    "step": 1,
+    "title": "Sign Up",
+    "description": "Go to gem.gov.in → Sign Up → Seller",
+    "estimatedMinutes": 5,
+    "tips": [
+      "Choose correct business type: manufacturer, trader, or service provider",
+      "Wrong choice = can't list correct products later"
+    ]
+  },
+  {
+    "step": 2,
+    "title": "Aadhaar Verification",
+    "description": "Enter Aadhaar, verify OTP",
+    "estimatedMinutes": 10,
+    "tips": [
+      "Mobile must be linked to Aadhaar",
+      "If OTP fails, visit Aadhaar centre to update mobile"
+    ]
+  },
+  {
+    "step": 3,
+    "title": "PAN Validation",
+    "description": "Enter PAN, system validates against income tax",
+    "estimatedMinutes": 5,
+    "tips": [
+      "Name MUST match Aadhaar exactly",
+      "Common rejection: 'RAMESH KUMAR' vs 'RAMESH KUMAR S'"
+    ]
+  },
+  {
+    "step": 4,
+    "title": "Organization Details",
+    "description": "Business name, type, GSTIN",
+    "estimatedMinutes": 15,
+    "tips": [
+      "Business name must match PAN/GST exactly",
+      "Constitution: proprietorship, partnership, Pvt Ltd"
+    ]
+  },
+  {
+    "step": 5,
+    "title": "Bank Details",
+    "description": "Account number, IFSC, penny drop verification",
+    "estimatedMinutes": 10,
+    "tips": [
+      "Account must be active",
+      "Name on bank account must match PAN holder"
+    ]
+  },
+  {
+    "step": 6,
+    "title": "Email + Mobile",
+    "description": "OTP verification",
+    "estimatedMinutes": 5,
+    "tips": [
+      "Official email preferred (.in domains)",
+      "All GeM notifications go here"
+    ]
+  },
+  {
+    "step": 7,
+    "title": "Wait for Approval",
+    "description": "48-72 hours for GeM team verification",
+    "estimatedMinutes": 2880,
+    "tips": [
+      "Profile 100% complete = faster approval",
+      "Check email/spam for approval notice"
+    ]
+  }
+]

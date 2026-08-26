@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ORD-2026-001",
+    "bidTitle": "Revolving Chairs for District Collectorate",
+    "department": "District Administration, Jaipur",
+    "quantity": 50,
+    "unitPrice": 4200,
+    "totalValue": 210000,
+    "orderDate": "2026-07-15",
+    "deliveryDate": "2026-08-10",
+    "status": "delivered",
+    "rating": 4.5,
+    "paymentStatus": "paid",
+    "paymentDate": "2026-08-28",
+    "cracGenerated": true
+  },
+  {
+    "id": "ORD-2026-002",
+    "bidTitle": "Ergonomic Chairs for SN Medical College",
+    "department": "Medical Education, Rajasthan",
+    "quantity": 100,
+    "unitPrice": 5800,
+    "totalValue": 580000,
+    "orderDate": "2026-08-01",
+    "deliveryDate": "2026-08-25",
+    "status": "in_transit",
+    "rating": null,
+    "paymentStatus": "pending",
+    "paymentDate": null,
+    "cracGenerated": false
+  },
+  {
+    "id": "ORD-2026-003",
+    "bidTitle": "Computer Tables for Education Dept",
+    "department": "Education Department, Rajasthan",
+    "quantity": 80,
+    "unitPrice": 3200,
+    "totalValue": 256000,
+    "orderDate": "2026-08-20",
+    "deliveryDate": "2026-09-15",
+    "status": "confirmed",
+    "rating": null,
+    "paymentStatus": "not_due",
+    "paymentDate": null,
+    "cracGenerated": false
+  }
+]
