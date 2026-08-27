@@ -21,7 +21,7 @@ export function RouteError({
   }, [error]);
 
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col items-center justify-center px-4 py-12 text-center sm:max-w-2xl">
+    <div className="app-container flex flex-1 flex-col items-center justify-center py-12 text-center">
       <h2 className="text-lg font-semibold">{title}</h2>
       <p className="mt-2 max-w-sm text-sm text-muted-foreground">
         {error.message || "An unexpected error occurred. Please try again."}

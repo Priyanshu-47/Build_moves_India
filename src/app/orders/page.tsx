@@ -1,10 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown, Package } from "lucide-react";
+import { ChevronDown, Package, ShoppingBag } from "lucide-react";
 
-import ordersData from "@/data/orders.json";
+import { getAccountOrders } from "@/lib/demo-data";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -15,7 +17,7 @@ import {
 } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
-type Order = (typeof ordersData)[number];
+type Order = ReturnType<typeof getAccountOrders>[number];
 
 function formatCurrency(value: number): string {
   return new Intl.NumberFormat("en-IN", {
@@ -102,6 +104,7 @@ function getTimeline(order: Order) {
 
 export default function OrdersPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const ordersData = useMemo(() => getAccountOrders(), []);
 
   const summary = useMemo(() => {
     const totalRevenue = ordersData.reduce((sum, order) => sum + order.totalValue, 0);
@@ -113,16 +116,15 @@ export default function OrdersPage() {
       totalRevenue,
       pendingPayments,
     };
-  }, []);
+  }, [ordersData]);
 
   return (
     <PageShell>
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Order Tracker</h1>
-        <p className="text-sm text-muted-foreground">
-          Track deliveries, CRAC, and payments for your GeM orders.
-        </p>
-      </div>
+      <PageHeader
+        title="My Orders"
+        backUrl="/"
+        subtitle="Track deliveries, CRAC, and payments for your GeM orders."
+      />
 
       <div className="mb-6 grid gap-3 sm:grid-cols-3">
         <Card size="sm">
@@ -148,7 +150,18 @@ export default function OrdersPage() {
       </div>
 
       <div className="space-y-3">
-        {ordersData.map((order) => {
+        {ordersData.length === 0 ? (
+          <EmptyState
+            icon={ShoppingBag}
+            title="No orders yet"
+            description="No orders yet. Your first order will appear here."
+            actions={[
+              { label: "Browse opportunities", action: "/opportunities" },
+              { label: "View payments", action: "/payments", variant: "outline" },
+            ]}
+          />
+        ) : (
+          ordersData.map((order) => {
           const expanded = expandedId === order.id;
           return (
             <Card key={order.id}>
@@ -248,7 +261,8 @@ export default function OrdersPage() {
               )}
             </Card>
           );
-        })}
+        })
+        )}
       </div>
     </PageShell>
   );

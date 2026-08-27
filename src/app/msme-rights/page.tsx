@@ -13,6 +13,7 @@ import {
 
 import { Disclaimer } from "@/components/Disclaimer";
 import { LegalNoticeTemplate } from "@/components/LegalNoticeTemplate";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import {
   Card,
@@ -27,6 +28,7 @@ import {
   RBI_NOTIFIED_RATE,
   calculateInterest,
 } from "@/lib/rules/msme-rights";
+import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
 
 const EXAMPLE_PRINCIPAL = 912_000;
 const EXAMPLE_DAYS_OVERDUE = 55;
@@ -135,16 +137,11 @@ const RIGHTS = [
 export default function MsmeRightsPage() {
   return (
     <PageShell className="space-y-8">
-      <section className="space-y-3 text-center sm:text-left">
-        <p className="text-sm font-medium text-primary">MSMED Act & GeM Policy</p>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          Your rights as a GeM MSE seller — most sellers don&apos;t know these
-        </h1>
-        <p className="text-muted-foreground">
-          Five legal and policy protections that can save lakhs per year. Sahayak helps you
-          understand, calculate, and claim what you&apos;re owed.
-        </p>
-      </section>
+      <PageHeader
+        title="MSME Rights"
+        backUrl="/"
+        subtitle="Five legal and policy protections that can save lakhs per year — most sellers don't know these."
+      />
 
       <div className="space-y-4">
         {RIGHTS.map((right) => {
@@ -215,6 +212,7 @@ export default function MsmeRightsPage() {
                       </a>{" "}
                       and file a delayed-payment complaint with invoice and CRAC proof.
                     </p>
+                    <p className="mt-2 text-xs text-muted-foreground">{SOURCE_MSMED_RBI}</p>
                   </div>
                 )}
 
@@ -247,7 +245,7 @@ export default function MsmeRightsPage() {
         })}
       </div>
 
-      <Card>
+      <Card className="print-content print-expand">
         <CardHeader>
           <div className="flex items-center gap-2">
             <FileText className="size-5 text-primary" aria-hidden="true" />
@@ -264,7 +262,7 @@ export default function MsmeRightsPage() {
 
       <Link
         href="/payments"
-        className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/80"
+        className="no-print inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/80"
       >
         <IndianRupee className="size-4" aria-hidden="true" />
         Check your payments
@@ -272,8 +270,7 @@ export default function MsmeRightsPage() {
 
       <Disclaimer />
       <p className="text-xs text-muted-foreground">
-        Rights summaries are based on MSMED Act 2006, GeM public policies, and RBI TReDS
-        guidelines. Verify current rules and consult legal counsel before filing claims.
+        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
       </p>
     </PageShell>
   );

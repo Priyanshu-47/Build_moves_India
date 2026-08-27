@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Disclaimer } from "@/components/Disclaimer";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { ScalingCalculator } from "@/components/ScalingCalculator";
 import {
@@ -81,16 +82,11 @@ const SCALING_MISTAKES = [
 export default function PlaybookPage() {
   return (
     <PageShell className="space-y-8">
-      <section className="space-y-3 text-center sm:text-left">
-        <p className="text-sm font-medium text-primary">Post-First-Order Playbook</p>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          You completed your first order. Here&apos;s how to get your next 10.
-        </h1>
-        <p className="text-muted-foreground">
-          First order proves you can deliver. The next ten prove you can scale — without
-          destroying your rating or cash flow.
-        </p>
-      </section>
+      <PageHeader
+        title="Playbook"
+        backUrl="/"
+        subtitle="You completed your first order. Here's how to get your next 10 without destroying your rating or cash flow."
+      />
 
       <Card>
         <CardHeader>

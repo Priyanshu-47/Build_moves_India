@@ -21,6 +21,7 @@ import {
   getVendorDeserts,
 } from "@/lib/rules/regional-scarcity";
 import { getSeller } from "@/lib/store";
+import { SOURCE_BUSINESS_STANDARD } from "@/lib/sources";
 import { cn } from "@/lib/utils";
 
 function scarcityBadge(level: string) {
@@ -121,8 +122,9 @@ export function VendorDesertDashboard() {
           <CardTitle className="text-base">The Problem</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
-          <p>62L sellers registered, but concentrated in 10 states</p>
+          <p>60-70 Lakh+ sellers registered, but concentrated in 10 states</p>
           <p>Remote regions have 40% fewer options, 30–50% higher prices</p>
+          <p className="text-xs text-muted-foreground">{SOURCE_BUSINESS_STANDARD}</p>
           <p className="font-medium text-amber-900 dark:text-amber-100">
             Government departments in NE/JK/Ladakh waste public money on inflated procurement
           </p>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { ProfileSkeleton } from "@/components/skeletons";
 import { buttonVariants } from "@/components/ui/button";
@@ -42,10 +43,11 @@ export default function ProfilePage() {
 
   return (
     <PageShell>
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Profile</h1>
-        <p className="text-sm text-muted-foreground">Your seller business profile</p>
-      </div>
+      <PageHeader
+        title="My Profile"
+        backUrl="/"
+        subtitle="Your seller business profile"
+      />
 
       <Card className="mb-4">
         <CardHeader>

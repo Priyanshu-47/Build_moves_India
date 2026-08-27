@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
+import { Modal } from "@/components/ui/modal";
 import { MatchDimensions } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,7 @@ function scoreTextClass(score: number): string {
 
 export function MatchScore({ score, dimensions, className }: MatchScoreProps) {
   const [open, setOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const stroke = scoreColor(score);
   const circumference = 2 * Math.PI * 15.9;
   const dashOffset = circumference - (score / 100) * circumference;
@@ -40,20 +42,20 @@ export function MatchScore({ score, dimensions, className }: MatchScoreProps) {
   return (
     <div className={cn("relative", className)}>
       <button
+        ref={triggerRef}
         type="button"
         className="flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-lg p-1 outline-none focus-visible:ring-2 focus-visible:ring-ring"
         onClick={(event) => {
           event.preventDefault();
           event.stopPropagation();
-          setOpen((current) => !current);
+          setOpen(true);
         }}
-        onMouseEnter={() => setOpen(true)}
-        onMouseLeave={() => setOpen(false)}
+        aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={`Match score ${score} percent. Tap for breakdown.`}
+        aria-label={`Match score ${score} percent. Open breakdown.`}
       >
-        <div className="relative size-16">
-          <svg className="size-16 -rotate-90" viewBox="0 0 36 36" aria-hidden="true">
+        <div className="relative size-16" aria-hidden="true">
+          <svg className="size-16 -rotate-90" viewBox="0 0 36 36">
             <circle
               cx="18"
               cy="18"
@@ -87,19 +89,24 @@ export function MatchScore({ score, dimensions, className }: MatchScoreProps) {
         <span className="text-xs text-muted-foreground">Match</span>
       </button>
 
-      {open && (
-        <div className="absolute top-full right-0 z-10 mt-2 w-48 rounded-lg border bg-popover p-3 text-popover-foreground shadow-md">
-          <p className="mb-2 text-xs font-medium">Score breakdown</p>
-          <ul className="space-y-1.5">
-            {DIMENSION_LABELS.map(({ key, label }) => (
-              <li key={key} className="flex items-center justify-between gap-2 text-xs">
-                <span className="text-muted-foreground">{label}</span>
-                <span className="font-medium">{dimensions[key]}%</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Match score breakdown"
+        triggerRef={triggerRef}
+      >
+        <p className="mb-3 text-sm text-muted-foreground" aria-live="polite">
+          Overall match: <strong className="text-foreground">{score}/100</strong>
+        </p>
+        <ul className="space-y-2">
+          {DIMENSION_LABELS.map(({ key, label }) => (
+            <li key={key} className="flex items-center justify-between gap-2 text-sm">
+              <span className="text-muted-foreground">{label}</span>
+              <span className="font-medium">{dimensions[key]}%</span>
+            </li>
+          ))}
+        </ul>
+      </Modal>
     </div>
   );
 }

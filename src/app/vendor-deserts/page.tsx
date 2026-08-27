@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { Disclaimer } from "@/components/Disclaimer";
+import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
 import { PageShell } from "@/components/PageShell";
 import { VendorDesertDashboard } from "@/components/VendorDesertDashboard";
 
@@ -29,8 +30,8 @@ export default function VendorDesertsPage() {
 
       <Disclaimer />
       <p className="text-xs text-muted-foreground">
-        Scarcity data is simulated based on GeM public procurement patterns. Seller and bid
-        counts are estimates for demonstration.
+        Scarcity data is simulated based on GeM public procurement patterns.{" "}
+        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
       </p>
     </PageShell>
   );

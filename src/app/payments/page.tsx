@@ -12,10 +12,12 @@ import {
   Scale,
 } from "lucide-react";
 
-import paymentsData from "@/data/payments.json";
+import { getAccountPayments } from "@/lib/demo-data";
 import { GSTPlanner } from "@/components/GSTPlanner";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { PaymentAlert } from "@/components/PaymentAlert";
+import { EmptyState } from "@/components/ui/empty-state";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -35,9 +37,12 @@ import {
   getEscalationSteps,
 } from "@/lib/rules/msme-rights";
 import { checkCashGap } from "@/lib/rules/gst-planner";
+import { SOURCE_MSMED_RBI } from "@/lib/sources";
 import { cn } from "@/lib/utils";
 
-const orders = paymentsData as PaymentOrder[];
+function useAccountPayments(): PaymentOrder[] {
+  return useMemo(() => getAccountPayments(), []);
+}
 
 function formatCurrency(value: number): string {
   return new Intl.NumberFormat("en-IN", {
@@ -287,6 +292,8 @@ function PaymentOrderCard({ order }: { order: PaymentOrder }) {
 }
 
 export default function PaymentsPage() {
+  const orders = useAccountPayments();
+
   const summary = useMemo(() => {
     let received = 0;
     let pending = 0;
@@ -303,18 +310,17 @@ export default function PaymentsPage() {
     }
 
     return { received, pending, stuck };
-  }, []);
+  }, [orders]);
 
-  const gstSummary = useMemo(() => checkCashGap(orders, 119_160), []);
+  const gstSummary = useMemo(() => checkCashGap(orders, 119_160), [orders]);
 
   return (
     <PageShell>
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Payment Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
-          Track CRAC, invoices, and delayed payments — know your MSMED Act rights.
-        </p>
-      </div>
+      <PageHeader
+        title="Payments"
+        backUrl="/"
+        subtitle="Track CRAC, invoices, and delayed payments — know your MSMED Act rights."
+      />
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Card size="sm">
@@ -361,10 +367,20 @@ export default function PaymentsPage() {
         </Alert>
       )}
 
-      <div className="mb-6 space-y-4">
-        {orders.map((order) => (
-          <PaymentOrderCard key={order.id} order={order} />
-        ))}
+      <div className="print-content print-expand mb-6 space-y-4">
+        {orders.length === 0 ? (
+          <EmptyState
+            icon={IndianRupee}
+            title="No payments yet"
+            description="No payments yet. Win your first bid to start tracking."
+            actions={[
+              { label: "Browse opportunities", action: "/opportunities" },
+              { label: "Simulate a bid", action: "/simulate", variant: "outline" },
+            ]}
+          />
+        ) : (
+          orders.map((order) => <PaymentOrderCard key={order.id} order={order} />)
+        )}
       </div>
 
       <Card className="mb-6">
@@ -418,6 +434,7 @@ export default function PaymentsPage() {
           >
             Read full MSME rights guide →
           </Link>
+          <p className="text-xs text-muted-foreground">{SOURCE_MSMED_RBI}</p>
         </CardContent>
       </Card>
     </PageShell>

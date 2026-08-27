@@ -3,9 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { AlertTriangle, ArrowLeft, MapPin, XCircle } from "lucide-react";
+import { AlertTriangle, MapPin, XCircle } from "lucide-react";
 
 import bidsData from "@/data/bids.json";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { BidDetailSkeleton } from "@/components/skeletons";
 import { MatchScore } from "@/components/MatchScore";
@@ -127,13 +128,7 @@ export default function BidDetailPage() {
   if (!bid || !match) {
     return (
       <PageShell>
-        <Link
-          href="/opportunities"
-          className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          Back to opportunities
-        </Link>
+        <PageHeader title="Bid Details" backUrl="/opportunities" />
         <p className="text-sm text-muted-foreground">Bid not found.</p>
       </PageShell>
     );
@@ -141,18 +136,15 @@ export default function BidDetailPage() {
 
   return (
     <PageShell>
-      <Link
-        href="/opportunities"
-        className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-      >
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        Back to opportunities
-      </Link>
+      <PageHeader
+        title="Bid Details"
+        backUrl="/opportunities"
+        subtitle={bid.title}
+      />
 
       <div className="mb-6 flex items-start justify-between gap-4">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-2xl font-bold tracking-tight">{bid.title}</h1>
             {bid.mseReserved && <Badge variant="outline">MSE Reserved</Badge>}
           </div>
           <p className="text-muted-foreground">{bid.department}</p>

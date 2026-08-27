@@ -3,10 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 
 import bidsData from "@/data/bids.json";
 import comparablesData from "@/data/comparables.json";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { CardSkeleton } from "@/components/skeletons";
 import { buttonVariants } from "@/components/ui/button";
@@ -74,13 +74,7 @@ export default function PricingPage() {
   if (!bid || !pricing) {
     return (
       <PageShell>
-        <Link
-          href="/opportunities"
-          className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          Back to opportunities
-        </Link>
+        <PageHeader title="Pricing" backUrl="/opportunities" />
         <p className="text-sm text-muted-foreground">Bid not found.</p>
       </PageShell>
     );
@@ -93,18 +87,11 @@ export default function PricingPage() {
 
   return (
     <PageShell>
-      <Link
-        href={`/opportunities/${bid.id}/readiness`}
-        className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-      >
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        Back to readiness
-      </Link>
-
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Price Intelligence</h1>
-        <p className="text-sm text-muted-foreground">{bid.title}</p>
-      </div>
+      <PageHeader
+        title="Pricing"
+        backUrl={`/opportunities/${bid.id}`}
+        subtitle={bid.title}
+      />
 
       <div className="space-y-4">
         <Card>

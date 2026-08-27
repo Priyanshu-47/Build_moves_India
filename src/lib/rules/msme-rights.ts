@@ -1,8 +1,8 @@
 import { PaymentOrder } from "@/lib/schemas";
 
-/** RBI notified rate (~3.05%). MSMED Act penalty = 3× this rate. */
-export const RBI_NOTIFIED_RATE = 0.0305;
-export const PENALTY_RATE_ANNUAL = RBI_NOTIFIED_RATE * 3; // ~9.15%
+/** RBI notified rate (5.50%, Dec 2025). MSMED Act penalty = 3× this rate. */
+export const RBI_NOTIFIED_RATE = 0.055;
+export const PENALTY_RATE_ANNUAL = RBI_NOTIFIED_RATE * 3; // 16.50%
 export const MSMED_PAYMENT_PERIOD_DAYS = 45;
 
 /** Reference "today" for consistent mock day calculations in the prototype. */
@@ -154,8 +154,31 @@ export function getMsmeOdrSteps(): string[] {
 
 export type UdyamCategory = "micro" | "small" | "not_eligible";
 
-export function classifyUdyamInvestment(investmentCr: number): UdyamCategory {
-  if (investmentCr <= 2.5) return "micro";
-  if (investmentCr <= 25) return "small";
+/** Udyam / MSME limits (verified 2026 norms). */
+export const MICRO_INVESTMENT_LIMIT_CR = 1;
+export const SMALL_INVESTMENT_LIMIT_CR = 10;
+export const MICRO_TURNOVER_LIMIT_CR = 5;
+export const SMALL_TURNOVER_LIMIT_CR = 50;
+
+export function classifyUdyamInvestment(
+  investmentCr: number,
+  turnoverCr?: number
+): UdyamCategory {
+  const hasTurnover = turnoverCr !== undefined && Number.isFinite(turnoverCr);
+
+  if (
+    investmentCr <= MICRO_INVESTMENT_LIMIT_CR &&
+    (!hasTurnover || turnoverCr! <= MICRO_TURNOVER_LIMIT_CR)
+  ) {
+    return "micro";
+  }
+
+  if (
+    investmentCr <= SMALL_INVESTMENT_LIMIT_CR &&
+    (!hasTurnover || turnoverCr! <= SMALL_TURNOVER_LIMIT_CR)
+  ) {
+    return "small";
+  }
+
   return "not_eligible";
 }

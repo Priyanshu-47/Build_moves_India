@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Disclaimer } from "@/components/Disclaimer";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import {
   Card,
@@ -18,11 +19,25 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
+
 const STATS = [
-  "62 Lakh sellers registered, only 11 Lakh executing orders",
-  "51 Lakh sellers are stuck — Sahayak helps them unstick",
-  "MSEs execute 68% of all GeM orders",
-  "Average MSE earns ₹2-5L per order",
+  {
+    text: "60-70 Lakh+ sellers registered, only 11 Lakh+ MSE sellers executing orders",
+    source: SOURCE_BUSINESS_STANDARD,
+  },
+  {
+    text: "Millions of registered sellers struggle to complete their first order",
+    source: SOURCE_BUSINESS_STANDARD,
+  },
+  {
+    text: "MSEs execute 68% of all GeM orders",
+    source: SOURCE_BUSINESS_STANDARD,
+  },
+  {
+    text: "Average MSE earns ₹2-5L per order",
+    source: SOURCE_BUSINESS_STANDARD,
+  },
 ] as const;
 
 const RAMESH_JOURNEY = [
@@ -41,24 +56,22 @@ const PROJECTED_IMPACT = [
 export default function ImpactPage() {
   return (
     <PageShell className="space-y-8">
-      <section className="space-y-3 text-center sm:text-left">
-        <p className="text-sm font-medium text-primary">Economic Impact</p>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          The ₹18.4 Lakh Crore Opportunity
-        </h1>
-        <p className="text-muted-foreground">
-          Government e-Marketplace is India&apos;s largest public procurement platform —
-          but millions of sellers never complete their first order.
-        </p>
-      </section>
+      <PageHeader
+        title="Impact"
+        backUrl="/"
+        subtitle="Government e-Marketplace is India's largest public procurement platform — but millions of sellers never complete their first order."
+      />
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        {STATS.map((stat) => (
-          <Card key={stat} size="sm">
+      <p className="-mt-4 text-xs text-muted-foreground">{SOURCE_BUSINESS_STANDARD}</p>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {STATS.map(({ text, source }) => (
+          <Card key={text} size="sm">
             <CardHeader>
               <CardDescription className="text-sm leading-relaxed text-foreground">
-                {stat}
+                {text}
               </CardDescription>
+              <p className="text-[10px] text-muted-foreground sm:text-xs">{source}</p>
             </CardHeader>
           </Card>
         ))}
@@ -141,7 +154,7 @@ export default function ImpactPage() {
 
       <Disclaimer />
       <p className="text-xs text-muted-foreground">
-        Figures are estimates based on GeM public data and mock projections.
+        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
       </p>
     </PageShell>
   );

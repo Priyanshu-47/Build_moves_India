@@ -9,12 +9,11 @@ export function PageShell({
 }) {
   return (
     <main
-      className={cn(
-        "mx-auto w-full max-w-lg flex-1 px-4 py-6 sm:max-w-2xl sm:px-6 sm:py-8",
-        className
-      )}
+      id="main-content"
+      tabIndex={-1}
+      className={cn("app-shell-main", className)}
     >
-      {children}
+      <div className="app-container">{children}</div>
     </main>
   );
 }

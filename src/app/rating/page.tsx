@@ -3,6 +3,7 @@
 import { AlertTriangle, Star } from "lucide-react";
 
 import ratingData from "@/data/seller-rating.json";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import {
   Card,
@@ -73,12 +74,11 @@ export default function RatingPage() {
 
   return (
     <PageShell>
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Seller Rating</h1>
-        <p className="text-sm text-muted-foreground">
-          Your GeM seller performance across {ratingData.totalOrders} orders.
-        </p>
-      </div>
+      <PageHeader
+        title="Seller Rating"
+        backUrl="/"
+        subtitle={`Your GeM seller performance across ${ratingData.totalOrders} orders.`}
+      />
 
       <Card className="mb-4">
         <CardHeader>

@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Copy, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ConfirmationPanel } from "@/components/ui/confirmation-panel";
 import paymentsData from "@/data/payments.json";
 import { PaymentOrder } from "@/lib/schemas";
 import { buildLegalNotice } from "@/lib/rules/legal-notice";
+import {
+  calculateInterest,
+  getDaysOverdue,
+} from "@/lib/rules/msme-rights";
 
 const overdueOrder = (paymentsData as PaymentOrder[]).find(
   (order) => order.status === "overdue"
@@ -32,18 +37,40 @@ We demand immediate payment of principal and accrued interest within 7 days.
 Yours faithfully,
 [Authorized Signatory]`;
 
+const MSME_ODR_URL = "https://samadhaan.msme.gov.in/";
+
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+function downloadNotice(noticeText: string) {
+  const blob = new Blob([noticeText], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = "msmed-delayed-payment-notice.txt";
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
 export function LegalNoticeTemplate() {
   const [copied, setCopied] = useState(false);
+  const [generated, setGenerated] = useState(false);
 
-  function handleDownload() {
-    const blob = new Blob([SAMPLE_NOTICE], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "msmed-delayed-payment-notice.txt";
-    anchor.click();
-    URL.revokeObjectURL(url);
-  }
+  const noticeSummary = useMemo(() => {
+    if (!overdueOrder) return null;
+    const daysOverdue = getDaysOverdue(overdueOrder);
+    const interestAmount = calculateInterest(overdueOrder.totalValue, daysOverdue);
+    return {
+      orderValue: formatCurrency(overdueOrder.totalValue),
+      daysOverdue: String(daysOverdue),
+      interestAmount: formatCurrency(interestAmount),
+    };
+  }, []);
 
   async function handleCopy() {
     await navigator.clipboard.writeText(SAMPLE_NOTICE);
@@ -51,13 +78,42 @@ export function LegalNoticeTemplate() {
     window.setTimeout(() => setCopied(false), 2000);
   }
 
+  if (generated && noticeSummary) {
+    return (
+      <ConfirmationPanel
+        title="Legal notice generated"
+        summary={[
+          { label: "Order value", value: noticeSummary.orderValue },
+          { label: "Days overdue", value: noticeSummary.daysOverdue },
+          { label: "Interest amount", value: noticeSummary.interestAmount },
+        ]}
+        whatNext={["Send via registered post", "File on MSME ODR portal"]}
+        actions={[
+          {
+            label: "Download notice",
+            onClick: () => downloadNotice(SAMPLE_NOTICE),
+          },
+          {
+            label: "File on ODR",
+            action: MSME_ODR_URL,
+            external: true,
+            variant: "outline",
+          },
+        ]}
+      />
+    );
+  }
+
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 print-content print-expand">
       <pre className="max-h-64 overflow-auto rounded-lg border bg-muted/40 p-4 text-xs leading-relaxed whitespace-pre-wrap">
         {SAMPLE_NOTICE}
       </pre>
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="outline" size="sm" onClick={handleDownload}>
+        <Button type="button" size="sm" onClick={() => setGenerated(true)}>
+          Generate notice
+        </Button>
+        <Button type="button" variant="outline" size="sm" onClick={() => downloadNotice(SAMPLE_NOTICE)}>
           <Download className="size-4" aria-hidden="true" />
           Download as .txt
         </Button>

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "DL-2026-001",
+    "orderId": "ORD-2026-004",
+    "bidTitle": "Steel Almirahs for District Court",
+    "department": "Justice Department, Uttar Pradesh",
+    "consigneeName": "District Court Store Officer, Lucknow",
+    "orderValue": 850000,
+    "deliveryDate": "2026-07-10",
+    "deliveryConfirmed": true,
+    "prcDate": null,
+    "prcStatus": "not_generated",
+    "cracDate": null,
+    "cracStatus": "blocked_by_prc",
+    "invoiceDate": null,
+    "paymentDate": null,
+    "escalationLevel": 2,
+    "stuckReason": "Consignee has not generated PRC (Provisional Receipt Certificate). Without PRC, CRAC cannot be generated. Without CRAC, payment cannot start.",
+    "sellerCanDo": [
+      "Email consignee requesting PRC generation within 48 hours",
+      "Visit consignee office with stamped delivery challan and POD",
+      "Raise GeM incident citing non-generation of PRC",
+      "File CPGRAMS grievance if no response in 15 days"
+    ]
+  },
+  {
+    "id": "DL-2026-002",
+    "orderId": "PAY-2026-002",
+    "bidTitle": "Ergonomic Chairs for SN Medical College",
+    "department": "Medical Education, Rajasthan",
+    "consigneeName": "Store In-charge, SN Medical College, Jaipur",
+    "orderValue": 580000,
+    "deliveryDate": "2026-08-01",
+    "deliveryConfirmed": true,
+    "prcDate": null,
+    "prcStatus": "not_generated",
+    "cracDate": null,
+    "cracStatus": "blocked_by_prc",
+    "invoiceDate": null,
+    "paymentDate": null,
+    "escalationLevel": 1,
+    "stuckReason": "Goods delivered 25+ days ago but neither PRC nor CRAC has been generated on GeM. Consignee is holding up the entire payment chain.",
+    "sellerCanDo": [
+      "Send formal email to consignee with delivery proof attached",
+      "Call consignee store and document the conversation",
+      "Request GeM helpdesk callback on PRC generation",
+      "Prepare CPGRAMS draft if no movement in 10 days"
+    ]
+  },
+  {
+    "id": "DL-2026-003",
+    "orderId": "PAY-2026-003",
+    "bidTitle": "Computer Tables for Education Dept",
+    "department": "Education Department, Rajasthan",
+    "consigneeName": "Deputy Director (Stores), Education Dept, Jaipur",
+    "orderValue": 912000,
+    "deliveryDate": "2026-05-15",
+    "deliveryConfirmed": true,
+    "prcDate": "2026-05-16",
+    "prcStatus": "generated",
+    "cracDate": "2026-05-18",
+    "cracStatus": "generated",
+    "invoiceDate": "2026-05-20",
+    "paymentDate": null,
+    "escalationLevel": 4,
+    "stuckReason": "CRAC and invoice are on GeM but PFMS payment is stuck. Buyer finance has not released funds despite 45+ days since acceptance.",
+    "sellerCanDo": [
+      "Follow up with buyer accounts section with CRAC and invoice copies",
+      "Raise GeM payment incident with order ID and CRAC date",
+      "File MSME Samadhaan complaint for delayed payment",
+      "Send legal notice under MSMED Act Section 16 for interest claim"
+    ]
+  }
+]

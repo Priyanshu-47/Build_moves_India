@@ -13,6 +13,7 @@ import {
   getInterestBreakdown,
   getMsmeOdrSteps,
 } from "@/lib/rules/msme-rights";
+import { SOURCE_MSMED_RBI } from "@/lib/sources";
 
 type PaymentAlertProps = {
   order: PaymentOrder;
@@ -50,6 +51,7 @@ export function PaymentAlert({ order }: PaymentAlertProps) {
           Payment is {rights.daysOverdue} days past the {MSMED_PAYMENT_PERIOD_DAYS}-day MSMED Act
           window. Compound interest at 3× RBI rate continues to accrue until paid.
         </p>
+        <p className="text-xs text-muted-foreground">{SOURCE_MSMED_RBI}</p>
 
         <div className="flex flex-wrap gap-2">
           <Button
@@ -107,6 +109,7 @@ export function PaymentAlert({ order }: PaymentAlertProps) {
               {breakdown.monthlyRate.toFixed(6)})<sup>{breakdown.months.toFixed(2)}</sup> − 1] ={" "}
               <strong>{formatCurrency(breakdown.interest)}</strong>
             </p>
+            <p className="mt-2 text-xs text-muted-foreground">{SOURCE_MSMED_RBI}</p>
           </div>
         )}
 

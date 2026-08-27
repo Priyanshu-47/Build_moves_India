@@ -127,4 +127,124 @@
   html {
     @apply font-sans;
   }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+@layer components {
+  /* Mobile: narrow centered column. Tablet: wider. Desktop: full content width up to 7xl. */
+  .app-container {
+    @apply mx-auto w-full px-6 md:px-12 lg:px-16;
+    max-width: 32rem;
+  }
+
+  @media (min-width: 768px) {
+    .app-container {
+      max-width: 56rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .app-container {
+      max-width: 80rem;
+    }
+  }
+
+  .app-shell-main {
+    @apply w-full flex-1 py-6 md:py-8 lg:py-10;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  .no-print,
+  header,
+  footer,
+  nav,
+  [data-theme-toggle],
+  button,
+  .print-hide {
+    display: none !important;
+  }
+
+  main,
+  .print-content {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-content,
+  .print-content * {
+    color: #000 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .print-expand,
+  .print-expand [hidden],
+  .print-expand [aria-expanded="false"] + *,
+  details:not([open]) > *:not(summary) {
+    display: block !important;
+    visibility: visible !important;
+    max-height: none !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+  }
+
+  .print-content a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    font-weight: normal;
+    word-break: break-all;
+  }
+
+  .print-content a[href^="#"]::after,
+  .print-content a[href^="javascript:"]::after {
+    content: "";
+  }
+
+  .print-content pre,
+  .print-content table,
+  .print-content .rounded-lg,
+  .print-content .border {
+    border: 1px solid #000 !important;
+    break-inside: avoid;
+  }
+
+  .print-content h1,
+  .print-content h2,
+  .print-content h3 {
+    break-after: avoid-page;
+  }
+
+  .print-content ul,
+  .print-content ol {
+    break-inside: avoid;
+  }
 }

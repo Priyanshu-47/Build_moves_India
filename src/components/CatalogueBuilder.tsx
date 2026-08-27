@@ -398,7 +398,7 @@ export function CatalogueBuilder({ seller }: CatalogueBuilderProps) {
       )}
 
       {step === 5 && compliance && draft && (
-        <Card>
+        <Card className="print-content print-expand">
           <CardHeader>
             <CardTitle>Step 5 — Compliance review</CardTitle>
             <CardDescription>Final checklist before listing on GeM.</CardDescription>

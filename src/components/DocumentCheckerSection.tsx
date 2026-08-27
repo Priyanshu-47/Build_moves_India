@@ -72,6 +72,8 @@ export function DocumentCheckerSection({
 }: DocumentCheckerProps) {
   const [guideOpen, setGuideOpen] = useState(false);
   const [rejectionsOpen, setRejectionsOpen] = useState(false);
+  const guideId = "registration-guide-panel";
+  const rejectionsId = "common-rejections-panel";
 
   const validation = useMemo(
     () =>
@@ -162,6 +164,7 @@ export function DocumentCheckerSection({
           className="flex w-full items-center justify-between gap-2 p-4 text-left font-medium"
           onClick={() => setGuideOpen((open) => !open)}
           aria-expanded={guideOpen}
+          aria-controls={guideId}
         >
           Registration Guide (7 steps)
           <ChevronDown
@@ -170,7 +173,7 @@ export function DocumentCheckerSection({
           />
         </button>
         {guideOpen && (
-          <div className="border-t p-4">
+          <div id={guideId} className="border-t p-4 print-expand">
             <RegistrationGuide currentStep={currentStep} />
           </div>
         )}
@@ -182,6 +185,7 @@ export function DocumentCheckerSection({
           className="flex w-full items-center justify-between gap-2 p-4 text-left font-medium"
           onClick={() => setRejectionsOpen((open) => !open)}
           aria-expanded={rejectionsOpen}
+          aria-controls={rejectionsId}
         >
           Common Rejection Reasons
           <ChevronDown
@@ -193,7 +197,7 @@ export function DocumentCheckerSection({
           />
         </button>
         {rejectionsOpen && (
-          <ul className="space-y-3 border-t p-4 text-sm">
+          <ul id={rejectionsId} className="space-y-3 border-t p-4 text-sm print-expand">
             {COMMON_REJECTIONS.map((item) => (
               <li key={item.title}>
                 <p className="font-medium">{item.title}</p>

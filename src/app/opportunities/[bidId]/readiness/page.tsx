@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
 
 import bidsData from "@/data/bids.json";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { CardSkeleton } from "@/components/skeletons";
 import { ReadinessChecklist } from "@/components/ReadinessChecklist";
@@ -64,13 +64,7 @@ export default function ReadinessPage() {
   if (!bid || !readiness) {
     return (
       <PageShell>
-        <Link
-          href="/opportunities"
-          className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          Back to opportunities
-        </Link>
+        <PageHeader title="Readiness Check" backUrl="/opportunities" />
         <p className="text-sm text-muted-foreground">Bid not found.</p>
       </PageShell>
     );
@@ -82,18 +76,11 @@ export default function ReadinessPage() {
 
   return (
     <PageShell>
-      <Link
-        href={`/opportunities/${bid.id}`}
-        className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-      >
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        Back to bid details
-      </Link>
-
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Bid Readiness</h1>
-        <p className="text-sm text-muted-foreground">{bid.title}</p>
-      </div>
+      <PageHeader
+        title="Readiness Check"
+        backUrl={`/opportunities/${bid.id}`}
+        subtitle={bid.title}
+      />
 
       <Card className="mb-4">
         <CardHeader>

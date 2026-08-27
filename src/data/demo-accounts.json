@@ -1,0 +1,675 @@
+[
+  {
+    "id": "DEMO-001",
+    "username": "ramesh",
+    "password": "demo123",
+    "label": "Ramesh (Success story)",
+    "profile": {
+      "id": "demo-ramesh",
+      "name": "Ramesh Kumar",
+      "businessName": "Ramesh Furniture Works",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "products": ["office chair", "ergonomic chair", "office desk", "revolving chair"],
+      "monthlyCapacity": 50,
+      "certifications": ["BIS", "Udyam-Micro"],
+      "gstin": "22DEMOXXXXXX1Z5",
+      "pan": "DEMOXXXXX",
+      "mseCategory": "micro",
+      "cautionMoneyPaid": true,
+      "bankVerified": true
+    },
+    "orders": [
+      {
+        "id": "ORD-2026-001",
+        "bidTitle": "Revolving Chairs for District Collectorate",
+        "department": "District Administration, Jaipur",
+        "quantity": 50,
+        "unitPrice": 4200,
+        "totalValue": 210000,
+        "orderDate": "2026-07-15",
+        "deliveryDate": "2026-08-10",
+        "status": "delivered",
+        "rating": 4.5,
+        "paymentStatus": "paid",
+        "paymentDate": "2026-08-28",
+        "cracGenerated": true
+      },
+      {
+        "id": "ORD-2026-002",
+        "bidTitle": "Ergonomic Chairs for SN Medical College",
+        "department": "Medical Education, Rajasthan",
+        "quantity": 100,
+        "unitPrice": 5800,
+        "totalValue": 580000,
+        "orderDate": "2026-08-01",
+        "deliveryDate": "2026-08-25",
+        "status": "in_transit",
+        "rating": null,
+        "paymentStatus": "pending",
+        "paymentDate": null,
+        "cracGenerated": false
+      },
+      {
+        "id": "ORD-2026-003",
+        "bidTitle": "Computer Tables for Education Dept",
+        "department": "Education Department, Rajasthan",
+        "quantity": 80,
+        "unitPrice": 3200,
+        "totalValue": 256000,
+        "orderDate": "2026-08-20",
+        "deliveryDate": "2026-09-15",
+        "status": "confirmed",
+        "rating": null,
+        "paymentStatus": "not_due",
+        "paymentDate": null,
+        "cracGenerated": false
+      }
+    ],
+    "payments": [
+      {
+        "id": "PAY-2026-001",
+        "bidTitle": "Revolving Chairs for District Collectorate",
+        "department": "District Administration, Jaipur",
+        "totalValue": 210000,
+        "orderDate": "2026-07-01",
+        "deliveryDate": "2026-07-18",
+        "cracGenerated": true,
+        "cracDate": "2026-07-20",
+        "invoiceDate": "2026-07-22",
+        "paymentDate": "2026-07-27",
+        "status": "paid"
+      },
+      {
+        "id": "PAY-2026-002",
+        "bidTitle": "Ergonomic Chairs for SN Medical College",
+        "department": "Medical Education, Rajasthan",
+        "totalValue": 580000,
+        "orderDate": "2026-07-20",
+        "deliveryDate": "2026-08-01",
+        "cracGenerated": false,
+        "cracDate": null,
+        "invoiceDate": null,
+        "paymentDate": null,
+        "status": "stuck"
+      },
+      {
+        "id": "PAY-2026-003",
+        "bidTitle": "Computer Tables for Education Dept",
+        "department": "Education Department, Rajasthan",
+        "totalValue": 912000,
+        "orderDate": "2026-05-10",
+        "deliveryDate": "2026-05-15",
+        "cracGenerated": true,
+        "cracDate": "2026-05-18",
+        "invoiceDate": "2026-05-20",
+        "paymentDate": null,
+        "status": "overdue"
+      }
+    ],
+    "bids": [
+      {
+        "bidId": "B001",
+        "title": "Revolving Chairs — District Collectorate, Jaipur",
+        "result": "won",
+        "margin": 12,
+        "reason": "competitive_pricing",
+        "category": "office_chairs",
+        "distance": 15,
+        "bidValue": 380000,
+        "mseReserved": true,
+        "bidDate": "2026-03-10"
+      },
+      {
+        "bidId": "B007",
+        "title": "Ergonomic Chairs — SN Medical College, Jaipur",
+        "result": "won",
+        "margin": 8,
+        "reason": "best_technical_score",
+        "category": "ergonomic_chairs",
+        "distance": 12,
+        "bidValue": 540000,
+        "mseReserved": true,
+        "bidDate": "2026-05-28"
+      },
+      {
+        "bidId": "B010",
+        "title": "Office Chairs — Municipal Corp, Jaipur",
+        "result": "won",
+        "margin": 15,
+        "reason": "local_delivery_advantage",
+        "category": "office_chairs",
+        "distance": 8,
+        "bidValue": 210000,
+        "mseReserved": true,
+        "bidDate": "2026-07-05"
+      },
+      {
+        "bidId": "B012",
+        "title": "Visitor Chairs — Collectorate, Kota",
+        "result": "won",
+        "margin": 14,
+        "reason": "mse_preference",
+        "category": "chairs",
+        "distance": 245,
+        "bidValue": 175000,
+        "mseReserved": true,
+        "bidDate": "2026-08-01"
+      },
+      {
+        "bidId": "B002",
+        "title": "Office Chairs — Secretariat, Lucknow",
+        "result": "lost",
+        "margin": null,
+        "reason": "price_8_percent_above_l1",
+        "category": "office_chairs",
+        "distance": 520,
+        "bidValue": 620000,
+        "mseReserved": false,
+        "bidDate": "2026-03-22"
+      }
+    ],
+    "rating": {
+      "overall": 4.2,
+      "onTimeDelivery": 4.1,
+      "qualityCompliance": 4.5,
+      "buyerSatisfaction": 4.0,
+      "responseRate": 4.3,
+      "orderCancellation": 5.0,
+      "totalOrders": 12,
+      "totalRevenue": 840000,
+      "catalogLastUpdate": "2026-07-12",
+      "lateDeliveriesThisMonth": 0,
+      "monthlyTrend": [
+        { "month": "Apr", "orders": 1, "revenue": 210000 },
+        { "month": "May", "orders": 2, "revenue": 420000 },
+        { "month": "Jun", "orders": 3, "revenue": 630000 },
+        { "month": "Jul", "orders": 4, "revenue": 840000 }
+      ]
+    },
+    "notifications": [
+      {
+        "id": "bid-won-ergonomic",
+        "type": "bid_won",
+        "severity": "success",
+        "title": "Congratulations — you won a bid!",
+        "message": "You won Ergonomic Chairs for SN Medical College",
+        "timestamp": "2026-08-26T09:00:00",
+        "action": { "label": "View order", "href": "/orders" }
+      },
+      {
+        "id": "bid-closing",
+        "type": "bid_closing",
+        "severity": "warning",
+        "title": "Tenders closing soon",
+        "message": "3 tenders closing in 48 hours",
+        "timestamp": "2026-08-26T09:00:00",
+        "action": { "label": "View opportunities", "href": "/opportunities" }
+      },
+      {
+        "id": "payment-received",
+        "type": "bid_won",
+        "severity": "success",
+        "title": "Payment received",
+        "message": "₹2,10,000 received for Revolving Chairs order",
+        "timestamp": "2026-08-26T08:00:00",
+        "action": { "label": "View payments", "href": "/payments" }
+      }
+    ]
+  },
+  {
+    "id": "DEMO-002",
+    "username": "priya",
+    "password": "demo123",
+    "label": "Priya (Struggling seller)",
+    "profile": {
+      "id": "demo-priya",
+      "name": "Priya Sharma",
+      "businessName": "Priya Office Supplies",
+      "city": "Lucknow",
+      "state": "Uttar Pradesh",
+      "products": ["office chair"],
+      "monthlyCapacity": 15,
+      "certifications": ["Udyam-Micro"],
+      "gstin": "09PRIYAXXXXX1Z2",
+      "pan": "PRIYAXXXX",
+      "mseCategory": "micro",
+      "cautionMoneyPaid": false,
+      "bankVerified": false
+    },
+    "orders": [
+      {
+        "id": "ORD-P-001",
+        "bidTitle": "Office Chairs for Secretariat",
+        "department": "State Secretariat, Lucknow",
+        "quantity": 40,
+        "unitPrice": 4500,
+        "totalValue": 180000,
+        "orderDate": "2026-06-10",
+        "deliveryDate": "2026-06-28",
+        "status": "delivered",
+        "rating": 2.5,
+        "paymentStatus": "pending",
+        "paymentDate": null,
+        "cracGenerated": true
+      },
+      {
+        "id": "ORD-P-002",
+        "bidTitle": "Visitor Chairs for District Court",
+        "department": "Judiciary, Lucknow",
+        "quantity": 60,
+        "unitPrice": 2800,
+        "totalValue": 168000,
+        "orderDate": "2026-07-05",
+        "deliveryDate": "2026-07-20",
+        "status": "delivered",
+        "rating": 3.0,
+        "paymentStatus": "pending",
+        "paymentDate": null,
+        "cracGenerated": true
+      }
+    ],
+    "payments": [
+      {
+        "id": "PAY-P-001",
+        "bidTitle": "Office Chairs for Secretariat",
+        "department": "State Secretariat, Lucknow",
+        "totalValue": 180000,
+        "orderDate": "2026-06-10",
+        "deliveryDate": "2026-06-28",
+        "cracGenerated": true,
+        "cracDate": "2026-07-02",
+        "invoiceDate": "2026-07-05",
+        "paymentDate": null,
+        "status": "overdue"
+      },
+      {
+        "id": "PAY-P-002",
+        "bidTitle": "Visitor Chairs for District Court",
+        "department": "Judiciary, Lucknow",
+        "totalValue": 168000,
+        "orderDate": "2026-07-05",
+        "deliveryDate": "2026-07-20",
+        "cracGenerated": true,
+        "cracDate": "2026-07-22",
+        "invoiceDate": "2026-07-25",
+        "paymentDate": null,
+        "status": "overdue"
+      },
+      {
+        "id": "PAY-P-003",
+        "bidTitle": "Steel Racks for PWD",
+        "department": "Public Works Dept, Lucknow",
+        "totalValue": 420000,
+        "orderDate": "2026-08-01",
+        "deliveryDate": "2026-08-15",
+        "cracGenerated": false,
+        "cracDate": null,
+        "invoiceDate": null,
+        "paymentDate": null,
+        "status": "stuck"
+      }
+    ],
+    "bids": [
+      {
+        "bidId": "B002",
+        "title": "Office Chairs — Secretariat, Lucknow",
+        "result": "lost",
+        "margin": null,
+        "reason": "price_8_percent_above_l1",
+        "category": "office_chairs",
+        "distance": 12,
+        "bidValue": 620000,
+        "mseReserved": false,
+        "bidDate": "2026-03-22"
+      },
+      {
+        "bidId": "B003",
+        "title": "Office Desks — Education Dept, Jaipur",
+        "result": "lost",
+        "margin": null,
+        "reason": "technical_rejection_bis_missing",
+        "category": "desks",
+        "distance": 520,
+        "bidValue": 450000,
+        "mseReserved": true,
+        "bidDate": "2026-04-05"
+      },
+      {
+        "bidId": "B005",
+        "title": "Computer Tables — Railways, Mumbai",
+        "result": "lost",
+        "margin": null,
+        "reason": "freight_uncompetitive",
+        "category": "tables",
+        "distance": 1180,
+        "bidValue": 920000,
+        "mseReserved": false,
+        "bidDate": "2026-05-02"
+      },
+      {
+        "bidId": "B008",
+        "title": "Revolving Chairs — PWD, Jodhpur",
+        "result": "lost",
+        "margin": null,
+        "reason": "reverse_auction_panic",
+        "category": "office_chairs",
+        "distance": 580,
+        "bidValue": 410000,
+        "mseReserved": true,
+        "bidDate": "2026-06-08"
+      },
+      {
+        "bidId": "B009",
+        "title": "Laptop Tables — IT Dept, Bhopal",
+        "result": "lost",
+        "margin": null,
+        "reason": "missing_oem_authorization",
+        "category": "computers",
+        "distance": 420,
+        "bidValue": 380000,
+        "mseReserved": false,
+        "bidDate": "2026-06-20"
+      }
+    ],
+    "rating": {
+      "overall": 2.8,
+      "onTimeDelivery": 2.5,
+      "qualityCompliance": 3.2,
+      "buyerSatisfaction": 2.4,
+      "responseRate": 3.0,
+      "orderCancellation": 4.5,
+      "totalOrders": 5,
+      "totalRevenue": 348000,
+      "catalogLastUpdate": "2026-05-20",
+      "lateDeliveriesThisMonth": 3,
+      "monthlyTrend": [
+        { "month": "Apr", "orders": 0, "revenue": 0 },
+        { "month": "May", "orders": 1, "revenue": 180000 },
+        { "month": "Jun", "orders": 1, "revenue": 180000 },
+        { "month": "Jul", "orders": 2, "revenue": 348000 }
+      ]
+    },
+    "notifications": [
+      {
+        "id": "payment-overdue-p1",
+        "type": "payment_overdue",
+        "severity": "error",
+        "title": "Payment overdue",
+        "message": "₹1,80,000 payment overdue by 55 days",
+        "timestamp": "2026-08-26T09:00:00",
+        "action": { "label": "Claim interest", "href": "/payments" }
+      },
+      {
+        "id": "crac-pending-p3",
+        "type": "crac_pending",
+        "severity": "warning",
+        "title": "CRAC not generated",
+        "message": "CRAC not generated for order PAY-P-003 — payment blocked",
+        "timestamp": "2026-08-26T09:00:00",
+        "action": { "label": "Escalate deadlock", "href": "/deadlock" }
+      },
+      {
+        "id": "catalogue-rejected",
+        "type": "catalogue_rejected",
+        "severity": "error",
+        "title": "Catalogue items need fixing",
+        "message": "2 items need fixing before buyers can order",
+        "timestamp": "2026-08-26T08:00:00",
+        "action": { "label": "Fix catalogue", "href": "/catalogue-check" }
+      },
+      {
+        "id": "profile-incomplete",
+        "type": "profile_incomplete",
+        "severity": "info",
+        "title": "Complete your profile",
+        "message": "Bank verification pending — complete setup to bid on tenders",
+        "timestamp": "2026-08-26T08:00:00",
+        "action": { "label": "Complete setup", "href": "/setup" }
+      },
+      {
+        "id": "rating-low",
+        "type": "catalogue_rejected",
+        "severity": "warning",
+        "title": "Rating below GeM threshold",
+        "message": "Your 2.8/5 rating may block new orders — see recovery plan",
+        "timestamp": "2026-08-26T07:00:00",
+        "action": { "label": "Improve rating", "href": "/rating-recovery" }
+      }
+    ]
+  },
+  {
+    "id": "DEMO-003",
+    "username": "suresh",
+    "password": "demo123",
+    "label": "Suresh (Scaling seller)",
+    "profile": {
+      "id": "demo-suresh",
+      "name": "Suresh Mehta",
+      "businessName": "Suresh Enterprises Pvt Ltd",
+      "city": "Ahmedabad",
+      "state": "Gujarat",
+      "products": [
+        "office chair",
+        "ergonomic chair",
+        "office desk",
+        "revolving chair",
+        "conference table",
+        "storage rack"
+      ],
+      "monthlyCapacity": 200,
+      "certifications": ["BIS", "ISO 9001", "Udyam-Small"],
+      "gstin": "24SUREXXXXXX1Z8",
+      "pan": "SUREXXXXX",
+      "mseCategory": "small",
+      "cautionMoneyPaid": true,
+      "bankVerified": true
+    },
+    "orders": [
+      {
+        "id": "ORD-S-001",
+        "bidTitle": "Executive Chairs for GIFT City",
+        "department": "GIFT SEZ Authority, Gujarat",
+        "quantity": 200,
+        "unitPrice": 6500,
+        "totalValue": 1300000,
+        "orderDate": "2026-06-01",
+        "deliveryDate": "2026-06-25",
+        "status": "delivered",
+        "rating": 4.8,
+        "paymentStatus": "paid",
+        "paymentDate": "2026-07-10",
+        "cracGenerated": true
+      },
+      {
+        "id": "ORD-S-002",
+        "bidTitle": "Conference Tables for High Court",
+        "department": "Gujarat High Court, Ahmedabad",
+        "quantity": 30,
+        "unitPrice": 22000,
+        "totalValue": 660000,
+        "orderDate": "2026-07-10",
+        "deliveryDate": "2026-08-05",
+        "status": "delivered",
+        "rating": 4.9,
+        "paymentStatus": "paid",
+        "paymentDate": "2026-08-20",
+        "cracGenerated": true
+      },
+      {
+        "id": "ORD-S-003",
+        "bidTitle": "Ergonomic Chairs for IIT Gandhinagar",
+        "department": "IIT Gandhinagar",
+        "quantity": 150,
+        "unitPrice": 7200,
+        "totalValue": 1080000,
+        "orderDate": "2026-08-01",
+        "deliveryDate": "2026-08-22",
+        "status": "delivered",
+        "rating": 5.0,
+        "paymentStatus": "paid",
+        "paymentDate": "2026-08-26",
+        "cracGenerated": true
+      }
+    ],
+    "payments": [
+      {
+        "id": "PAY-S-001",
+        "bidTitle": "Executive Chairs for GIFT City",
+        "department": "GIFT SEZ Authority, Gujarat",
+        "totalValue": 1300000,
+        "orderDate": "2026-06-01",
+        "deliveryDate": "2026-06-25",
+        "cracGenerated": true,
+        "cracDate": "2026-06-28",
+        "invoiceDate": "2026-07-01",
+        "paymentDate": "2026-07-10",
+        "status": "paid"
+      },
+      {
+        "id": "PAY-S-002",
+        "bidTitle": "Conference Tables for High Court",
+        "department": "Gujarat High Court, Ahmedabad",
+        "totalValue": 660000,
+        "orderDate": "2026-07-10",
+        "deliveryDate": "2026-08-05",
+        "cracGenerated": true,
+        "cracDate": "2026-08-08",
+        "invoiceDate": "2026-08-10",
+        "paymentDate": "2026-08-20",
+        "status": "paid"
+      },
+      {
+        "id": "PAY-S-003",
+        "bidTitle": "Ergonomic Chairs for IIT Gandhinagar",
+        "department": "IIT Gandhinagar",
+        "totalValue": 1080000,
+        "orderDate": "2026-08-01",
+        "deliveryDate": "2026-08-22",
+        "cracGenerated": true,
+        "cracDate": "2026-08-24",
+        "invoiceDate": "2026-08-25",
+        "paymentDate": "2026-08-26",
+        "status": "paid"
+      }
+    ],
+    "bids": [
+      {
+        "bidId": "B-S01",
+        "title": "Executive Chairs — GIFT City, Gujarat",
+        "result": "won",
+        "margin": 16,
+        "reason": "competitive_pricing",
+        "category": "office_chairs",
+        "distance": 25,
+        "bidValue": 1300000,
+        "mseReserved": true,
+        "bidDate": "2026-05-15"
+      },
+      {
+        "bidId": "B-S02",
+        "title": "Conference Tables — Gujarat High Court",
+        "result": "won",
+        "margin": 14,
+        "reason": "best_technical_score",
+        "category": "tables",
+        "distance": 18,
+        "bidValue": 660000,
+        "mseReserved": false,
+        "bidDate": "2026-06-20"
+      },
+      {
+        "bidId": "B-S03",
+        "title": "Ergonomic Chairs — IIT Gandhinagar",
+        "result": "won",
+        "margin": 12,
+        "reason": "mse_preference",
+        "category": "ergonomic_chairs",
+        "distance": 30,
+        "bidValue": 1080000,
+        "mseReserved": true,
+        "bidDate": "2026-07-12"
+      },
+      {
+        "bidId": "B-S04",
+        "title": "Storage Racks — ONGC, Vadodara",
+        "result": "won",
+        "margin": 18,
+        "reason": "local_delivery_advantage",
+        "category": "storage",
+        "distance": 110,
+        "bidValue": 890000,
+        "mseReserved": true,
+        "bidDate": "2026-07-28"
+      },
+      {
+        "bidId": "B-S05",
+        "title": "Office Desks — Municipal Corp, Surat",
+        "result": "won",
+        "margin": 11,
+        "reason": "competitive_pricing",
+        "category": "desks",
+        "distance": 265,
+        "bidValue": 520000,
+        "mseReserved": true,
+        "bidDate": "2026-08-10"
+      }
+    ],
+    "rating": {
+      "overall": 4.6,
+      "onTimeDelivery": 4.8,
+      "qualityCompliance": 4.7,
+      "buyerSatisfaction": 4.5,
+      "responseRate": 4.6,
+      "orderCancellation": 5.0,
+      "totalOrders": 28,
+      "totalRevenue": 3040000,
+      "catalogLastUpdate": "2026-08-20",
+      "lateDeliveriesThisMonth": 0,
+      "monthlyTrend": [
+        { "month": "Apr", "orders": 3, "revenue": 620000 },
+        { "month": "May", "orders": 5, "revenue": 1100000 },
+        { "month": "Jun", "orders": 7, "revenue": 1680000 },
+        { "month": "Jul", "orders": 9, "revenue": 2340000 }
+      ]
+    },
+    "notifications": [
+      {
+        "id": "payment-received-s3",
+        "type": "bid_won",
+        "severity": "success",
+        "title": "Payment received",
+        "message": "₹10,80,000 received for IIT Gandhinagar order",
+        "timestamp": "2026-08-26T09:00:00",
+        "action": { "label": "View payments", "href": "/payments" }
+      },
+      {
+        "id": "bid-won-iit",
+        "type": "bid_won",
+        "severity": "success",
+        "title": "Congratulations — you won a bid!",
+        "message": "You won Ergonomic Chairs for IIT Gandhinagar",
+        "timestamp": "2026-08-26T08:00:00",
+        "action": { "label": "View order", "href": "/orders" }
+      },
+      {
+        "id": "rating-high",
+        "type": "bid_won",
+        "severity": "success",
+        "title": "Top-rated seller",
+        "message": "Your 4.6/5 rating qualifies you for premium GeM listings",
+        "timestamp": "2026-08-26T07:00:00",
+        "action": { "label": "View profile", "href": "/profile" }
+      },
+      {
+        "id": "bid-closing-s",
+        "type": "bid_closing",
+        "severity": "info",
+        "title": "New high-value tenders",
+        "message": "5 tenders above ₹20L match your catalogue",
+        "timestamp": "2026-08-26T07:00:00",
+        "action": { "label": "View opportunities", "href": "/opportunities" }
+      }
+    ]
+  }
+]

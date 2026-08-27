@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import { Disclaimer } from "@/components/Disclaimer";
+import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
 import { PageShell } from "@/components/PageShell";
 import { UdyamQualificationCheck } from "@/components/UdyamQualificationCheck";
 import {
@@ -174,8 +175,8 @@ export default function UdyamPage() {
 
       <Disclaimer />
       <p className="text-xs text-muted-foreground">
-        Udyam thresholds and GeM MSE policies are based on public guidelines. Verify current
-        rules on official portals before registering.
+        Udyam thresholds (Micro: ₹1 Cr / ₹5 Cr turnover; Small: ₹10 Cr / ₹50 Cr turnover).{" "}
+        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
       </p>
 
       <Link

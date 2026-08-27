@@ -1,0 +1,159 @@
+[
+  {
+    "id": "CORR-2026-001",
+    "bidId": "GEM-2026-CHA-042",
+    "corrigendumNumber": 2,
+    "publishedDate": "2026-08-20",
+    "title": "Supply of Revolving Chairs — Corrigendum 2",
+    "originalBid": {
+      "id": "GEM-2026-CHA-042",
+      "title": "Supply of Revolving Chairs",
+      "department": "District Collectorate, Jaipur",
+      "location": {
+        "state": "Rajasthan",
+        "city": "Jaipur"
+      },
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Revolving Chairs"
+      ],
+      "quantity": 100,
+      "unit": "Nos",
+      "estimatedValue": 420000,
+      "deadline": "2026-09-15",
+      "emdAmount": 8400,
+      "mseReserved": true,
+      "requiredCertifications": ["BIS", "Udyam"],
+      "goldenParameters": {
+        "Material": "MS tube frame with PU foam cushioning",
+        "Backrest": "Mesh with lumbar support",
+        "Base": "5-star nylon base with dual castors",
+        "Warranty": "3 years"
+      },
+      "evaluationCriteria": [
+        "Lowest Price (L1)",
+        "Technical compliance with golden parameters",
+        "Past supply experience in government sector"
+      ],
+      "deliveryDays": 45,
+      "status": "open"
+    },
+    "amendedBid": {
+      "id": "GEM-2026-CHA-042",
+      "title": "Supply of Revolving Chairs",
+      "department": "District Collectorate, Jaipur",
+      "location": {
+        "state": "Rajasthan",
+        "city": "Jaipur"
+      },
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Chairs",
+        "Revolving Chairs"
+      ],
+      "quantity": 140,
+      "unit": "Nos",
+      "estimatedValue": 580000,
+      "deadline": "2026-08-28",
+      "emdAmount": 11600,
+      "mseReserved": true,
+      "requiredCertifications": ["BIS", "Udyam", "ISO 9001"],
+      "goldenParameters": {
+        "Material": "MS tube frame with high-density PU foam cushioning",
+        "Backrest": "Mesh with adjustable lumbar support",
+        "Base": "5-star nylon base with dual castors",
+        "Warranty": "3 years",
+        "Load Capacity": "120 kg tested"
+      },
+      "evaluationCriteria": [
+        "Lowest Price (L1)",
+        "Technical compliance with golden parameters",
+        "Past supply experience in government sector",
+        "On-site installation within 5 days of delivery"
+      ],
+      "deliveryDays": 22,
+      "status": "closing_soon"
+    }
+  },
+  {
+    "id": "CORR-2026-002",
+    "bidId": "GEM-2026-DSK-018",
+    "corrigendumNumber": 1,
+    "publishedDate": "2026-08-22",
+    "title": "Supply of Office Desks — Corrigendum 1",
+    "originalBid": {
+      "id": "GEM-2026-DSK-018",
+      "title": "Supply of Office Desks",
+      "department": "Secretariat, Government of Uttar Pradesh, Lucknow",
+      "location": {
+        "state": "Uttar Pradesh",
+        "city": "Lucknow"
+      },
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Tables",
+        "Office Desks"
+      ],
+      "quantity": 200,
+      "unit": "Nos",
+      "estimatedValue": 850000,
+      "deadline": "2026-09-20",
+      "emdAmount": 17000,
+      "mseReserved": false,
+      "requiredCertifications": ["BIS", "ISO 9001"],
+      "goldenParameters": {
+        "Material": "18mm commercial plywood with laminate top",
+        "Dimensions": "1200mm x 600mm x 750mm",
+        "Finish": "Matte laminate, rounded edges",
+        "Warranty": "2 years"
+      },
+      "evaluationCriteria": [
+        "Lowest Price (L1)",
+        "Conformance to IS specifications",
+        "Delivery timeline"
+      ],
+      "deliveryDays": 60,
+      "status": "open"
+    },
+    "amendedBid": {
+      "id": "GEM-2026-DSK-018",
+      "title": "Supply of Office Desks",
+      "department": "Secretariat, Government of Uttar Pradesh, Lucknow",
+      "location": {
+        "state": "Uttar Pradesh",
+        "city": "Lucknow"
+      },
+      "categoryPath": [
+        "Furniture",
+        "Office Furniture",
+        "Tables",
+        "Office Desks"
+      ],
+      "quantity": 350,
+      "unit": "Nos",
+      "estimatedValue": 1487500,
+      "deadline": "2026-08-28",
+      "emdAmount": 29750,
+      "mseReserved": false,
+      "requiredCertifications": ["BIS", "ISO 9001", "ISO 14001"],
+      "goldenParameters": {
+        "Material": "Stainless steel frame with 18mm marine-grade plywood top",
+        "Dimensions": "1200mm x 600mm x 750mm",
+        "Finish": "Anti-corrosion powder coat, matte laminate top",
+        "Warranty": "3 years"
+      },
+      "evaluationCriteria": [
+        "Lowest Price (L1)",
+        "Conformance to IS specifications",
+        "Delivery timeline",
+        "Load test certificate mandatory"
+      ],
+      "deliveryDays": 35,
+      "status": "closing_soon"
+    }
+  }
+]

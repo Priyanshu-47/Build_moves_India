@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import {
-  ArrowLeft,
   CheckCircle2,
   ExternalLink,
   XCircle,
@@ -12,6 +11,7 @@ import {
 
 import bidsData from "@/data/bids.json";
 import comparablesData from "@/data/comparables.json";
+import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { CardSkeleton } from "@/components/skeletons";
 import { buttonVariants } from "@/components/ui/button";
@@ -153,13 +153,7 @@ export default function PreparePage() {
   if (!bid || !readiness || !pricing) {
     return (
       <PageShell>
-        <Link
-          href="/opportunities"
-          className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-        >
-          <ArrowLeft className="size-4" aria-hidden="true" />
-          Back to opportunities
-        </Link>
+        <PageHeader title="Prepare Bid" backUrl="/opportunities" />
         <p className="text-sm text-muted-foreground">Bid not found.</p>
       </PageShell>
     );
@@ -170,18 +164,11 @@ export default function PreparePage() {
 
   return (
     <PageShell>
-      <Link
-        href={`/opportunities/${bid.id}/pricing`}
-        className={buttonVariants({ variant: "ghost", size: "sm", className: "mb-4 -ml-2" })}
-      >
-        <ArrowLeft className="size-4" aria-hidden="true" />
-        Back to pricing
-      </Link>
-
-      <div className="mb-6 space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Bid Preparation</h1>
-        <p className="text-sm text-muted-foreground">{bid.title}</p>
-      </div>
+      <PageHeader
+        title="Prepare Bid"
+        backUrl={`/opportunities/${bid.id}`}
+        subtitle={bid.title}
+      />
 
       <Card
         className={cn(
@@ -292,7 +279,7 @@ export default function PreparePage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="print-content print-expand">
           <CardHeader>
             <CardTitle>Submission checklist</CardTitle>
             <CardDescription>Documents and commitments needed</CardDescription>

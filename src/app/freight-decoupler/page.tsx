@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Disclaimer } from "@/components/Disclaimer";
+import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
 import { FreightCalculator } from "@/components/FreightCalculator";
 import { PageShell } from "@/components/PageShell";
 import { Badge } from "@/components/ui/badge";
@@ -257,9 +258,8 @@ export default function FreightDecouplerPage() {
 
       <Disclaimer />
       <p className="text-xs text-muted-foreground">
-        Freight estimates are simulated based on weight slabs, distance, and zone multipliers.
-        Actual costs vary by carrier, season, and product dimensions. Not affiliated with GeM
-        or ONDC.
+        Freight estimates are simulated based on weight slabs, distance, and zone multipliers.{" "}
+        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
       </p>
     </PageShell>
   );
