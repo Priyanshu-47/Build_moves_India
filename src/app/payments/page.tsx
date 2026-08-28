@@ -342,7 +342,7 @@ export default function PaymentsPage() {
   ];
 
   return (
-    <PageShell wide className="space-y-4">
+    <PageShell wide className="space-y-5">
       {/* ── BREADCRUMB + TITLE ── */}
       <div>
         <p className="text-xs text-muted-foreground">

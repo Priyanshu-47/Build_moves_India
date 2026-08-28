@@ -131,7 +131,7 @@ export default function OrdersPage() {
   }), [ordersData]);
 
   return (
-    <PageShell wide className="space-y-4">
+    <PageShell wide className="space-y-5">
       {/* ── CLEAN PAGE HEADER — no gradient hero ── */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
