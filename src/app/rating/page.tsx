@@ -1,49 +1,30 @@
 "use client";
 
-import { AlertTriangle, Star } from "lucide-react";
+import { ArrowLeft, AlertTriangle, Star, TrendingUp, TrendingDown } from "lucide-react";
 
 import ratingData from "@/data/seller-rating.json";
-import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const RATING_FACTORS = [
-  { key: "onTimeDelivery" as const, label: "On-time delivery" },
-  { key: "qualityCompliance" as const, label: "Quality compliance" },
-  { key: "buyerSatisfaction" as const, label: "Buyer satisfaction" },
-  { key: "responseRate" as const, label: "Response rate" },
-  { key: "orderCancellation" as const, label: "Order cancellation (lower is better)" },
+  { key: "onTimeDelivery" as const, label: "On-time delivery", color: "bg-emerald-500" },
+  { key: "qualityCompliance" as const, label: "Quality compliance", color: "bg-blue-500" },
+  { key: "buyerSatisfaction" as const, label: "Buyer satisfaction", color: "bg-violet-500" },
+  { key: "responseRate" as const, label: "Response rate", color: "bg-amber-500" },
+  { key: "orderCancellation" as const, label: "Order cancellation", color: "bg-red-500" },
 ];
 
 function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(value);
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
 }
 
 function StarRating({ value, max = 5 }: { value: number; max?: number }) {
   return (
     <div className="flex items-center gap-0.5" aria-label={`${value} out of ${max} stars`}>
-      {Array.from({ length: max }).map((_, index) => (
+      {Array.from({ length: max }).map((_, i) => (
         <Star
-          key={index}
-          className={cn(
-            "size-5",
-            index < Math.floor(value)
-              ? "fill-yellow-400 text-yellow-400"
-              : index < value
-                ? "fill-yellow-200 text-yellow-400"
-                : "text-muted-foreground/40"
-          )}
+          key={i}
+          className={cn("size-4", i < Math.floor(value) ? "fill-yellow-400 text-yellow-400" : i < value ? "fill-yellow-200 text-yellow-400" : "text-muted-foreground/30")}
           aria-hidden="true"
         />
       ))}
@@ -52,143 +33,120 @@ function StarRating({ value, max = 5 }: { value: number; max?: number }) {
 }
 
 export default function RatingPage() {
-  const maxRevenue = Math.max(
-    ...ratingData.monthlyTrend.map((item) => item.revenue)
-  );
-  const maxOrders = Math.max(...ratingData.monthlyTrend.map((item) => item.orders));
+  const maxRevenue = Math.max(...ratingData.monthlyTrend.map((m) => m.revenue));
+  const maxOrders = Math.max(...ratingData.monthlyTrend.map((m) => m.orders));
 
   const tips: string[] = [];
-  if (ratingData.responseRate < 4) {
-    tips.push(
-      `Your response rate is ${ratingData.responseRate} — reply to buyer queries within 24 hours.`
-    );
-  }
-  if (ratingData.buyerSatisfaction < 4.2) {
-    tips.push(
-      "Buyer satisfaction is below 4.2 — follow up after delivery for feedback."
-    );
-  }
-  if (ratingData.onTimeDelivery >= 4.5) {
-    tips.push("Strong on-time delivery — highlight this in bid proposals.");
-  }
+  if (ratingData.responseRate < 4) tips.push(`Your response rate is ${ratingData.responseRate} — reply to buyer queries within 24 hours.`);
+  if (ratingData.buyerSatisfaction < 4.2) tips.push("Buyer satisfaction is below 4.2 — follow up after delivery for feedback.");
+  if (ratingData.onTimeDelivery >= 4.5) tips.push("Strong on-time delivery — highlight this in bid proposals.");
 
   return (
-    <PageShell>
-      <PageHeader
-        title="Seller Rating"
-        backUrl="/"
-        subtitle={`Your GeM seller performance across ${ratingData.totalOrders} orders.`}
-      />
+    <PageShell className="space-y-5">
+      {/* Header */}
+      <div>
+        <button type="button" onClick={() => window.history.back()} className="mb-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition">
+          <ArrowLeft className="size-3" /> Back
+        </button>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Seller Rating</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Your GeM seller performance across {ratingData.totalOrders} orders.</p>
+      </div>
 
-      <Card className="mb-4">
-        <CardHeader>
-          <CardDescription>Overall rating</CardDescription>
-          <div className="flex items-center gap-3">
-            <CardTitle className="text-4xl">{ratingData.overall}</CardTitle>
-            <span className="text-muted-foreground">/ 5</span>
-            <StarRating value={ratingData.overall} />
+      {/* Overall rating card */}
+      <div className="rounded-xl border bg-card p-5 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase text-muted-foreground">Overall rating</p>
+            <div className="mt-1 flex items-baseline gap-2">
+              <span className="text-4xl font-extrabold">{ratingData.overall}</span>
+              <span className="text-lg text-muted-foreground">/ 5</span>
+              <StarRating value={ratingData.overall} />
+            </div>
           </div>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          Total revenue: {formatCurrency(ratingData.totalRevenue)} across{" "}
-          {ratingData.totalOrders} orders
-        </CardContent>
-      </Card>
+          <div className="text-right">
+            <p className="text-xs text-muted-foreground">Total revenue</p>
+            <p className="text-lg font-bold text-emerald-600">{formatCurrency(ratingData.totalRevenue)}</p>
+          </div>
+        </div>
+      </div>
 
+      {/* Low rating alert */}
       {ratingData.overall < 3 && (
-        <div className="mb-4 flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/30 dark:text-red-200">
-          <AlertTriangle className="size-4 shrink-0 mt-0.5" aria-hidden="true" />
+        <div className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300">
+          <AlertTriangle className="mt-0.5 size-4 shrink-0" />
           Below 3.0 rating = excluded from most tenders
         </div>
       )}
 
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Rating breakdown</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {RATING_FACTORS.map(({ key, label }) => {
+      {/* Rating breakdown */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Rating breakdown</p>
+        <div className="space-y-3">
+          {RATING_FACTORS.map(({ key, label, color }) => {
             const value = ratingData[key];
             const percent = (value / 5) * 100;
             return (
-              <div key={key} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
-                  <span>{label}</span>
-                  <span className="font-medium">{value}/5</span>
+              <div key={key}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-medium">{label}</span>
+                  <span className="text-xs font-bold tabular-nums">{value}/5</span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={cn(
-                      "h-full rounded-full",
-                      value >= 4 ? "bg-green-600" : value >= 3.5 ? "bg-yellow-500" : "bg-red-600"
-                    )}
-                    style={{ width: `${percent}%` }}
-                  />
+                  <div className={cn("h-full rounded-full transition-all", color)} style={{ width: `${percent}%` }} />
                 </div>
               </div>
             );
           })}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card className="mb-4">
-        <CardHeader>
-          <CardTitle>Monthly trend</CardTitle>
-          <CardDescription>Orders and revenue (last 4 months)</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      {/* Monthly trend */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Monthly trend</p>
+        <div className="space-y-4">
           {ratingData.monthlyTrend.map((month) => (
-            <div key={month.month} className="space-y-2">
-              <div className="flex items-center justify-between text-sm font-medium">
-                <span>{month.month}</span>
-                <span className="text-muted-foreground">
-                  {month.orders} orders · {formatCurrency(month.revenue)}
-                </span>
+            <div key={month.month}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-semibold">{month.month}</span>
+                <span className="text-xs text-muted-foreground">{month.orders} orders · {formatCurrency(month.revenue)}</span>
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Orders</p>
-                  <div className="h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-blue-500"
-                      style={{ width: `${(month.orders / maxOrders) * 100}%` }}
-                    />
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] text-muted-foreground">Orders</span>
+                    <span className="text-[10px] font-bold tabular-nums">{month.orders}</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-blue-500" style={{ width: `${(month.orders / maxOrders) * 100}%` }} />
                   </div>
                 </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-muted-foreground">Revenue</p>
-                  <div className="h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-green-600"
-                      style={{ width: `${(month.revenue / maxRevenue) * 100}%` }}
-                    />
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-[10px] text-muted-foreground">Revenue</span>
+                    <span className="text-[10px] font-bold tabular-nums">{formatCurrency(month.revenue)}</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-muted">
+                    <div className="h-full rounded-full bg-emerald-500" style={{ width: `${(month.revenue / maxRevenue) * 100}%` }} />
                   </div>
                 </div>
               </div>
             </div>
           ))}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Tips to improve</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-2 text-sm">
-            {tips.map((tip) => (
-              <li key={tip} className="flex items-start gap-2">
-                <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
-                {tip}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 flex items-start gap-2 text-sm text-amber-800 dark:text-amber-200">
-            <AlertTriangle className="size-4 shrink-0 mt-0.5" aria-hidden="true" />
-            Below 3.0 rating = excluded from most tenders
-          </p>
-        </CardContent>
-      </Card>
+      {/* Tips */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <p className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Tips to improve</p>
+        <div className="space-y-2">
+          {tips.map((tip) => (
+            <div key={tip} className="flex items-start gap-2 rounded-lg bg-muted/30 px-3 py-2 text-sm">
+              <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
+              {tip}
+            </div>
+          ))}
+        </div>
+      </div>
     </PageShell>
   );
 }

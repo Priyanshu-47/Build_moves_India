@@ -5,8 +5,10 @@ export const RBI_NOTIFIED_RATE = 0.055;
 export const PENALTY_RATE_ANNUAL = RBI_NOTIFIED_RATE * 3; // 16.50%
 export const MSMED_PAYMENT_PERIOD_DAYS = 45;
 
-/** Reference "today" for consistent mock day calculations in the prototype. */
-export const REFERENCE_TODAY = "2026-08-26";
+/** Returns today's date as YYYY-MM-DD (runtime, not hardcoded). */
+export function getToday(): string {
+  return new Date().toISOString().slice(0, 10);
+}
 
 export type PaymentRightsResult = {
   eligible: boolean;
@@ -21,7 +23,7 @@ function parseDate(value: string): Date {
   return new Date(`${value}T00:00:00`);
 }
 
-export function daysBetween(from: string, to: string = REFERENCE_TODAY): number {
+export function daysBetween(from: string, to: string = getToday()): number {
   const start = parseDate(from);
   const end = parseDate(to);
   return Math.max(

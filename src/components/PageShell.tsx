@@ -3,17 +3,26 @@ import { cn } from "@/lib/utils";
 export function PageShell({
   children,
   className,
+  wide = false,
 }: {
   children: React.ReactNode;
   className?: string;
+  wide?: boolean;
 }) {
   return (
     <main
       id="main-content"
       tabIndex={-1}
-      className={cn("app-shell-main", className)}
+      className={cn("app-shell-main flex-1", className)}
     >
-      <div className="app-container">{children}</div>
+      <div
+        className={cn(
+          "mx-auto w-full px-4 md:px-6 lg:px-10",
+          wide ? "max-w-[1600px]" : "max-w-6xl"
+        )}
+      >
+        {children}
+      </div>
     </main>
   );
 }

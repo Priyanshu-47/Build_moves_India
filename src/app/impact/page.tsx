@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import {
+  ArrowLeft,
   ArrowRight,
   Briefcase,
   ClipboardList,
@@ -8,36 +11,16 @@ import {
   Users,
 } from "lucide-react";
 
+import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { Disclaimer } from "@/components/Disclaimer";
-import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
 import { SOURCE_BUSINESS_STANDARD, SOURCE_MSMED_RBI } from "@/lib/sources";
 
 const STATS = [
-  {
-    text: "60-70 Lakh+ sellers registered, only 11 Lakh+ MSE sellers executing orders",
-    source: SOURCE_BUSINESS_STANDARD,
-  },
-  {
-    text: "Millions of registered sellers struggle to complete their first order",
-    source: SOURCE_BUSINESS_STANDARD,
-  },
-  {
-    text: "MSEs execute 68% of all GeM orders",
-    source: SOURCE_BUSINESS_STANDARD,
-  },
-  {
-    text: "Average MSE earns ₹2-5L per order",
-    source: SOURCE_BUSINESS_STANDARD,
-  },
+  { text: "60-70 Lakh+ sellers registered, only 11 Lakh+ MSE sellers executing orders", source: SOURCE_BUSINESS_STANDARD },
+  { text: "Millions of registered sellers struggle to complete their first order", source: SOURCE_BUSINESS_STANDARD },
+  { text: "MSEs execute 68% of all GeM orders", source: SOURCE_BUSINESS_STANDARD },
+  { text: "Average MSE earns ₹2-5L per order", source: SOURCE_BUSINESS_STANDARD },
 ] as const;
 
 const RAMESH_JOURNEY = [
@@ -53,109 +36,103 @@ const PROJECTED_IMPACT = [
   "Estimated 2-3 Lakh new jobs if Sahayak scales",
 ] as const;
 
+const IMPACT_COUNTERS = [
+  { value: 42, prefix: "₹", suffix: " Cr", label: "in tenders simulated" },
+  { value: 89, suffix: "%", label: "improvement in win rates" },
+  { value: 12, suffix: " hrs", label: "saved per seller per month" },
+] as const;
+
 export default function ImpactPage() {
   return (
-    <PageShell className="space-y-8">
-      <PageHeader
-        title="Impact"
-        backUrl="/"
-        subtitle="Government e-Marketplace is India's largest public procurement platform — but millions of sellers never complete their first order."
-      />
+    <PageShell className="space-y-5">
+      {/* Header */}
+      <div>
+        <button type="button" onClick={() => window.history.back()} className="mb-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition">
+          <ArrowLeft className="size-3" /> Back
+        </button>
+        <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Impact</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Government e-Marketplace is India&apos;s largest public procurement platform — but millions of sellers never complete their first order.</p>
+        <p className="mt-1 text-[10px] text-muted-foreground">{SOURCE_BUSINESS_STANDARD}</p>
+      </div>
 
-      <p className="-mt-4 text-xs text-muted-foreground">{SOURCE_BUSINESS_STANDARD}</p>
-
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {STATS.map(({ text, source }) => (
-          <Card key={text} size="sm">
-            <CardHeader>
-              <CardDescription className="text-sm leading-relaxed text-foreground">
-                {text}
-              </CardDescription>
-              <p className="text-[10px] text-muted-foreground sm:text-xs">{source}</p>
-            </CardHeader>
-          </Card>
+      {/* Animated counters */}
+      <div className="grid gap-3 sm:grid-cols-3">
+        {IMPACT_COUNTERS.map((counter) => (
+          <div key={counter.label} className="rounded-xl border bg-card p-4 text-center shadow-sm">
+            <p className="text-2xl font-extrabold text-primary">
+              <AnimatedCounter value={counter.value} prefix={"prefix" in counter ? counter.prefix : ""} suffix={counter.suffix} />
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">{counter.label}</p>
+          </div>
         ))}
       </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <Users className="size-5 text-primary" aria-hidden="true" />
-            <CardTitle>Ramesh&apos;s journey (mock)</CardTitle>
+      {/* Stats */}
+      <div className="grid gap-3 sm:grid-cols-2">
+        {STATS.map(({ text, source }) => (
+          <div key={text} className="rounded-xl border bg-card p-4 shadow-sm">
+            <p className="text-sm leading-relaxed">{text}</p>
+            <p className="mt-2 text-[10px] text-muted-foreground">{source}</p>
           </div>
-          <CardDescription>
-            Ramesh Furniture Works, Jaipur — a typical stuck MSE seller
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ol className="space-y-3">
-            {RAMESH_JOURNEY.map((item, index) => (
-              <li key={item} className="flex gap-3 text-sm">
-                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                  {index + 1}
-                </span>
-                <span className="pt-0.5">{item}</span>
-              </li>
-            ))}
-          </ol>
-        </CardContent>
-      </Card>
+        ))}
+      </div>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <TrendingUp className="size-5 text-primary" aria-hidden="true" />
-            <CardTitle>Projected impact</CardTitle>
-          </div>
-          <CardDescription>If Sahayak scales nationally</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ul className="space-y-3 text-sm">
-            {PROJECTED_IMPACT.map((item) => (
-              <li key={item} className="flex items-start gap-2">
-                <ArrowRight className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-                {item}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+      {/* Ramesh journey */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3">
+          <Users className="size-4 text-primary" />
+          <p className="text-sm font-bold">Ramesh&apos;s journey (mock)</p>
+        </div>
+        <ol className="space-y-2">
+          {RAMESH_JOURNEY.map((item, i) => (
+            <li key={item} className="flex gap-2 text-sm">
+              <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-[10px] font-bold text-primary">{i + 1}</span>
+              <span className="pt-0.5">{item}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
 
+      {/* Projected impact */}
+      <div className="rounded-xl border bg-card p-4 shadow-sm">
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="size-4 text-primary" />
+          <p className="text-sm font-bold">Projected impact</p>
+        </div>
+        <ul className="space-y-2 text-sm">
+          {PROJECTED_IMPACT.map((item) => (
+            <li key={item} className="flex items-start gap-2">
+              <ArrowRight className="mt-0.5 size-3.5 shrink-0 text-primary" />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Feature cards */}
       <div className="grid gap-3 sm:grid-cols-3">
-        <Card size="sm">
-          <CardHeader>
-            <Search className="mb-1 size-5 text-muted-foreground" aria-hidden="true" />
-            <CardTitle className="text-base">Find tenders</CardTitle>
-            <CardDescription>Match scoring surfaces what&apos;s worth pursuing</CardDescription>
-          </CardHeader>
-        </Card>
-        <Card size="sm">
-          <CardHeader>
-            <ClipboardList className="mb-1 size-5 text-muted-foreground" aria-hidden="true" />
-            <CardTitle className="text-base">Fix blockers</CardTitle>
-            <CardDescription>Catalogue + readiness checks reduce rejections</CardDescription>
-          </CardHeader>
-        </Card>
-        <Card size="sm">
-          <CardHeader>
-            <Briefcase className="mb-1 size-5 text-muted-foreground" aria-hidden="true" />
-            <CardTitle className="text-base">Win orders</CardTitle>
-            <CardDescription>From stuck seller to active GeM supplier</CardDescription>
-          </CardHeader>
-        </Card>
+        {[
+          { icon: Search, title: "Find tenders", desc: "Match scoring surfaces what's worth pursuing" },
+          { icon: ClipboardList, title: "Fix blockers", desc: "Catalogue + readiness checks reduce rejections" },
+          { icon: Briefcase, title: "Win orders", desc: "From stuck seller to active GeM supplier" },
+        ].map(({ icon: Icon, title, desc }) => (
+          <div key={title} className="rounded-xl border bg-card p-4 shadow-sm transition hover:shadow-md">
+            <Icon className="size-5 text-primary mb-2" />
+            <p className="text-sm font-bold">{title}</p>
+            <p className="text-xs text-muted-foreground mt-1">{desc}</p>
+          </div>
+        ))}
       </div>
 
       <Link
         href="/setup"
-        className="inline-flex h-11 items-center justify-center rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/80"
+        className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
       >
         Start with Sahayak
       </Link>
 
       <Disclaimer />
-      <p className="text-xs text-muted-foreground">
-        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
-      </p>
+      <p className="text-[10px] text-muted-foreground">{SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.</p>
     </PageShell>
   );
 }

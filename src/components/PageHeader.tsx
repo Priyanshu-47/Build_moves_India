@@ -31,7 +31,7 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        "sticky top-14 z-10 -mx-6 mb-6 border-b bg-background/95 px-6 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:-mx-12 md:px-12 lg:top-28 lg:-mx-16 lg:px-16",
+        "sticky top-14 z-10 -mx-4 mb-6 border-b border-primary/10 bg-background/90 px-4 py-5 backdrop-blur-md md:-mx-6 md:px-6 lg:top-14 lg:-mx-10 lg:px-10",
         className
       )}
     >
@@ -42,7 +42,7 @@ export function PageHeader({
               href={backUrl}
               className={cn(
                 buttonVariants({ variant: "outline", size: "sm" }),
-                "shrink-0 gap-1.5 lg:h-8 lg:px-2.5 lg:text-xs"
+                "min-h-10 shrink-0 gap-1.5 border-primary/15"
               )}
             >
               <ArrowLeft className="size-4" aria-hidden="true" />
@@ -50,11 +50,13 @@ export function PageHeader({
             </Link>
           )}
           <div className="min-w-0">
-            <h1 className="text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl lg:text-4xl">
               {title}
             </h1>
             {subtitle && (
-              <p className="mt-1 text-sm text-muted-foreground md:text-base">{subtitle}</p>
+              <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                {subtitle}
+              </p>
             )}
           </div>
         </div>
@@ -71,7 +73,7 @@ export function PageHeader({
                     size="sm"
                     variant={item.variant ?? "default"}
                     onClick={item.onClick}
-                    className="gap-1.5"
+                    className="min-h-10 gap-1.5"
                   >
                     {Icon && <Icon className="size-4" aria-hidden="true" />}
                     {item.label}
@@ -85,7 +87,7 @@ export function PageHeader({
                   className={buttonVariants({
                     variant: item.variant ?? "default",
                     size: "sm",
-                    className: "gap-1.5",
+                    className: "min-h-10 gap-1.5",
                   })}
                 >
                   {Icon && <Icon className="size-4" aria-hidden="true" />}

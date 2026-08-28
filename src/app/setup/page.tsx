@@ -40,6 +40,25 @@ const STEPS: StepperStep[] = [
   { id: "documents", label: "Documents & Bank", shortLabel: "Bank" },
 ];
 
+const STEP_ICONS = ["🏢", "📦", "📜", "🏦"] as const;
+
+const CITY_TO_STATE: Record<string, string> = {
+  jaipur: "Rajasthan",
+  jodhpur: "Rajasthan",
+  udaipur: "Rajasthan",
+  delhi: "Delhi",
+  "new delhi": "Delhi",
+  mumbai: "Maharashtra",
+  pune: "Maharashtra",
+  bangalore: "Karnataka",
+  bengaluru: "Karnataka",
+  chennai: "Tamil Nadu",
+  ahmedabad: "Gujarat",
+  kolkata: "West Bengal",
+  lucknow: "Uttar Pradesh",
+  hyderabad: "Andhra Pradesh",
+};
+
 const CERTIFICATION_OPTIONS = ["BIS", "ISO 9001", "Udyam-Micro", "Udyam"] as const;
 
 const MSE_OPTIONS: { value: MseCategory; label: string }[] = [
@@ -84,6 +103,16 @@ function flattenCategories(node: CategoryNode, trail: string[] = []): { id: stri
 const CATEGORY_OPTIONS = flattenCategories(categoriesData as CategoryNode);
 
 const defaultSeller = sellersData[0] as SellerProfile;
+
+function FieldValidMark({ show }: { show: boolean }) {
+  if (!show) return null;
+  return (
+    <p className="mt-1 flex items-center gap-1 text-xs text-green-600 dark:text-green-400" role="status">
+      <Check className="size-3.5" aria-hidden="true" />
+      Looks good
+    </p>
+  );
+}
 
 function emptyDraft(): SetupDraftData {
   return {
@@ -212,6 +241,7 @@ export default function SetupPage() {
   const [initialized, setInitialized] = useState(false);
   const [completed, setCompleted] = useState(false);
   const [savedSeller, setSavedSeller] = useState<SellerProfile | null>(null);
+  const [slideDirection, setSlideDirection] = useState<"forward" | "back">("forward");
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -258,7 +288,16 @@ export default function SetupPage() {
   const stepTitle = STEPS[currentStep]?.label ?? "";
 
   function updateField<K extends keyof SetupDraftData>(key: K, value: SetupDraftData[K]) {
-    setForm((current) => ({ ...current, [key]: value }));
+    setForm((current) => {
+      const next = { ...current, [key]: value };
+      if (key === "city" && typeof value === "string") {
+        const mapped = CITY_TO_STATE[value.trim().toLowerCase()];
+        if (mapped && !current.state) {
+          next.state = mapped;
+        }
+      }
+      return next;
+    });
     setFieldErrors((current) => {
       const next = { ...current };
       const fieldId = `field-${key}`;
@@ -300,6 +339,7 @@ export default function SetupPage() {
     setErrors([]);
     setFieldErrors({});
     if (currentStep < STEPS.length - 1) {
+      setSlideDirection("forward");
       setCurrentStep((step) => step + 1);
     }
   }
@@ -307,6 +347,7 @@ export default function SetupPage() {
   function handleBack() {
     setErrors([]);
     setFieldErrors({});
+    setSlideDirection("back");
     setCurrentStep((step) => Math.max(0, step - 1));
   }
 
@@ -369,6 +410,26 @@ export default function SetupPage() {
   if (completed && savedSeller) {
     return (
       <PageShell className="space-y-6">
+        <div className="relative overflow-hidden rounded-xl border bg-green-50 p-8 text-center dark:bg-green-950/20">
+          <div className="pointer-events-none absolute inset-0 flex items-start justify-center gap-2 pt-4" aria-hidden="true">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <span
+                key={i}
+                className="confetti-piece inline-block size-2 rounded-full"
+                style={{
+                  backgroundColor: ["#1E3A5F", "#16a34a", "#ca8a04", "#dc2626"][i % 4],
+                  animationDelay: `${i * 0.1}s`,
+                  marginLeft: `${(i - 6) * 20}px`,
+                }}
+              />
+            ))}
+          </div>
+          <p className="text-4xl" aria-hidden="true">🎉</p>
+          <h2 className="mt-2 text-2xl font-bold">You&apos;re all set!</h2>
+          <p className="mt-1 text-muted-foreground">
+            Welcome, {savedSeller.name}. Your profile is ready.
+          </p>
+        </div>
         <ConfirmationPanel
           title="Profile saved successfully"
           summary={[
@@ -422,7 +483,8 @@ export default function SetupPage() {
           <div className="flex flex-wrap items-start justify-between gap-2">
             <div>
               <CardTitle>Seller setup</CardTitle>
-              <CardDescription>
+              <CardDescription className="flex items-center gap-2">
+                <span className="text-xl" aria-hidden="true">{STEP_ICONS[currentStep]}</span>
                 {stepTitle}
               </CardDescription>
             </div>
@@ -456,6 +518,10 @@ export default function SetupPage() {
           <form id="setup-form" onSubmit={handleComplete} className="space-y-6" noValidate>
             <ErrorSummary errors={errors} />
 
+            <div
+              key={currentStep}
+              className={slideDirection === "forward" ? "slide-in-forward" : "slide-in-back"}
+            >
             {currentStep === 0 && (
               <div className="grid gap-4 sm:grid-cols-2">
                 <FormField
@@ -475,6 +541,7 @@ export default function SetupPage() {
                     )}
                     autoComplete="organization"
                   />
+                  <FieldValidMark show={Boolean(form.businessName.trim()) && !errorMap["field-businessName"]} />
                 </FormField>
                 <FormField
                   label="Owner name"
@@ -490,6 +557,7 @@ export default function SetupPage() {
                     aria-describedby={fieldDescribedBy("field-name", errorMap["field-name"])}
                     autoComplete="name"
                   />
+                  <FieldValidMark show={Boolean(form.name.trim()) && !errorMap["field-name"]} />
                 </FormField>
                 <FormField
                   label="City"
@@ -505,6 +573,7 @@ export default function SetupPage() {
                     aria-describedby={fieldDescribedBy("field-city", errorMap["field-city"])}
                     autoComplete="address-level2"
                   />
+                  <FieldValidMark show={Boolean(form.city.trim()) && !errorMap["field-city"]} />
                 </FormField>
                 <FormField
                   label="State"
@@ -527,6 +596,7 @@ export default function SetupPage() {
                       </option>
                     ))}
                   </select>
+                  <FieldValidMark show={Boolean(form.state) && !errorMap["field-state"]} />
                 </FormField>
               </div>
             )}
@@ -745,6 +815,8 @@ export default function SetupPage() {
                 </FormField>
               </div>
             )}
+
+            </div>
 
             <div className="flex flex-col gap-3 border-t pt-4 sm:flex-row sm:flex-wrap sm:items-center">
               {currentStep > 0 && (

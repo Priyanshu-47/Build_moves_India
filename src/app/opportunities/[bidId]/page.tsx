@@ -3,22 +3,13 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { AlertTriangle, MapPin, XCircle } from "lucide-react";
+import { AlertTriangle, ArrowLeft, MapPin, XCircle } from "lucide-react";
 
 import bidsData from "@/data/bids.json";
-import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { BidDetailSkeleton } from "@/components/skeletons";
 import { MatchScore } from "@/components/MatchScore";
 import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { MatchDimensions, SellerProfile, parseBids } from "@/lib/schemas";
 import { fallbackExplainMatch } from "@/lib/ai";
 import { computeMatch } from "@/lib/rules/match";
@@ -78,220 +69,166 @@ export default function BidDetailPage() {
 
   useEffect(() => {
     if (!seller || !bid || !match) return;
-
     const fallback = fallbackExplainMatch(match, seller, bid);
     let cancelled = false;
-
     async function fetchExplanation() {
       setAiLoading(true);
       setAiExplanation(null);
-
       try {
         const response = await fetch("/api/ai/explain-match", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ matchResult: match, seller, bid }),
         });
-
         if (!response.ok) throw new Error("Request failed");
-
         const data = (await response.json()) as { explanation?: string };
-        if (!cancelled) {
-          setAiExplanation(data.explanation ?? fallback);
-        }
+        if (!cancelled) setAiExplanation(data.explanation ?? fallback);
       } catch {
-        if (!cancelled) {
-          setAiExplanation(fallback);
-        }
+        if (!cancelled) setAiExplanation(fallback);
       } finally {
-        if (!cancelled) {
-          setAiLoading(false);
-        }
+        if (!cancelled) setAiLoading(false);
       }
     }
-
     fetchExplanation();
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [seller, bid, match]);
 
   if (!ready || !seller) {
-    return (
-      <PageShell>
-        <BidDetailSkeleton />
-      </PageShell>
-    );
+    return <PageShell><BidDetailSkeleton /></PageShell>;
   }
 
   if (!bid || !match) {
     return (
       <PageShell>
-        <PageHeader title="Bid Details" backUrl="/opportunities" />
+        <div className="flex items-center gap-2 mb-4">
+          <Link href="/opportunities" className="text-xs text-muted-foreground hover:text-foreground">← Back to opportunities</Link>
+        </div>
         <p className="text-sm text-muted-foreground">Bid not found.</p>
       </PageShell>
     );
   }
 
   return (
-    <PageShell>
-      <PageHeader
-        title="Bid Details"
-        backUrl="/opportunities"
-        subtitle={bid.title}
-      />
+    <PageShell className="space-y-5">
+      {/* ── BREADCRUMB + BACK ── */}
+      <div>
+        <Link href="/opportunities" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft className="size-3" />Back to opportunities
+        </Link>
+      </div>
 
-      <div className="mb-6 flex items-start justify-between gap-4">
+      {/* ── CLEAN HEADER — no gradient ── */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            {bid.mseReserved && <Badge variant="outline">MSE Reserved</Badge>}
+            {bid.mseReserved && <Badge className="bg-emerald-50 text-emerald-700 ring-1 ring-emerald-600/20">MSE Reserved</Badge>}
+            {bid.status === "closing_soon" && <Badge variant="destructive">Closing Soon</Badge>}
           </div>
-          <p className="text-muted-foreground">{bid.department}</p>
-          <p className="flex items-center gap-1 text-sm text-muted-foreground">
-            <MapPin className="size-3.5 shrink-0" aria-hidden="true" />
-            {bid.location.city}, {bid.location.state}
+          <h1 className="text-2xl font-extrabold tracking-tight">{bid.title}</h1>
+          <p className="text-sm text-muted-foreground">{bid.department}</p>
+          <p className="flex items-center gap-1 text-xs text-muted-foreground">
+            <MapPin className="size-3" />{bid.location.city}, {bid.location.state}
           </p>
         </div>
         <MatchScore score={match.matchScore} dimensions={match.dimensions} />
       </div>
 
-      <div className="space-y-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Bid overview</CardTitle>
-            <CardDescription>Key tender details</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3 text-sm sm:grid-cols-2">
-            <div>
-              <p className="text-muted-foreground">Quantity</p>
-              <p className="font-medium">
-                {bid.quantity.toLocaleString("en-IN")} {bid.unit}
-              </p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Estimated value</p>
-              <p className="font-medium">{formatCurrency(bid.estimatedValue)}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Deadline</p>
-              <p className="font-medium">{formatDeadline(bid.deadline)}</p>
-            </div>
-            <div>
-              <p className="text-muted-foreground">Delivery timeline</p>
-              <p className="font-medium">{bid.deliveryDays} days</p>
-            </div>
-            {bid.emdAmount ? (
-              <div>
-                <p className="text-muted-foreground">EMD</p>
-                <p className="font-medium">{formatCurrency(bid.emdAmount)}</p>
+      {/* ── STAT CARDS ── */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {[
+          { label: "Quantity", value: `${bid.quantity.toLocaleString("en-IN")} ${bid.unit}` },
+          { label: "Estimated value", value: formatCurrency(bid.estimatedValue) },
+          { label: "Deadline", value: formatDeadline(bid.deadline) },
+          { label: "Delivery", value: `${bid.deliveryDays} days` },
+        ].map((stat) => (
+          <div key={stat.label} className="rounded-xl border bg-card p-3">
+            <p className="text-[10px] font-semibold uppercase text-muted-foreground">{stat.label}</p>
+            <p className="mt-1 text-sm font-bold">{stat.value}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ── MATCH BREAKDOWN ── */}
+      <div className="rounded-xl border bg-card p-5">
+        <h2 className="mb-4 text-sm font-bold">Match breakdown</h2>
+        <div className="space-y-3">
+          {DIMENSION_LABELS.map(({ key, label }) => (
+            <div key={key} className="space-y-1">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-muted-foreground">{label}</span>
+                <span className="font-semibold tabular-nums">{match.dimensions[key]}%</span>
               </div>
-            ) : null}
-            <div>
-              <p className="text-muted-foreground">Category</p>
-              <p className="font-medium">{bid.categoryPath.join(" › ")}</p>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Golden parameters</CardTitle>
-            <CardDescription>Technical specifications</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <dl className="space-y-2 text-sm">
-              {Object.entries(bid.goldenParameters).map(([key, value]) => (
-                <div key={key} className="grid gap-1 sm:grid-cols-[10rem_1fr]">
-                  <dt className="text-muted-foreground">{key}</dt>
-                  <dd className="font-medium">{value}</dd>
-                </div>
-              ))}
-            </dl>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Sahayak insight</CardTitle>
-            <CardDescription>AI explanation of your match score</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {aiLoading ? (
-              <div className="space-y-2" aria-busy="true" aria-label="Loading explanation">
-                <div className="h-4 w-full animate-pulse rounded bg-muted" />
-                <div className="h-4 w-5/6 animate-pulse rounded bg-muted" />
-                <div className="h-4 w-4/6 animate-pulse rounded bg-muted" />
+              <div className="h-2 overflow-hidden rounded-full bg-muted">
+                <div
+                  className={cn(
+                    "h-full rounded-full transition-all duration-500",
+                    match.dimensions[key] > 80 ? "bg-emerald-500" : match.dimensions[key] >= 60 ? "bg-amber-500" : "bg-red-500"
+                  )}
+                  style={{ width: `${match.dimensions[key]}%` }}
+                />
               </div>
-            ) : (
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {aiExplanation}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+            </div>
+          ))}
+        </div>
+      </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Match breakdown</CardTitle>
-            <CardDescription>How well this bid fits your profile</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {DIMENSION_LABELS.map(({ key, label }) => (
-              <div key={key} className="space-y-1">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-muted-foreground">{label}</span>
-                  <span className="font-medium">{match.dimensions[key]}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-muted">
-                  <div
-                    className={cn(
-                      "h-full rounded-full",
-                      match.dimensions[key] > 80
-                        ? "bg-green-600"
-                        : match.dimensions[key] >= 60
-                          ? "bg-yellow-500"
-                          : "bg-red-600"
-                    )}
-                    style={{ width: `${match.dimensions[key]}%` }}
-                  />
-                </div>
+      {/* ── GOLDEN PARAMETERS ── */}
+      <div className="rounded-xl border bg-card p-5">
+        <h2 className="mb-3 text-sm font-bold">Golden parameters</h2>
+        <dl className="space-y-2 text-xs">
+          {Object.entries(bid.goldenParameters).map(([key, value]) => (
+            <div key={key} className="flex items-start justify-between gap-4 border-b border-dashed border-border/50 pb-2 last:border-0">
+              <dt className="text-muted-foreground">{key}</dt>
+              <dd className="font-semibold text-right">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+
+      {/* ── BLOCKERS & WARNINGS ── */}
+      {(match.blockers.length > 0 || match.warnings.length > 0) && (
+        <div className="rounded-xl border bg-card p-5">
+          <h2 className="mb-3 text-sm font-bold">Blockers & warnings</h2>
+          <div className="space-y-2">
+            {match.blockers.map((blocker) => (
+              <div key={`${blocker.code}-${blocker.message}`} className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-xs text-red-800">
+                <XCircle className="mt-0.5 size-3.5 shrink-0 text-red-600" />{blocker.message}
               </div>
             ))}
-          </CardContent>
-        </Card>
+            {match.warnings.map((warning) => (
+              <div key={`${warning.code}-${warning.message}`} className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
+                <AlertTriangle className="mt-0.5 size-3.5 shrink-0" />{warning.message}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-        {(match.blockers.length > 0 || match.warnings.length > 0) && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Blockers & warnings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {match.blockers.map((blocker) => (
-                <div
-                  key={`${blocker.code}-${blocker.message}`}
-                  className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800"
-                >
-                  <XCircle className="mt-0.5 size-4 shrink-0 text-red-600" aria-hidden="true" />
-                  <p>{blocker.message}</p>
-                </div>
-              ))}
-              {match.warnings.map((warning) => (
-                <div
-                  key={`${warning.code}-${warning.message}`}
-                  className="flex items-start gap-2 rounded-lg border border-yellow-200 bg-yellow-50 p-3 text-sm text-yellow-900"
-                >
-                  <AlertTriangle className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  <p>{warning.message}</p>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
+      {/* ── AI INSIGHT ── */}
+      <div className="rounded-xl border bg-card p-5">
+        <h2 className="mb-3 text-sm font-bold">Sahayak insight</h2>
+        {aiLoading ? (
+          <div className="space-y-2" aria-busy="true">
+            <div className="h-3 w-full animate-pulse rounded bg-muted" />
+            <div className="h-3 w-5/6 animate-pulse rounded bg-muted" />
+            <div className="h-3 w-4/6 animate-pulse rounded bg-muted" />
+          </div>
+        ) : (
+          <p className="text-xs leading-relaxed text-muted-foreground">{aiExplanation}</p>
         )}
+      </div>
 
+      {/* ── CTA ── */}
+      <div className="flex flex-wrap gap-2">
+        <Link
+          href={`/simulate?bid=${bid.id}`}
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-4 text-sm font-semibold transition-all hover:bg-muted/50"
+        >
+          Simulate bid
+        </Link>
         <Link
           href={`/opportunities/${bid.id}/readiness`}
-          className={buttonVariants({ size: "lg", className: "h-11 w-full" })}
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-xl gradient-cta px-4 text-sm font-semibold text-white"
         >
           Check Readiness
         </Link>

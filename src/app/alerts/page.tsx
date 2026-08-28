@@ -5,22 +5,16 @@ import Link from "next/link";
 import {
   AlertCircle,
   AlertTriangle,
+  ArrowLeft,
   Bell,
   CheckCircle2,
   Info,
+  X,
 } from "lucide-react";
 
-import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { SwipeToDismiss } from "@/components/SwipeToDismiss";
+import { CardSkeleton } from "@/components/skeletons";
 import {
   Notification,
   NotificationSeverity,
@@ -46,14 +40,19 @@ const FILTERS: { id: Filter; label: string }[] = [
 
 function NotificationIcon({ severity }: { severity: NotificationSeverity }) {
   switch (severity) {
-    case "error":
-      return <AlertCircle className="size-5 text-destructive" aria-hidden="true" />;
-    case "warning":
-      return <AlertTriangle className="size-5 text-amber-600" aria-hidden="true" />;
-    case "success":
-      return <CheckCircle2 className="size-5 text-green-600" aria-hidden="true" />;
-    default:
-      return <Info className="size-5 text-blue-600" aria-hidden="true" />;
+    case "error": return <AlertCircle className="size-4 text-red-600" />;
+    case "warning": return <AlertTriangle className="size-4 text-amber-600" />;
+    case "success": return <CheckCircle2 className="size-4 text-emerald-600" />;
+    default: return <Info className="size-4 text-blue-600" />;
+  }
+}
+
+function severityBg(severity: NotificationSeverity): string {
+  switch (severity) {
+    case "error": return "border-l-red-500 bg-red-50/50 dark:bg-red-950/20";
+    case "warning": return "border-l-amber-500 bg-amber-50/50 dark:bg-amber-950/20";
+    case "success": return "border-l-emerald-500 bg-emerald-50/50 dark:bg-emerald-950/20";
+    default: return "border-l-blue-500 bg-blue-50/50 dark:bg-blue-950/20";
   }
 }
 
@@ -72,28 +71,18 @@ export default function AlertsPage() {
     setReady(true);
   }, []);
 
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
+  useEffect(() => { refresh(); }, [refresh]);
 
-  const visible = useMemo(
-    () => filterVisibleNotifications(notifications, dismissedIds),
-    [notifications, dismissedIds]
-  );
+  const visible = useMemo(() => filterVisibleNotifications(notifications, dismissedIds), [notifications, dismissedIds]);
 
   const filtered = useMemo(() => {
     if (filter === "all") return visible;
-    if (filter === "info") {
-      return visible.filter(
-        (notification) =>
-          notification.severity === "info" || notification.severity === "success"
-      );
-    }
-    return visible.filter((notification) => notification.severity === filter);
+    if (filter === "info") return visible.filter((n) => n.severity === "info" || n.severity === "success");
+    return visible.filter((n) => n.severity === filter);
   }, [filter, visible]);
 
   function handleMarkAllRead() {
-    markAllNotificationsRead(visible.map((notification) => notification.id));
+    markAllNotificationsRead(visible.map((n) => n.id));
     setReadIds(getReadIds());
   }
 
@@ -105,96 +94,86 @@ export default function AlertsPage() {
   if (!ready) {
     return (
       <PageShell>
-        <p className="text-sm text-muted-foreground">Loading notifications…</p>
+        <CardSkeleton rows={4} />
       </PageShell>
     );
   }
 
   return (
-    <PageShell className="space-y-6">
-      <PageHeader
-        title="Notifications"
-        backUrl="/"
-        subtitle="Time-sensitive alerts for payments, tenders, and compliance."
-      />
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-2">
-          {FILTERS.map((item) => (
-            <Button
-              key={item.id}
-              type="button"
-              size="sm"
-              variant={filter === item.id ? "default" : "outline"}
-              onClick={() => setFilter(item.id)}
-            >
-              {item.label}
-            </Button>
-          ))}
+    <PageShell className="space-y-5">
+      {/* Header */}
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <button type="button" onClick={() => window.history.back()} className="mb-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition">
+            <ArrowLeft className="size-3" /> Back
+          </button>
+          <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Notifications</h1>
+          <p className="mt-1 text-sm text-muted-foreground">Time-sensitive alerts for payments, tenders, and compliance.</p>
         </div>
         {visible.length > 0 && (
-          <Button type="button" variant="secondary" size="sm" onClick={handleMarkAllRead}>
-            Mark all as read
-          </Button>
+          <button type="button" onClick={handleMarkAllRead} className="shrink-0 rounded-lg border px-3 py-1.5 text-xs font-semibold text-muted-foreground transition hover:bg-muted/50">
+            Mark all read
+          </button>
         )}
       </div>
 
+      {/* Filter tabs */}
+      <div className="flex gap-1.5">
+        {FILTERS.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setFilter(item.id)}
+            className={cn(
+              "rounded-full px-3 py-1.5 text-xs font-semibold transition-all",
+              filter === item.id ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/80"
+            )}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Notification list */}
       {filtered.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center gap-3 py-12 text-center">
-            <Bell className="size-10 text-muted-foreground" aria-hidden="true" />
-            <p className="font-medium">No notifications — you&apos;re all caught up</p>
-            <p className="text-sm text-muted-foreground">
-              We&apos;ll alert you when tenders close, payments are delayed, or action is
-              needed.
-            </p>
-          </CardContent>
-        </Card>
+        <div className="flex flex-col items-center gap-3 rounded-xl border bg-card py-12 text-center">
+          <Bell className="size-10 text-muted-foreground/40" />
+          <p className="font-medium">No notifications — you&apos;re all caught up</p>
+          <p className="max-w-xs text-sm text-muted-foreground">We&apos;ll alert you when tenders close, payments are delayed, or action is needed.</p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {filtered.map((notification) => {
             const isRead = readIds.includes(notification.id);
             return (
-              <Card
-                key={notification.id}
-                className={cn(!isRead && "border-primary/30 bg-primary/5")}
-              >
-                <CardHeader className="pb-2">
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <NotificationIcon severity={notification.severity} />
-                      <div>
-                        <div className="flex flex-wrap items-center gap-2">
-                          <CardTitle className="text-base">{notification.title}</CardTitle>
-                          {!isRead && <Badge variant="secondary">New</Badge>}
-                        </div>
-                        <CardDescription className="mt-1">
-                          {formatNotificationTime(notification.timestamp)}
-                        </CardDescription>
-                      </div>
+              <SwipeToDismiss key={notification.id} onDismiss={() => handleDismiss(notification.id)}>
+                <div className={cn("flex items-start gap-3 rounded-xl border-l-4 bg-card px-4 py-3 shadow-sm", severityBg(notification.severity), !isRead && "ring-1 ring-primary/20")}>
+                  <NotificationIcon severity={notification.severity} />
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <p className={cn("text-sm", isRead ? "font-medium" : "font-bold")}>{notification.title}</p>
+                      {!isRead && <span className="rounded-full bg-primary/10 px-1.5 py-0.5 text-[9px] font-bold text-primary">New</span>}
                     </div>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleDismiss(notification.id)}
-                    >
-                      Dismiss
-                    </Button>
+                    <p className="mt-0.5 text-xs text-muted-foreground">{notification.message}</p>
+                    <div className="mt-1.5 flex items-center gap-3">
+                      <span className="text-[10px] text-muted-foreground">{formatNotificationTime(notification.timestamp)}</span>
+                      {notification.action && (
+                        <Link href={notification.action.href} className="text-[10px] font-semibold text-primary hover:underline">
+                          {notification.action.label} →
+                        </Link>
+                      )}
+                    </div>
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <p className="text-sm">{notification.message}</p>
-                  {notification.action && (
-                    <Link
-                      href={notification.action.href}
-                      className="text-sm font-medium text-primary underline underline-offset-2 hover:no-underline"
-                    >
-                      {notification.action.label}
-                    </Link>
-                  )}
-                </CardContent>
-              </Card>
+                  <button
+                    type="button"
+                    onClick={() => handleDismiss(notification.id)}
+                    className="flex size-6 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted"
+                    aria-label="Dismiss"
+                  >
+                    <X className="size-3.5" />
+                  </button>
+                </div>
+              </SwipeToDismiss>
             );
           })}
         </div>

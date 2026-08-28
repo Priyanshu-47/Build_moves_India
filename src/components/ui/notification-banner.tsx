@@ -9,7 +9,6 @@ import {
   X,
 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export type NotificationBannerType = "success" | "warning" | "error" | "info";
@@ -31,31 +30,35 @@ type NotificationBannerProps = {
 
 const STYLES: Record<
   NotificationBannerType,
-  { border: string; bg: string; icon: typeof Info; role: "status" | "alert" }
+  { border: string; bg: string; icon: typeof Info; role: "status" | "alert"; dot: string }
 > = {
   success: {
-    border: "border-l-green-600",
-    bg: "bg-green-50 dark:bg-green-950/30",
+    border: "border-l-emerald-500",
+    bg: "bg-emerald-50 dark:bg-emerald-950/40",
     icon: CheckCircle2,
     role: "status",
+    dot: "bg-emerald-500",
   },
   warning: {
     border: "border-l-amber-500",
-    bg: "bg-amber-50 dark:bg-amber-950/30",
+    bg: "bg-amber-50 dark:bg-amber-950/40",
     icon: AlertTriangle,
     role: "status",
+    dot: "bg-amber-500",
   },
   error: {
-    border: "border-l-destructive",
-    bg: "bg-destructive/5",
+    border: "border-l-red-500",
+    bg: "bg-red-50 dark:bg-red-950/40",
     icon: AlertCircle,
     role: "alert",
+    dot: "bg-red-500",
   },
   info: {
-    border: "border-l-blue-600",
-    bg: "bg-blue-50 dark:bg-blue-950/30",
+    border: "border-l-blue-500",
+    bg: "bg-blue-50 dark:bg-blue-950/40",
     icon: Info,
     role: "status",
+    dot: "bg-blue-500",
   },
 };
 
@@ -76,39 +79,38 @@ export function NotificationBanner({
       role={style.role}
       aria-live={type === "error" ? "assertive" : "polite"}
       className={cn(
-        "border-b border-l-4 px-4 py-3",
+        "flex items-start gap-3 rounded-xl border-l-4 bg-card px-4 py-3 shadow-md transition-all",
         style.border,
-        style.bg,
+        "animate-fade-in-up",
         className
       )}
     >
-      <div className="app-container flex gap-3">
-        <Icon className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-semibold">{title}</p>
-          <p className="mt-0.5 text-sm text-muted-foreground">{message}</p>
-          {action && (
-            <Link
-              href={action.href}
-              className="mt-2 inline-block text-sm font-medium underline underline-offset-2 hover:no-underline"
-            >
-              {action.label}
-            </Link>
-          )}
-        </div>
-        {dismissible && onDismiss && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            onClick={onDismiss}
-            className="shrink-0"
-            aria-label={`Dismiss: ${title}`}
+      <div className={cn("mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg", style.bg)}>
+        <Icon className={cn("size-4", type === "error" && "text-red-600", type === "warning" && "text-amber-600", type === "success" && "text-emerald-600", type === "info" && "text-blue-600")} aria-hidden="true" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <p className="text-sm font-semibold leading-snug">{title}</p>
+        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{message}</p>
+        {action && (
+          <Link
+            href={action.href}
+            className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
           >
-            <X className="size-4" aria-hidden="true" />
-          </Button>
+            {action.label}
+            <span className="text-[10px]">→</span>
+          </Link>
         )}
       </div>
+      {dismissible && onDismiss && (
+        <button
+          type="button"
+          onClick={onDismiss}
+          className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted"
+          aria-label={`Dismiss: ${title}`}
+        >
+          <X className="size-3.5" aria-hidden="true" />
+        </button>
+      )}
     </div>
   );
 }

@@ -4,11 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
-import {
-  DESKTOP_NAV_ITEMS,
-  MOBILE_NAV_ITEMS,
-  isNavActive,
-} from "@/lib/nav-items";
+import { MOBILE_NAV_ITEMS, isNavActive } from "@/lib/nav-items";
 import { cn } from "@/lib/utils";
 
 function getActiveIndex(
@@ -19,7 +15,11 @@ function getActiveIndex(
   return index === -1 ? 0 : index;
 }
 
-function useRovingTabIndex(itemCount: number, pathname: string, items: readonly { href: string; exact: boolean }[]) {
+function useRovingTabIndex(
+  itemCount: number,
+  pathname: string,
+  items: readonly { href: string; exact: boolean }[]
+) {
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const [focusedIndex, setFocusedIndex] = useState(() => getActiveIndex(pathname, items));
 
@@ -70,10 +70,10 @@ function MobileBottomNav() {
     <nav
       role="navigation"
       aria-label="Main navigation"
-      className="no-print fixed inset-x-0 bottom-0 z-50 border-t bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur supports-[backdrop-filter]:bg-background/80 lg:hidden"
+      className="no-print fixed inset-x-0 bottom-0 z-50 border-t border-primary/10 bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl lg:hidden"
       onKeyDown={handleKeyDown}
     >
-      <div className="app-container grid h-16 grid-cols-5">
+      <div className="mx-auto grid h-16 max-w-lg grid-cols-5 px-2">
         {MOBILE_NAV_ITEMS.map(({ href, label, icon: Icon, exact }, index) => {
           const active = isNavActive(pathname, href, exact);
           return (
@@ -86,23 +86,22 @@ function MobileBottomNav() {
               tabIndex={index === focusedIndex ? 0 : -1}
               aria-current={active ? "page" : undefined}
               onFocus={() => setFocusedIndex(index)}
-              onKeyDown={(event) => {
-                if (event.key === " " || event.key === "Spacebar") {
-                  event.preventDefault();
-                  event.currentTarget.click();
-                }
-              }}
               className={cn(
-                "flex min-h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 py-2 text-[10px] font-medium transition-colors sm:text-xs",
-                active
-                  ? "font-bold text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                "relative flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-xl text-[10px] font-medium transition-all duration-200 active:scale-95 sm:text-xs",
+                active ? "text-primary" : "text-muted-foreground"
               )}
             >
-              <Icon
-                className={cn("size-5 shrink-0", active && "fill-primary/15 stroke-[2.5]")}
-                aria-hidden="true"
-              />
+              <span
+                className={cn(
+                  "flex size-9 items-center justify-center rounded-xl transition-colors",
+                  active && "bg-primary/10"
+                )}
+              >
+                <Icon
+                  className={cn("size-5", active && "stroke-[2.5]")}
+                  aria-hidden="true"
+                />
+              </span>
               <span className="max-w-full truncate leading-tight">{label}</span>
             </Link>
           );
@@ -112,59 +111,6 @@ function MobileBottomNav() {
   );
 }
 
-function DesktopTopNav() {
-  const pathname = usePathname();
-  const { itemRefs, focusedIndex, setFocusedIndex, handleKeyDown } = useRovingTabIndex(
-    DESKTOP_NAV_ITEMS.length,
-    pathname,
-    DESKTOP_NAV_ITEMS
-  );
-
-  return (
-    <nav
-      role="navigation"
-      aria-label="Main navigation"
-      className="no-print sticky top-14 z-40 hidden w-full border-b bg-background shadow-sm lg:block"
-      onKeyDown={handleKeyDown}
-    >
-      <div className="app-container flex items-center gap-1 overflow-x-auto">
-        {DESKTOP_NAV_ITEMS.map(({ href, label, icon: Icon, exact }, index) => {
-          const active = isNavActive(pathname, href, exact);
-          return (
-            <Link
-              key={href}
-              ref={(element) => {
-                itemRefs.current[index] = element;
-              }}
-              href={href}
-              tabIndex={index === focusedIndex ? 0 : -1}
-              aria-current={active ? "page" : undefined}
-              onFocus={() => setFocusedIndex(index)}
-              className={cn(
-                "flex shrink-0 items-center gap-2 border-b-2 px-6 py-3 text-sm font-medium transition-colors",
-                active
-                  ? "border-primary font-semibold text-primary"
-                  : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-              )}
-            >
-              <Icon
-                className={cn("size-4", active && "fill-primary/15 stroke-[2.5]")}
-                aria-hidden="true"
-              />
-              {label}
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
-  );
-}
-
 export function MobileNav() {
-  return (
-    <>
-      <DesktopTopNav />
-      <MobileBottomNav />
-    </>
-  );
+  return <MobileBottomNav />;
 }

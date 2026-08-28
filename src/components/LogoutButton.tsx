@@ -11,7 +11,7 @@ export function LogoutButton() {
 
   function handleLogout() {
     logout();
-    router.replace("/login");
+    router.replace("/");
   }
 
   return (

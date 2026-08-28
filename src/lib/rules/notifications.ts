@@ -1,7 +1,7 @@
 import bidsData from "@/data/bids.json";
 import { getAccountNotifications, getAccountPayments } from "@/lib/demo-data";
 import { BidOpportunity, PaymentOrder, SellerProfile, parseBids } from "@/lib/schemas";
-import { REFERENCE_TODAY, getDaysOverdue } from "@/lib/rules/msme-rights";
+import { getToday, getDaysOverdue } from "@/lib/rules/msme-rights";
 
 export type NotificationKind =
   | "bid_closing"
@@ -47,7 +47,7 @@ const SEVERITY_PRIORITY: Record<NotificationSeverity, number> = {
 
 function hoursUntilDeadline(deadline: string): number {
   const end = new Date(`${deadline}T23:59:59`);
-  const now = new Date(`${REFERENCE_TODAY}T12:00:00`);
+  const now = new Date(`${getToday()}T12:00:00`);
   return (end.getTime() - now.getTime()) / (1000 * 60 * 60);
 }
 
@@ -81,7 +81,7 @@ export function getActiveNotifications(seller: SellerProfile | null): Notificati
   }
 
   const notifications: Notification[] = [];
-  const now = `${REFERENCE_TODAY}T09:00:00`;
+  const now = `${getToday()}T09:00:00`;
 
   if (!seller) {
     notifications.push({

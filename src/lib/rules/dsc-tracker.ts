@@ -1,5 +1,4 @@
-/** Reference "today" for consistent mock day calculations in the prototype. */
-export const REFERENCE_TODAY = "2026-08-26";
+import { getToday } from "@/lib/rules/msme-rights";
 
 export type DSC = {
   holderName: string;
@@ -27,14 +26,15 @@ function parseDate(value: string): Date {
   return new Date(`${value}T00:00:00`);
 }
 
-function daysUntil(from: string, to: string = REFERENCE_TODAY): number {
+function daysUntil(from: string, to: string = getToday()): number {
   const end = parseDate(to);
   const start = parseDate(from);
   return Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 }
 
 export function checkDSCStatus(dsc: DSC): DSCStatus {
-  const daysUntilExpiry = daysUntil(REFERENCE_TODAY, dsc.expiryDate);
+  const today = getToday();
+  const daysUntilExpiry = daysUntil(today, dsc.expiryDate);
 
   if (daysUntilExpiry < 0) {
     return {

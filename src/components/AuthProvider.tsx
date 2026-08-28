@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { isLoggedIn } from "@/lib/auth";
 
-const PUBLIC_PATHS = ["/login"];
+const PUBLIC_PATHS = ["/login", "/welcome", "/onboarding"];
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -24,11 +24,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const loggedIn = isLoggedIn();
 
     if (!loggedIn && !isPublic) {
-      router.replace("/login");
+      router.replace("/welcome");
       return;
     }
 
-    if (loggedIn && pathname === "/login") {
+    if (loggedIn && (pathname === "/login" || pathname === "/welcome" || pathname === "/onboarding")) {
       router.replace("/");
       return;
     }
@@ -38,8 +38,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   if (!ready) {
     return (
-      <div className="flex flex-1 items-center justify-center py-24">
-        <p className="text-sm text-muted-foreground">Loading…</p>
+      <div className="flex flex-1 items-center justify-center py-24" role="status" aria-live="polite">
+        <div className="space-y-3 text-center">
+          <div className="mx-auto size-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          <p className="text-sm text-muted-foreground">Loading…</p>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import hsnData from "@/data/hsn-codes.json";
 import { BidOpportunity, MatchResult } from "@/lib/schemas";
-import { REFERENCE_TODAY } from "@/lib/rules/msme-rights";
+import { getToday } from "@/lib/rules/msme-rights";
 
 export type SortOption = "match" | "deadline" | "value";
 
@@ -23,7 +23,7 @@ for (const category of hsnData.categories) {
 
 function daysUntilDeadline(deadline: string): number {
   const end = new Date(`${deadline}T23:59:59`);
-  const now = new Date(`${REFERENCE_TODAY}T12:00:00`);
+  const now = new Date(`${getToday()}T12:00:00`);
   return Math.ceil((end.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 }
 

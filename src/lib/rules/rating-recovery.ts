@@ -1,4 +1,4 @@
-import { REFERENCE_TODAY } from "@/lib/rules/msme-rights";
+import { getToday } from "@/lib/rules/msme-rights";
 
 export type SellerRating = {
   overall: number;
@@ -71,7 +71,7 @@ function parseDate(value: string): Date {
   return new Date(`${value}T00:00:00`);
 }
 
-function daysSince(date: string, today = REFERENCE_TODAY): number {
+function daysSince(date: string, today = getToday()): number {
   const start = parseDate(date);
   const end = parseDate(today);
   return Math.max(

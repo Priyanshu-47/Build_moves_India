@@ -1,27 +1,9 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Banknote,
-  ExternalLink,
-  FileText,
-  Gavel,
-  IndianRupee,
-  Scale,
-  Shield,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, Banknote, ExternalLink, FileText, Gavel, IndianRupee, Scale, Shield, TrendingUp } from "lucide-react";
 
 import { Disclaimer } from "@/components/Disclaimer";
 import { LegalNoticeTemplate } from "@/components/LegalNoticeTemplate";
-import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import {
   MSMED_PAYMENT_PERIOD_DAYS,
   PENALTY_RATE_ANNUAL,
@@ -35,11 +17,7 @@ const EXAMPLE_DAYS_OVERDUE = 55;
 const EXAMPLE_INTEREST = calculateInterest(EXAMPLE_PRINCIPAL, EXAMPLE_DAYS_OVERDUE);
 
 function formatCurrency(value: number): string {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(value);
+  return new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
 }
 
 const RIGHTS = [
@@ -49,8 +27,7 @@ const RIGHTS = [
     title: "Delayed Payment Interest",
     subtitle: "Section 16, MSMED Act, 2006",
     icon: Scale,
-    summary:
-      "If the buyer doesn't pay within 45 days of accepting goods or services, you are legally entitled to compound interest at 3× the RBI bank rate, compounded monthly.",
+    summary: "If the buyer doesn't pay within 45 days of accepting goods or services, you are legally entitled to compound interest at 3× the RBI bank rate, compounded monthly.",
     details: [
       `Statutory payment period: ${MSMED_PAYMENT_PERIOD_DAYS} days from acceptance (CRAC on GeM).`,
       `Current RBI notified rate: ~${(RBI_NOTIFIED_RATE * 100).toFixed(2)}% → penalty rate: ~${(PENALTY_RATE_ANNUAL * 100).toFixed(2)}% p.a.`,
@@ -67,8 +44,7 @@ const RIGHTS = [
     title: "EMD Exemption",
     subtitle: "GeM MSE policy",
     icon: Shield,
-    summary:
-      "Registered MSE sellers on GeM are exempt from depositing Earnest Money (EMD) when bidding — a major cash-flow advantage over non-MSE competitors.",
+    summary: "Registered MSE sellers on GeM are exempt from depositing Earnest Money (EMD) when bidding — a major cash-flow advantage over non-MSE competitors.",
     details: [
       "Requires valid Udyam registration linked to your GeM seller profile.",
       "Savings per bid: typically ₹5,000–₹50,000 depending on tender value.",
@@ -86,8 +62,7 @@ const RIGHTS = [
     title: "Price Preference",
     subtitle: "GeM procurement norms",
     icon: TrendingUp,
-    summary:
-      "If L1 (lowest bidder) is a non-MSE, you can match the L1 price if your quote is within L1+15% — and receive up to 25% of the order value under MSE reservation.",
+    summary: "If L1 (lowest bidder) is a non-MSE, you can match the L1 price if your quote is within L1+15% — and receive up to 25% of the order value under MSE reservation.",
     details: [
       "Example: L1 quotes ₹10L (non-MSE). Your quote is ₹11.2L (within 15%). You can match at ₹10L and win on MSE preference.",
       "25% of government procurement on GeM is reserved for MSEs.",
@@ -102,8 +77,7 @@ const RIGHTS = [
     title: "TReDS Invoice Discounting",
     subtitle: "RBI-regulated platform",
     icon: Banknote,
-    summary:
-      "Upload your invoice on TReDS (Trade Receivables Discounting System) → receive up to 95% of invoice value within ~3 days, instead of waiting 30–45 days for government payment.",
+    summary: "Upload your invoice on TReDS (Trade Receivables Discounting System) → receive up to 95% of invoice value within ~3 days, instead of waiting 30–45 days for government payment.",
     details: [
       "Platforms: M1xchange, RXIL, Invoicemart (RBI-approved TReDS operators).",
       "Buyer (government department) must be registered on the TReDS platform.",
@@ -120,8 +94,7 @@ const RIGHTS = [
     title: "CPGRAMS Escalation",
     subtitle: "Centralized Public Grievance Redress System",
     icon: Gavel,
-    summary:
-      "If consignee follow-up, GeM incidents, and MSME ODR don't resolve the issue — file a formal grievance on pgportal.gov.in to escalate to the department's nodal officer.",
+    summary: "If consignee follow-up, GeM incidents, and MSME ODR don't resolve the issue — file a formal grievance on pgportal.gov.in to escalate to the department's nodal officer.",
     details: [
       "Attach: order copy, invoice, CRAC, delivery proof, and prior correspondence.",
       "Select the correct ministry/department and grievance category.",
@@ -136,142 +109,94 @@ const RIGHTS = [
 
 export default function MsmeRightsPage() {
   return (
-    <PageShell className="space-y-8">
-      <PageHeader
-        title="MSME Rights"
-        backUrl="/"
-        subtitle="Five legal and policy protections that can save lakhs per year — most sellers don't know these."
-      />
+    <PageShell className="space-y-6">
+      {/* Back link */}
+      <Link href="/payments" className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
+        <ArrowLeft className="size-3" />Back to payments
+      </Link>
 
+      {/* Header */}
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-widest text-primary">MSME Rights</p>
+        <h1 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">Five legal protections that save lakhs</h1>
+        <p className="mt-1 text-sm text-muted-foreground">Most sellers don&apos;t know these exist. Here&apos;s what the MSMED Act gives you.</p>
+      </div>
+
+      {/* Rights cards */}
       <div className="space-y-4">
         {RIGHTS.map((right) => {
           const Icon = right.icon;
           return (
-            <Card key={right.id} id={right.id}>
-              <CardHeader>
-                <div className="flex items-start gap-3">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-                    {right.number}
-                  </span>
-                  <div className="min-w-0 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <Icon className="size-5 shrink-0 text-primary" aria-hidden="true" />
-                      <CardTitle>{right.title}</CardTitle>
+            <div key={right.id} id={right.id} className="rounded-xl border bg-card p-5">
+              <div className="flex items-start gap-3">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-sm font-bold text-primary">{right.number}</span>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2">
+                    <Icon className="size-4 text-primary" />
+                    <p className="text-sm font-bold">{right.title}</p>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground">{right.subtitle}</p>
+                  <p className="mt-2 text-xs text-muted-foreground">{right.summary}</p>
+                  <ul className="mt-2 space-y-1">
+                    {right.details.map((detail) => (
+                      <li key={detail} className="flex items-start gap-1.5 text-[10px] text-muted-foreground">
+                        <ArrowRight className="mt-0.5 size-3 shrink-0 text-primary" />{detail}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {right.formula && (
+                    <div className="mt-3 rounded-lg border bg-muted/30 p-3">
+                      <p className="mb-1 text-[10px] font-bold">How to calculate interest</p>
+                      <p className="font-mono text-[9px]">Interest = Principal × [(1 + r)<sup>n</sup> − 1] where r = (3 × RBI rate) ÷ 12 and n = days overdue ÷ 30</p>
+                      <p className="mt-2 text-[10px] font-semibold">Example</p>
+                      <ul className="mt-1 space-y-0.5 font-mono text-[9px] text-muted-foreground">
+                        <li>Principal = {formatCurrency(EXAMPLE_PRINCIPAL)}</li>
+                        <li>Days overdue = {EXAMPLE_DAYS_OVERDUE}</li>
+                        <li>Rate = {(PENALTY_RATE_ANNUAL * 100).toFixed(2)}% p.a.</li>
+                        <li>Interest = <strong className="text-foreground">{formatCurrency(EXAMPLE_INTEREST)}</strong></li>
+                      </ul>
+                      <p className="mt-1.5 text-[9px] text-muted-foreground">File on <a href="https://samadhaan.msme.gov.in/" target="_blank" rel="noopener noreferrer" className="underline">samadhaan.msme.gov.in</a> with invoice + CRAC proof.</p>
+                      <p className="mt-1 text-[9px] text-muted-foreground">{SOURCE_MSMED_RBI}</p>
                     </div>
-                    <CardDescription>{right.subtitle}</CardDescription>
-                  </div>
+                  )}
+
+                  {"claimUrl" in right && right.claimUrl && (
+                    <div className="mt-3">
+                      {"internal" in right && right.internal ? (
+                        <Link href={right.claimUrl} className="inline-flex min-h-9 items-center gap-1 rounded-lg border px-3 text-xs font-semibold transition hover:bg-muted/50">
+                          {right.claimLabel}<ArrowRight className="size-3" />
+                        </Link>
+                      ) : (
+                        <a href={right.claimUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-9 items-center gap-1 rounded-lg border px-3 text-xs font-semibold transition hover:bg-muted/50">
+                          {right.claimLabel}<ExternalLink className="size-3" />
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <p className="text-sm">{right.summary}</p>
-                <ul className="space-y-2 text-sm text-muted-foreground">
-                  {right.details.map((detail) => (
-                    <li key={detail} className="flex items-start gap-2">
-                      <ArrowRight
-                        className="mt-0.5 size-4 shrink-0 text-primary"
-                        aria-hidden="true"
-                      />
-                      {detail}
-                    </li>
-                  ))}
-                </ul>
-
-                {right.formula && (
-                  <div className="rounded-lg border bg-muted/30 p-4 text-sm">
-                    <p className="mb-2 font-medium">How to calculate interest</p>
-                    <p className="font-mono text-xs">
-                      Interest = Principal × [(1 + r)<sup>n</sup> − 1] where r = (3 × RBI rate) ÷
-                      12 and n = days overdue ÷ 30
-                    </p>
-                    <p className="mt-3 font-medium">Example (mock order)</p>
-                    <ul className="mt-1 space-y-1 font-mono text-xs text-muted-foreground">
-                      <li>Principal = {formatCurrency(EXAMPLE_PRINCIPAL)}</li>
-                      <li>Days overdue = {EXAMPLE_DAYS_OVERDUE}</li>
-                      <li>
-                        Rate = 3 × {(RBI_NOTIFIED_RATE * 100).toFixed(2)}% ={" "}
-                        {(PENALTY_RATE_ANNUAL * 100).toFixed(2)}% p.a.
-                      </li>
-                      <li>
-                        Interest = {formatCurrency(EXAMPLE_PRINCIPAL)} × [(1 +{" "}
-                        {(PENALTY_RATE_ANNUAL / 12).toFixed(6)})
-                        <sup>{(EXAMPLE_DAYS_OVERDUE / 30).toFixed(2)}</sup> − 1] ={" "}
-                        <strong className="text-foreground">
-                          {formatCurrency(EXAMPLE_INTEREST)}
-                        </strong>
-                      </li>
-                    </ul>
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      How to claim: register on{" "}
-                      <a
-                        href="https://samadhaan.msme.gov.in/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="underline"
-                      >
-                        samadhaan.msme.gov.in
-                      </a>{" "}
-                      and file a delayed-payment complaint with invoice and CRAC proof.
-                    </p>
-                    <p className="mt-2 text-xs text-muted-foreground">{SOURCE_MSMED_RBI}</p>
-                  </div>
-                )}
-
-                {"claimUrl" in right && right.claimUrl && (
-                  <div>
-                    {"internal" in right && right.internal ? (
-                      <Link
-                        href={right.claimUrl}
-                        className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-4 text-sm font-medium hover:bg-muted"
-                      >
-                        {right.claimLabel}
-                        <ArrowRight className="size-4" aria-hidden="true" />
-                      </Link>
-                    ) : (
-                      <a
-                        href={right.claimUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex h-9 items-center gap-1.5 rounded-lg border px-4 text-sm font-medium hover:bg-muted"
-                      >
-                        {right.claimLabel}
-                        <ExternalLink className="size-4" aria-hidden="true" />
-                      </a>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
 
-      <Card className="print-content print-expand">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <FileText className="size-5 text-primary" aria-hidden="true" />
-            <CardTitle>Legal notice template — delayed payment</CardTitle>
-          </div>
-          <CardDescription>
-            Send before filing on MSME ODR. Pre-filled with mock overdue order data.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <LegalNoticeTemplate />
-        </CardContent>
-      </Card>
+      {/* Legal notice */}
+      <div className="rounded-xl border bg-card p-5">
+        <div className="flex items-center gap-2 mb-3">
+          <FileText className="size-4 text-primary" />
+          <p className="text-sm font-bold">Legal notice template — delayed payment</p>
+        </div>
+        <p className="mb-3 text-[10px] text-muted-foreground">Send before filing on MSME ODR. Pre-filled with mock overdue order data.</p>
+        <LegalNoticeTemplate />
+      </div>
 
-      <Link
-        href="/payments"
-        className="no-print inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/80"
-      >
-        <IndianRupee className="size-4" aria-hidden="true" />
-        Check your payments
+      <Link href="/payments" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl gradient-cta px-5 text-sm font-semibold text-white">
+        <IndianRupee className="size-4" />Check your payments
       </Link>
 
       <Disclaimer />
-      <p className="text-xs text-muted-foreground">
-        {SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.
-      </p>
+      <p className="text-[9px] text-muted-foreground">{SOURCE_BUSINESS_STANDARD}. Legal claims: {SOURCE_MSMED_RBI}.</p>
     </PageShell>
   );
 }

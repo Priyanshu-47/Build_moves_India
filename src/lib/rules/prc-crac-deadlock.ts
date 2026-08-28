@@ -2,7 +2,7 @@ import deadlockData from "@/data/prc-crac-deadlock.json";
 import {
   MSMED_PAYMENT_PERIOD_DAYS,
   PENALTY_RATE_ANNUAL,
-  REFERENCE_TODAY,
+  getToday,
   calculateInterest,
   daysBetween,
 } from "@/lib/rules/msme-rights";
@@ -390,4 +390,4 @@ export function getTimelineSteps(order: DeadlockOrder): {
   ];
 }
 
-export { REFERENCE_TODAY };
+export { getToday };

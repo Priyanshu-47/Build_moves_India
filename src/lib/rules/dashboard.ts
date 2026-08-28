@@ -16,7 +16,7 @@ import { getAccountBids, getAccountPayments, getAccountRating } from "@/lib/demo
 import { PaymentOrder, SellerProfile, parseBids } from "@/lib/schemas";
 import { rankBids } from "@/lib/rules/match";
 import {
-  REFERENCE_TODAY,
+  getToday,
   calculateInterest,
   checkPaymentRights,
   daysBetween,
@@ -244,7 +244,7 @@ export function getDashboardData(seller: SellerProfile): DashboardData {
             : latestPayment?.status === "stuck"
               ? "Stuck — CRAC not generated"
               : "Awaiting payment",
-      date: latestPayment?.invoiceDate ?? latestPayment?.deliveryDate ?? REFERENCE_TODAY,
+      date: latestPayment?.invoiceDate ?? latestPayment?.deliveryDate ?? getToday(),
       tone:
         latestPayment?.status === "paid"
           ? "good"

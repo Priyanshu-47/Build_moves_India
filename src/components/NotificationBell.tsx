@@ -137,7 +137,7 @@ export function NotificationBell() {
         type="button"
         variant="ghost"
         size="icon"
-        className="relative size-8"
+        className="relative size-10 min-h-11 min-w-11"
         aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
         aria-expanded={open}
         aria-haspopup="dialog"
@@ -145,7 +145,7 @@ export function NotificationBell() {
       >
         <Bell className="size-4" aria-hidden="true" />
         {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 flex size-4 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white">
+          <span className="absolute -top-0.5 -right-0.5 flex min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-white ring-2 ring-background">
             {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}

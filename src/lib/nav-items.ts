@@ -10,17 +10,17 @@ import {
 export const DESKTOP_NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home, exact: true },
   { href: "/catalogue", label: "Catalogue", icon: ShoppingBag, exact: false },
+  { href: "/payments", label: "Payments", icon: IndianRupee, exact: false },
   { href: "/opportunities", label: "Opportunities", icon: Briefcase, exact: false },
   { href: "/orders", label: "Orders", icon: Package, exact: false },
-  { href: "/payments", label: "Payments", icon: IndianRupee, exact: false },
   { href: "/profile", label: "Profile", icon: User, exact: false },
 ] as const;
 
 export const MOBILE_NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home, exact: true },
   { href: "/catalogue", label: "Catalogue", icon: ShoppingBag, exact: false },
-  { href: "/opportunities", label: "Tenders", icon: Briefcase, exact: false },
   { href: "/payments", label: "Payments", icon: IndianRupee, exact: false },
+  { href: "/opportunities", label: "Tenders", icon: Briefcase, exact: false },
   { href: "/profile", label: "Profile", icon: User, exact: false },
 ] as const;
 
