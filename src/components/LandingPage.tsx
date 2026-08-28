@@ -5,8 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   ArrowRight,
+  Briefcase,
   CheckCircle2,
   IndianRupee,
+  Scale,
   Search,
   Shield,
   Sparkles,
@@ -191,10 +193,10 @@ function ProductMockup() {
 }
 
 const STEPS = [
-  { num: "01", title: "Connect your profile", desc: "Import Udyam, GSTIN, products in 4 minutes" },
-  { num: "02", title: "Match smart tenders", desc: "AI scores every GeM listing against your capacity" },
-  { num: "03", title: "Bid with confidence", desc: "Simulate costs, fix gaps, submit without rejections" },
-  { num: "04", title: "Get paid on time", desc: "Track CRAC, claim MSMED interest, escalate delays" },
+  { num: "01", title: "CRAC is the gatekeeper", desc: "Without CRAC, GeM never starts paying you. Sahayak tracks CRAC generation for every order so you never lose months of payment waiting.", icon: Shield },
+  { num: "02", title: "Freight eats your margin", desc: "Sellers guess freight costs and lose ₹2,000-5,000 per order. Sahayak decouples freight — real distance, real rates, your margin protected.", icon: IndianRupee },
+  { num: "03", title: "MSMED interest is your right", desc: "Payment late beyond 45 days? You're owed compound interest at 3× RBI rate. Sahayak calculates exactly what you're owed and generates legal notices.", icon: Scale },
+  { num: "04", title: "Deadlocks have a playbook", desc: "PRC stalls, CRAC blocks, buyer non-responsive — Sahayak gives you a 5-step escalation path from consignee to CPGRAMS to Samadhaan.", icon: Briefcase },
 ] as const;
 
 export function LandingPage() {
@@ -326,23 +328,26 @@ export function LandingPage() {
           <p className="text-sm font-semibold uppercase tracking-widest text-primary">How it works</p>
           <h2 className="mt-2 text-3xl font-bold md:text-4xl">Four steps to your first order</h2>
           <div className="mt-12 grid gap-8 md:grid-cols-4">
-            {STEPS.map((step, i) => (
-              <div key={step.num} className="relative">
-                {i < STEPS.length - 1 && (
-                  <div
-                    className="absolute left-1/2 top-8 hidden h-0.5 w-full bg-gradient-to-r from-primary/30 to-transparent md:block"
-                    aria-hidden="true"
-                  />
-                )}
-                <div className="relative flex flex-col items-start">
-                  <span className="flex size-16 items-center justify-center rounded-2xl bg-primary text-xl font-bold text-primary-foreground shadow-lg shadow-primary/20">
-                    {step.num}
-                  </span>
-                  <h3 className="mt-5 text-lg font-bold">{step.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
+            {STEPS.map((step, i) => {
+              const StepIcon = step.icon;
+              return (
+                <div key={step.num} className="relative">
+                  {i < STEPS.length - 1 && (
+                    <div
+                      className="absolute left-1/2 top-8 hidden h-0.5 w-full bg-gradient-to-r from-primary/30 to-transparent md:block"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <div className="relative flex flex-col items-start">
+                    <span className="flex size-16 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20">
+                      <StepIcon className="size-7" />
+                    </span>
+                    <h3 className="mt-5 text-lg font-bold">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.desc}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>

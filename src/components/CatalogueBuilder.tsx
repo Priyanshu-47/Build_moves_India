@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Combobox } from "@/components/ui/combobox";
 import { Progress } from "@/components/ui/progress";
 import { SellerProfile } from "@/lib/schemas";
 import {
@@ -206,19 +207,14 @@ export function CatalogueBuilder({ seller }: CatalogueBuilderProps) {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="productName">Product name</Label>
-              <Input
+              <Combobox
                 id="productName"
+                label="Product name"
                 value={productName}
-                onChange={(event) => setProductName(event.target.value)}
+                onValueChange={setProductName}
+                suggestions={seller.products}
                 placeholder="e.g. office chair, revolving chair"
-                list="product-suggestions"
               />
-              <datalist id="product-suggestions">
-                {seller.products.map((product) => (
-                  <option key={product} value={product} />
-                ))}
-              </datalist>
             </div>
 
             <Button type="button" onClick={handleSuggestProduct} disabled={!productName.trim()}>

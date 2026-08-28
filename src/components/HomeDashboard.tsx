@@ -13,7 +13,6 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { NotificationBanners } from "@/components/NotificationBanners";
 import { PageShell } from "@/components/PageShell";
 import { PullToRefresh } from "@/components/PullToRefresh";
 import { SellerJourney } from "@/components/SellerJourney";
@@ -63,7 +62,13 @@ const STAT_COLORS = [
 ] as const;
 
 /* ── GovLedger-style horizontal progress bars for readiness targets ── */
-const READINESS_COLORS = ["bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-violet-500", "bg-rose-500"] as const;
+const READINESS_COLORS = [
+  { bar: "bg-gradient-to-r from-blue-500 to-blue-400", dot: "bg-blue-500", bg: "bg-blue-50 dark:bg-blue-950/30" },
+  { bar: "bg-gradient-to-r from-emerald-500 to-emerald-400", dot: "bg-emerald-500", bg: "bg-emerald-50 dark:bg-emerald-950/30" },
+  { bar: "bg-gradient-to-r from-amber-500 to-amber-400", dot: "bg-amber-500", bg: "bg-amber-50 dark:bg-amber-950/30" },
+  { bar: "bg-gradient-to-r from-violet-500 to-violet-400", dot: "bg-violet-500", bg: "bg-violet-50 dark:bg-violet-950/30" },
+  { bar: "bg-gradient-to-r from-rose-500 to-rose-400", dot: "bg-rose-500", bg: "bg-rose-50 dark:bg-rose-950/30" },
+] as const;
 
 export function HomeDashboard({ seller }: HomeDashboardProps) {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -85,8 +90,6 @@ export function HomeDashboard({ seller }: HomeDashboardProps) {
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <PageShell wide key={refreshKey}>
-        <NotificationBanners className="mb-3" />
-
         {/* ── GOVLEDGER TWO-COLUMN LAYOUT ── */}
         <div className="grid gap-5 lg:grid-cols-12">
 
@@ -154,40 +157,40 @@ export function HomeDashboard({ seller }: HomeDashboardProps) {
               })}
             </div>
 
-            {/* ── READINESS PROGRESS BARS — GovLedger quarterly target style ── */}
+            {/* ── READINESS TARGETS — Card-based with gradient progress ── */}
             <section className="rounded-xl border bg-card p-5">
               <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-bold">Your readiness targets</h2>
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-semibold text-muted-foreground">
+                <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-[10px] font-bold text-primary">
                   {readinessScores.filter((r) => r.value >= 80).length}/{readinessScores.length} on track
                 </span>
               </div>
-              <div className="space-y-4">
+              <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                 {readinessScores.map((target, i) => {
-                  const barColor = READINESS_COLORS[i % READINESS_COLORS.length];
+                  const color = READINESS_COLORS[i % READINESS_COLORS.length];
                   const isOnTrack = target.value >= 80;
                   return (
-                    <div key={target.label} className="space-y-1.5">
-                      <div className="flex items-center justify-between text-xs">
-                        <div className="flex items-center gap-1.5">
-                          <span className={cn("size-2 rounded-full", barColor)} />
-                          <span className="font-medium">{target.label}</span>
-                        </div>
+                    <div key={target.label} className={cn("rounded-xl border p-3 transition hover:shadow-sm", color.bg)}>
+                      <div className="mb-2 flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold tabular-nums">{target.value}%</span>
-                          <span className={cn(
-                            "rounded-full px-1.5 py-0.5 text-[9px] font-bold",
-                            isOnTrack ? "bg-emerald-50 text-emerald-600" : target.value >= 50 ? "bg-amber-50 text-amber-600" : "bg-red-50 text-red-600"
-                          )}>
-                            {isOnTrack ? "✓ On track" : target.value >= 50 ? "⚠ Below pace" : "✗ Threshold"}
-                          </span>
+                          <span className={cn("size-2.5 rounded-full", color.dot)} />
+                          <span className="text-xs font-bold">{target.label}</span>
                         </div>
+                        <span className={cn(
+                          "rounded-full px-2 py-0.5 text-[9px] font-bold",
+                          isOnTrack ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400" : target.value >= 50 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400" : "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400"
+                        )}>
+                          {isOnTrack ? "✓ On track" : target.value >= 50 ? "⚠ Below pace" : "✗ Critical"}
+                        </span>
                       </div>
-                      <div className="h-2.5 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className={cn("h-full rounded-full transition-all duration-700 ease-out", barColor)}
-                          style={{ width: `${target.value}%` }}
-                        />
+                      <div className="flex items-center gap-2">
+                        <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/50 dark:bg-black/20">
+                          <div
+                            className={cn("h-full rounded-full transition-all duration-700 ease-out", color.bar)}
+                            style={{ width: `${target.value}%` }}
+                          />
+                        </div>
+                        <span className="text-xs font-extrabold tabular-nums">{target.value}%</span>
                       </div>
                     </div>
                   );

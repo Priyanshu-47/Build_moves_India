@@ -53,7 +53,7 @@ export function AppShell({ children }: AppShellProps) {
       <div className="flex min-h-screen">
         <AppSidebar />
 
-        <div className="flex min-w-0 flex-1 flex-col lg:pl-[260px]">
+        <div className="flex min-w-0 flex-1 flex-col lg:pl-[260px] transition-all duration-300">
           {/* Mobile top bar only */}
           <header className="no-print sticky top-0 z-30 flex h-14 items-center justify-between border-b border-primary/10 bg-background/90 px-4 backdrop-blur-md lg:hidden">
             <Link href="/" className="flex items-center gap-2" aria-label="Sahayak home">

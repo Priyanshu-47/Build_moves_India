@@ -6,7 +6,6 @@ import { Bell, Briefcase, SearchX, Target, Timer } from "lucide-react";
 
 import bidsData from "@/data/bids.json";
 import { BidAlertsPanel } from "@/components/BidAlertsPanel";
-import { NotificationBanners } from "@/components/NotificationBanners";
 import { PageShell } from "@/components/PageShell";
 import { PullToRefresh } from "@/components/PullToRefresh";
 import { BidCard } from "@/components/BidCard";
@@ -133,8 +132,6 @@ export function OpportunitiesContent() {
       }}
     >
       <PageShell wide className="space-y-4">
-        <NotificationBanners className="mb-3" />
-
         {/* ── PAGE HEADER ── */}
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
