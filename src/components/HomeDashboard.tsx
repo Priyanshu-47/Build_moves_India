@@ -255,7 +255,7 @@ export function HomeDashboard({ seller }: HomeDashboardProps) {
           </div>
 
           {/* ══════ RIGHT COLUMN — GovLedger live feed sidebar ══════ */}
-          <aside className="space-y-4 lg:col-span-4 lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto">
+          <aside className="space-y-4 lg:col-span-4">
 
             {/* Live activity feed */}
             <div className="rounded-xl border bg-card p-4">
