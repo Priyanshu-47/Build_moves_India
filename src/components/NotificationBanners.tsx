@@ -47,8 +47,16 @@ export function NotificationBanners({ max = 2, className }: NotificationBannersP
         refresh();
       }
     };
+    const onChange = () => {
+      setDismissedIds(getDismissedIds());
+      setNotifications(getActiveNotifications(getSeller()));
+    };
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener("sahayak-notifications-changed", onChange);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("sahayak-notifications-changed", onChange);
+    };
   }, [refresh]);
 
   const critical = useMemo(() => {

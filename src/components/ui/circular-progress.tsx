@@ -9,6 +9,8 @@ type CircularProgressProps = {
   className?: string;
   /** Use lighter track + white value text for dark backgrounds */
   onDark?: boolean;
+  /** Show "84%" instead of "84 / 100" */
+  variant?: "fraction" | "percent";
 };
 
 function scoreColor(score: number, onDark?: boolean): string {
@@ -30,6 +32,7 @@ export function CircularProgress({
   label,
   className,
   onDark = false,
+  variant = "fraction",
 }: CircularProgressProps) {
   const percent = Math.min(100, Math.max(0, (value / max) * 100));
   const radius = (size - strokeWidth) / 2;
@@ -37,15 +40,27 @@ export function CircularProgress({
   const dashOffset = circumference - (percent / 100) * circumference;
   const center = size / 2;
   const stroke = scoreColor(percent, onDark);
-  const valueSize = size < 90 ? "text-lg" : size < 110 ? "text-2xl" : "text-3xl";
+  const valueSize =
+    variant === "percent"
+      ? size < 90
+        ? "text-base"
+        : size < 110
+          ? "text-xl"
+          : "text-2xl"
+      : size < 90
+        ? "text-lg"
+        : size < 110
+          ? "text-2xl"
+          : "text-3xl";
 
   return (
     <div
-      className={cn("relative inline-flex flex-col items-center", className)}
+      className={cn("relative inline-flex shrink-0 items-center justify-center", className)}
+      style={{ width: size, height: size }}
       role="img"
       aria-label={`${Math.round(percent)} out of ${max}${label ? ` ${label}` : ""}`}
     >
-      <svg width={size} height={size} className="-rotate-90">
+      <svg width={size} height={size} className="absolute inset-0 -rotate-90">
         <circle
           cx={center}
           cy={center}
@@ -68,24 +83,36 @@ export function CircularProgress({
           className="transition-all duration-700 ease-out"
         />
       </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
         <span
           className={cn(
-            "font-bold tabular-nums",
+            "font-bold tabular-nums tracking-tight",
             valueSize,
             onDark ? "text-white" : "text-foreground"
           )}
         >
-          {value}
+          {variant === "percent" ? `${Math.round(percent)}%` : value}
         </span>
-        <span
-          className={cn(
-            "text-[10px]",
-            onDark ? "text-blue-100/80" : "text-muted-foreground"
-          )}
-        >
-          / {max}
-        </span>
+        {variant === "fraction" && (
+          <span
+            className={cn(
+              "mt-0.5 text-[10px]",
+              onDark ? "text-blue-100/80" : "text-muted-foreground"
+            )}
+          >
+            / {max}
+          </span>
+        )}
+        {variant === "percent" && label && (
+          <span
+            className={cn(
+              "mt-0.5 text-[9px] font-semibold uppercase tracking-wide",
+              onDark ? "text-blue-100/70" : "text-muted-foreground"
+            )}
+          >
+            {label}
+          </span>
+        )}
       </div>
     </div>
   );

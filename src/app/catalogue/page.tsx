@@ -179,7 +179,7 @@ export default function CataloguePage() {
           </div>
 
           {/* ── CATALOGUE BUILDER ── */}
-          <div className="rounded-xl border bg-card shadow-sm overflow-hidden" id="catalogue-form">
+          <div className="rounded-xl border bg-card shadow-sm" id="catalogue-form">
             <div className="flex items-center gap-2 border-b bg-muted/30 px-5 py-3">
               <Sparkles className="size-4 text-primary" />
               <div>

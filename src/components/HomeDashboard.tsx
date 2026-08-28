@@ -113,14 +113,27 @@ export function HomeDashboard({ seller }: HomeDashboardProps) {
                     {seller.businessName} · {seller.city}
                   </p>
                 </div>
-                <div className="shrink-0 text-center">
-                  <CircularProgress value={data.matchScore} max={100} size={76} strokeWidth={6} />
-                  <p className="mt-1.5 text-[10px] font-semibold text-blue-100/70">
-                    {data.matchCount} tenders match
-                  </p>
-                  <Link href="/opportunities" className="mt-0.5 inline-flex items-center gap-0.5 text-[10px] font-semibold text-white hover:underline">
-                    View all <ArrowRight className="size-2.5" />
-                  </Link>
+                <div className="flex shrink-0 items-center justify-center sm:justify-end">
+                  <div className="flex flex-col items-center justify-center rounded-2xl border border-white/20 bg-white/10 px-5 py-4 backdrop-blur-md">
+                    <CircularProgress
+                      value={data.matchScore}
+                      max={100}
+                      size={84}
+                      strokeWidth={7}
+                      onDark
+                      variant="percent"
+                      label="Match"
+                    />
+                    <p className="mt-2 text-center text-[11px] font-semibold text-white/90">
+                      {data.matchCount} tenders match
+                    </p>
+                    <Link
+                      href="/opportunities"
+                      className="mt-1 inline-flex items-center gap-0.5 text-[10px] font-semibold text-blue-100 hover:text-white hover:underline"
+                    >
+                      View all <ArrowRight className="size-2.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </section>

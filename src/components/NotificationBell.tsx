@@ -84,8 +84,13 @@ export function NotificationBell() {
         refresh();
       }
     };
+    const onChange = () => refresh();
     window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
+    window.addEventListener("sahayak-notifications-changed", onChange);
+    return () => {
+      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("sahayak-notifications-changed", onChange);
+    };
   }, [refresh]);
 
   useEffect(() => {
@@ -121,11 +126,14 @@ export function NotificationBell() {
   }
 
   function handleDismiss(id: string) {
+    markNotificationRead(id);
     dismissNotification(id);
     setDismissedIds((current) => [...new Set([...current, id])]);
+    setReadIds(getReadIds());
   }
 
-  function handleOpenItem(notification: Notification) {
+  function handleRead(notification: Notification) {
+    if (readIds.includes(notification.id)) return;
     markNotificationRead(notification.id);
     setReadIds(getReadIds());
   }
@@ -137,18 +145,23 @@ export function NotificationBell() {
         type="button"
         variant="ghost"
         size="icon"
-        className="relative size-10 min-h-11 min-w-11"
+        className="relative size-10 min-h-11 min-w-11 overflow-visible"
         aria-label={`Notifications${unreadCount > 0 ? `, ${unreadCount} unread` : ""}`}
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={() => setOpen((value) => !value)}
       >
-        <Bell className="size-4" aria-hidden="true" />
-        {unreadCount > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 flex min-w-4 items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold text-white ring-2 ring-background">
-            {unreadCount > 9 ? "9+" : unreadCount}
-          </span>
-        )}
+        <span className="relative inline-flex items-center justify-center">
+          <Bell className="size-5" aria-hidden="true" />
+          {unreadCount > 0 && (
+            <span
+              className="pointer-events-none absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-destructive px-1 text-[10px] font-bold leading-none text-white shadow-sm ring-2 ring-background"
+              aria-hidden="true"
+            >
+              {unreadCount > 9 ? "9+" : unreadCount}
+            </span>
+          )}
+        </span>
       </Button>
 
       {open && (
@@ -157,11 +170,16 @@ export function NotificationBell() {
             ref={panelRef}
             role="dialog"
             aria-label="Notifications"
-            className="absolute top-full right-0 z-[60] mt-2 w-[calc(100vw-2rem)] max-w-[400px] overflow-hidden rounded-lg border bg-popover shadow-lg sm:w-[400px]"
+            className="absolute top-full right-0 z-[60] mt-2 w-[calc(100vw-2rem)] max-w-[400px] overflow-hidden rounded-xl border bg-popover shadow-lg sm:w-[400px]"
           >
             <div className="flex items-center justify-between border-b px-4 py-3">
-              <h2 className="text-sm font-semibold">Notifications</h2>
-              {visible.length > 0 && (
+              <div>
+                <h2 className="text-sm font-semibold">Notifications</h2>
+                {unreadCount > 0 && (
+                  <p className="text-[10px] text-muted-foreground">{unreadCount} unread</p>
+                )}
+              </div>
+              {visible.length > 0 && unreadCount > 0 && (
                 <Button type="button" variant="ghost" size="sm" onClick={handleMarkAllRead}>
                   Mark all read
                 </Button>
@@ -181,42 +199,60 @@ export function NotificationBell() {
                       <li
                         key={notification.id}
                         className={cn(
-                          "px-4 py-3",
+                          "px-4 py-3 transition-colors",
                           !isRead && "bg-primary/5"
                         )}
                       >
-                        <div className="flex gap-3">
-                          <NotificationRowIcon severity={notification.severity} />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-start justify-between gap-2">
-                              <p className="text-sm font-medium">{notification.title}</p>
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="icon-sm"
-                                aria-label={`Dismiss ${notification.title}`}
-                                onClick={() => handleDismiss(notification.id)}
+                        <div className="flex items-start gap-2">
+                          <button
+                            type="button"
+                            className="flex min-w-0 flex-1 gap-3 text-left"
+                            onClick={() => handleRead(notification)}
+                          >
+                            <NotificationRowIcon severity={notification.severity} />
+                            <div className="min-w-0 flex-1">
+                              <p
+                                className={cn(
+                                  "text-sm",
+                                  isRead ? "font-medium text-muted-foreground" : "font-semibold"
+                                )}
                               >
-                                <X className="size-3.5" aria-hidden="true" />
-                              </Button>
+                                {notification.title}
+                                {!isRead && (
+                                  <span className="ml-1.5 inline-block size-1.5 rounded-full bg-primary align-middle" />
+                                )}
+                              </p>
+                              <p className="mt-0.5 text-sm text-muted-foreground">
+                                {notification.message}
+                              </p>
+                              <p className="mt-1 text-xs text-muted-foreground">
+                                {formatNotificationTime(notification.timestamp)}
+                              </p>
                             </div>
-                            <p className="mt-0.5 text-sm text-muted-foreground">
-                              {notification.message}
-                            </p>
-                            <p className="mt-1 text-xs text-muted-foreground">
-                              {formatNotificationTime(notification.timestamp)}
-                            </p>
-                            {notification.action && (
-                              <Link
-                                href={notification.action.href}
-                                className="mt-2 inline-block text-sm font-medium text-primary underline underline-offset-2 hover:no-underline"
-                                onClick={() => handleOpenItem(notification)}
-                              >
-                                {notification.action.label}
-                              </Link>
-                            )}
-                          </div>
+                          </button>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon-sm"
+                            className="shrink-0"
+                            aria-label={`Dismiss ${notification.title}`}
+                            onClick={() => handleDismiss(notification.id)}
+                          >
+                            <X className="size-3.5" aria-hidden="true" />
+                          </Button>
                         </div>
+                        {notification.action && (
+                          <Link
+                            href={notification.action.href}
+                            className="mt-2 ml-11 inline-block text-sm font-medium text-primary underline underline-offset-2 hover:no-underline"
+                            onClick={() => {
+                              handleRead(notification);
+                              setOpen(false);
+                            }}
+                          >
+                            {notification.action.label}
+                          </Link>
+                        )}
                       </li>
                     );
                   })}

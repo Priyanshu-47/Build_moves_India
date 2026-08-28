@@ -131,49 +131,55 @@ export function OpportunitiesContent() {
         setReady(true);
       }}
     >
-      <PageShell wide className="space-y-5">
+      <PageShell wide className="space-y-6">
         {/* ── PAGE HEADER ── */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary">Tender discovery</p>
-            <h1 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">Find tenders that fit</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Ranked for {seller.businessName} — match score, deadlines, eligibility.
-            </p>
+        <section className="rounded-2xl border bg-card p-6 shadow-sm">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="space-y-1">
+              <p className="text-xs font-semibold uppercase tracking-widest text-primary">Tender discovery</p>
+              <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Find tenders that fit</h1>
+              <p className="max-w-xl text-sm text-muted-foreground">
+                Ranked for {seller.businessName} — match score, deadlines, eligibility.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 sm:justify-end">
+              <span className="rounded-xl bg-muted px-3 py-2 text-xs font-semibold">
+                <strong>{filteredBids.length}</strong> tenders
+              </span>
+              <span className="rounded-xl bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+                {pursueCount} worth pursuing
+              </span>
+              {closingCount > 0 && (
+                <span className="rounded-xl bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-400">
+                  {closingCount} closing soon
+                </span>
+              )}
+            </div>
           </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-muted-foreground"><strong className="text-foreground">{filteredBids.length}</strong> tenders</span>
-            <span className="text-muted-foreground">·</span>
-            <span className="text-emerald-600 font-semibold">{pursueCount} worth pursuing</span>
-            {closingCount > 0 && (
-              <><span className="text-muted-foreground">·</span><span className="text-amber-600 font-semibold">{closingCount} closing soon</span></>
-            )}
-          </div>
-        </div>
 
-        {/* ── STATUS TABS ── */}
-        <div className="flex flex-wrap items-center gap-2">
-          <button onClick={() => setView("bids")} className={cn("rounded-full px-4 py-2 text-sm font-semibold transition-all", view === "bids" ? "bg-primary text-primary-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-            <Target className="mr-1.5 inline size-3.5" />Tenders
-          </button>
-          <button onClick={() => setView("alerts")} className={cn("rounded-full px-4 py-2 text-sm font-semibold transition-all", view === "alerts" ? "bg-primary text-primary-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
-            <Bell className="mr-1.5 inline size-3.5" />Alerts
-          </button>
-        </div>
+          {/* Tabs inside header card */}
+          <div className="mt-5 flex flex-wrap items-center gap-2 border-t pt-5">
+            <button onClick={() => setView("bids")} className={cn("rounded-full px-4 py-2 text-sm font-semibold transition-all", view === "bids" ? "bg-primary text-primary-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+              <Target className="mr-1.5 inline size-3.5" />Tenders
+            </button>
+            <button onClick={() => setView("alerts")} className={cn("rounded-full px-4 py-2 text-sm font-semibold transition-all", view === "alerts" ? "bg-primary text-primary-foreground shadow-md" : "bg-muted text-muted-foreground hover:bg-muted/80")}>
+              <Bell className="mr-1.5 inline size-3.5" />Alerts
+            </button>
+          </div>
+        </section>
 
         {view === "bids" ? (
-          /* ── GRID LAYOUT: fixed sidebar + flexible main ── */
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_1fr]">
-            {/* ── FILTER SIDEBAR — fixed width, sticky, scrollable ── */}
-            <aside className="lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:space-y-5">
-              <div className="flex items-center justify-between">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
+            <aside className="rounded-2xl border bg-card p-5 shadow-sm lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:self-start lg:overflow-y-auto">
+              <div className="mb-5 flex items-center justify-between">
                 <p className="text-xs font-bold uppercase tracking-widest text-foreground">Filters</p>
                 {filtersActive && (
                   <button onClick={clearAllFilters} className="text-xs font-semibold text-primary hover:underline">Clear All</button>
                 )}
               </div>
 
-              <div className="space-y-1.5">
+              <div className="space-y-5">
+              <div className="space-y-2">
                 <p className="text-xs font-semibold text-foreground">Search</p>
                 <SearchBar
                   placeholder="Title, department, HSN…"
@@ -192,7 +198,7 @@ export function OpportunitiesContent() {
                 onClearFilter={(key, value) => setActiveFilters((current) => removeFilter(current, key, value))}
               />
 
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <p className="text-xs font-semibold text-foreground">Sort by</p>
                 <select
                   value={sortBy}
@@ -207,7 +213,7 @@ export function OpportunitiesContent() {
 
               <div className="space-y-2">
                 <p className="text-xs font-semibold text-foreground">Quick filter</p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {[
                     { key: "all" as BidTabValue, label: "All", count: rankedBids.length },
                     { key: "top" as BidTabValue, label: "Top", count: pursueCount },
@@ -226,10 +232,10 @@ export function OpportunitiesContent() {
                   ))}
                 </div>
               </div>
+              </div>
             </aside>
 
-            {/* ── BID LIST ── */}
-            <div className="min-w-0 space-y-3">
+            <div className="min-w-0 space-y-4">
               {filteredBids.length > 0 ? (
                 filteredBids.map(({ bid, match }) => (
                   <BidCard key={bid.id} bid={bid} match={match} />
@@ -258,7 +264,7 @@ export function OpportunitiesContent() {
             </div>
           </div>
         ) : (
-          <div className="rounded-xl border bg-card p-5 shadow-sm md:p-6">
+          <div className="rounded-2xl border bg-card p-6 shadow-sm">
             <BidAlertsPanel />
           </div>
         )}

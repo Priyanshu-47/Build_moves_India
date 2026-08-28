@@ -32,6 +32,11 @@ export type Notification = {
 const DISMISSED_KEY = "sahayak-notifications-dismissed";
 const READ_KEY = "sahayak-notifications-read";
 
+function emitNotificationChange(): void {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event("sahayak-notifications-changed"));
+}
+
 const bids = parseBids(bidsData);
 
 function getPayments(): PaymentOrder[] {
@@ -206,6 +211,7 @@ export function dismissNotification(id: string): void {
   const dismissed = new Set(getDismissedIds());
   dismissed.add(id);
   localStorage.setItem(DISMISSED_KEY, JSON.stringify([...dismissed]));
+  emitNotificationChange();
 }
 
 export function getReadIds(): string[] {
@@ -224,12 +230,14 @@ export function markNotificationRead(id: string): void {
   const read = new Set(getReadIds());
   read.add(id);
   localStorage.setItem(READ_KEY, JSON.stringify([...read]));
+  emitNotificationChange();
 }
 
 export function markAllNotificationsRead(ids: string[]): void {
   if (typeof window === "undefined") return;
   const read = new Set([...getReadIds(), ...ids]);
   localStorage.setItem(READ_KEY, JSON.stringify([...read]));
+  emitNotificationChange();
 }
 
 export function filterVisibleNotifications(

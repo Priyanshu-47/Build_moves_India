@@ -7,7 +7,6 @@ import {
   Circle,
   Package,
   ShoppingBag,
-  Truck,
 } from "lucide-react";
 
 import { getAccountOrders } from "@/lib/demo-data";
@@ -36,41 +35,56 @@ function formatDate(date: string): string {
 
 function statusLabel(status: Order["status"]): string {
   switch (status) {
-    case "delivered": return "Delivered";
-    case "in_transit": return "In Transit";
-    default: return "Confirmed";
+    case "delivered":
+      return "Delivered";
+    case "in_transit":
+      return "In Transit";
+    default:
+      return "Confirmed";
   }
 }
 
-function statusDot(status: Order["status"]): string {
+function statusAccent(status: Order["status"]): string {
   switch (status) {
-    case "delivered": return "bg-emerald-500";
-    case "in_transit": return "bg-blue-500";
-    default: return "bg-slate-400";
+    case "delivered":
+      return "border-l-emerald-500";
+    case "in_transit":
+      return "border-l-blue-500";
+    default:
+      return "border-l-slate-400";
   }
 }
 
 function statusBadge(status: Order["status"]): string {
   switch (status) {
-    case "delivered": return "status-badge status-badge--success";
-    case "in_transit": return "status-badge status-badge--info";
-    default: return "status-badge status-badge--neutral";
+    case "delivered":
+      return "status-badge status-badge--success";
+    case "in_transit":
+      return "status-badge status-badge--info";
+    default:
+      return "status-badge status-badge--neutral";
   }
 }
 
 function paymentBadge(status: Order["paymentStatus"]): string {
   switch (status) {
-    case "paid": return "status-badge status-badge--success";
-    case "pending": return "status-badge status-badge--warning";
-    default: return "status-badge status-badge--neutral";
+    case "paid":
+      return "status-badge status-badge--success";
+    case "pending":
+      return "status-badge status-badge--warning";
+    default:
+      return "status-badge status-badge--neutral";
   }
 }
 
 function paymentLabel(status: Order["paymentStatus"]): string {
   switch (status) {
-    case "paid": return "Paid";
-    case "pending": return "Pending";
-    default: return "Not Due";
+    case "paid":
+      return "Paid";
+    case "pending":
+      return "Pending";
+    default:
+      return "Not Due";
   }
 }
 
@@ -100,12 +114,6 @@ function getTimeline(order: Order) {
   ];
 }
 
-function progressPercent(order: Order): number {
-  const steps = getTimeline(order);
-  const done = steps.filter((s) => s.done).length;
-  return Math.round((done / steps.length) * 100);
-}
-
 export default function OrdersPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<OrderTab>("all");
@@ -114,8 +122,7 @@ export default function OrdersPage() {
   const summary = useMemo(() => {
     const totalRevenue = ordersData.reduce((sum, order) => sum + order.totalValue, 0);
     const pendingPayments = ordersData.filter((o) => o.paymentStatus === "pending").length;
-    const inTransit = ordersData.filter((o) => o.status === "in_transit").length;
-    return { totalOrders: ordersData.length, totalRevenue, pendingPayments, inTransit };
+    return { totalOrders: ordersData.length, totalRevenue, pendingPayments };
   }, [ordersData]);
 
   const filteredOrders = useMemo(() => {
@@ -123,77 +130,80 @@ export default function OrdersPage() {
     return ordersData.filter((o) => o.status === activeTab);
   }, [ordersData, activeTab]);
 
-  const tabCounts = useMemo(() => ({
-    all: ordersData.length,
-    confirmed: ordersData.filter((o) => o.status === "confirmed").length,
-    in_transit: ordersData.filter((o) => o.status === "in_transit").length,
-    delivered: ordersData.filter((o) => o.status === "delivered").length,
-  }), [ordersData]);
+  const tabCounts = useMemo(
+    () => ({
+      all: ordersData.length,
+      confirmed: ordersData.filter((o) => o.status === "confirmed").length,
+      in_transit: ordersData.filter((o) => o.status === "in_transit").length,
+      delivered: ordersData.filter((o) => o.status === "delivered").length,
+    }),
+    [ordersData]
+  );
 
   return (
-    <PageShell wide className="space-y-5">
-      {/* ── CLEAN PAGE HEADER — no gradient hero ── */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+    <PageShell className="space-y-4">
+      {/* Header */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary">
             Order fulfilment
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight sm:text-3xl">
-            My orders
-          </h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">My orders</h1>
+          <p className="text-sm text-muted-foreground leading-relaxed">
             Track deliveries, CRAC acceptance, and payment status.
           </p>
         </div>
-        <div className="flex items-center gap-3 text-sm">
-          <span className="text-muted-foreground">
-            <strong className="text-foreground">{summary.totalOrders}</strong> orders
+        <div className="flex flex-wrap gap-2">
+          <span className="rounded-full border bg-card px-4 py-2 text-xs font-semibold shadow-sm">
+            <strong>{summary.totalOrders}</strong> orders
           </span>
-          <span className="text-muted-foreground">·</span>
-          <span className="text-emerald-600 font-semibold">{formatCurrency(summary.totalRevenue)} revenue</span>
+          <span className="rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-700 shadow-sm dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-400">
+            {formatCurrency(summary.totalRevenue)} revenue
+          </span>
           {summary.pendingPayments > 0 && (
-            <>
-              <span className="text-muted-foreground">·</span>
-              <span className="text-amber-600 font-semibold">{summary.pendingPayments} pending</span>
-            </>
+            <span className="rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-semibold text-amber-700 shadow-sm dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-400">
+              {summary.pendingPayments} pending
+            </span>
           )}
         </div>
       </div>
 
-      {/* ── LOADLOGIC STATUS TABS — prominent pill tabs ── */}
-      <div className="flex flex-wrap items-center gap-2">
-        {([
-          { key: "all" as OrderTab, label: "All orders" },
-          { key: "confirmed" as OrderTab, label: "Confirmed" },
-          { key: "in_transit" as OrderTab, label: "In Transit" },
-          { key: "delivered" as OrderTab, label: "Delivered" },
-        ]).map(({ key, label }) => (
+      {/* Filter tabs */}
+      <div className="flex flex-wrap gap-2">
+        {(
+          [
+            { key: "all" as OrderTab, label: "All orders" },
+            { key: "confirmed" as OrderTab, label: "Confirmed" },
+            { key: "in_transit" as OrderTab, label: "In Transit" },
+            { key: "delivered" as OrderTab, label: "Delivered" },
+          ] as const
+        ).map(({ key, label }) => (
           <button
             key={key}
+            type="button"
             onClick={() => setActiveTab(key)}
             className={cn(
-              "rounded-full px-4 py-2 text-sm font-semibold transition-all",
+              "rounded-full px-5 py-2.5 text-sm font-semibold transition-all",
               activeTab === key
                 ? "bg-primary text-primary-foreground shadow-md"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                : "border bg-card text-muted-foreground hover:bg-muted/50"
             )}
           >
             {label}
-            <span className={cn(
-              "ml-1.5 rounded-full px-1.5 py-0.5 text-[10px] font-bold",
-              activeTab === key
-                ? "bg-white/20"
-                : "bg-border text-muted-foreground"
-            )}>
+            <span
+              className={cn(
+                "ml-1.5 rounded-full px-2 py-0.5 text-[10px] font-bold",
+                activeTab === key ? "bg-white/20" : "bg-muted"
+              )}
+            >
               {tabCounts[key]}
             </span>
           </button>
         ))}
       </div>
 
-      {/* ── LOADLOGIC-STYLE TABLE ── */}
       {ordersData.length === 0 ? (
-        <div className="rounded-xl border-2 border-dashed border-muted-foreground/20 bg-card p-8 text-center">
+        <div className="rounded-2xl border-2 border-dashed border-muted-foreground/20 bg-card p-10 text-center">
           <EmptyState
             icon={ShoppingBag}
             title="No orders yet"
@@ -205,135 +215,127 @@ export default function OrdersPage() {
           />
         </div>
       ) : (
-        <div className="rounded-xl border bg-card shadow-sm overflow-hidden">
-          {/* Table header — LoadLogic style */}
-          <div className="hidden border-b bg-muted/30 md:grid md:grid-cols-12 gap-4 px-5 py-2.5">
-            <div className="col-span-4 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Order</div>
-            <div className="col-span-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Department</div>
-            <div className="col-span-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Value</div>
-            <div className="col-span-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Date</div>
-            <div className="col-span-2 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Status</div>
-            <div className="col-span-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Pay</div>
+        <div className="space-y-5">
+          {/* Column headers */}
+          <div className="hidden px-5 md:grid md:grid-cols-12 md:gap-4">
+            <div className="col-span-5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
+              Order Details
+            </div>
+            <div className="col-span-3 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
+              Department
+            </div>
+            <div className="col-span-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
+              Value & Date
+            </div>
+            <div className="col-span-2 text-right text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70">
+              Status
+            </div>
           </div>
 
+          {/* Order cards */}
           {filteredOrders.map((order) => {
             const expanded = expandedId === order.id;
-            const progress = progressPercent(order);
             return (
-              <div key={order.id} className="border-b last:border-b-0">
+              <div key={order.id} className="space-y-0">
                 <button
                   type="button"
-                  className="w-full text-left transition-colors hover:bg-muted/20 md:px-5 md:py-3.5"
                   onClick={() => setExpandedId(expanded ? null : order.id)}
+                  className={cn(
+                    "w-full rounded-2xl border border-l-[3px] bg-card p-5 text-left shadow-sm transition hover:shadow-md md:px-6 md:py-5",
+                    statusAccent(order.status)
+                  )}
                   aria-expanded={expanded}
                 >
                   {/* Mobile */}
-                  <div className="space-y-2 p-4 md:hidden">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <p className="text-sm font-bold truncate">{order.bidTitle}</p>
-                        <p className="text-xs text-muted-foreground">{order.department}</p>
+                  <div className="space-y-3 md:hidden">
+                    <div className="flex items-start gap-3">
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted">
+                        <Package className="size-5 text-muted-foreground" />
                       </div>
-                      <span className={statusBadge(order.status)}>
-                        <span className={cn("size-1.5 rounded-full", statusDot(order.status))} />
-                        {statusLabel(order.status)}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                      <span className="font-semibold text-foreground tabular-nums">{formatCurrency(order.totalValue)}</span>
-                      <span>·</span>
-                      <span>{formatDate(order.orderDate)}</span>
-                      <span>·</span>
-                      <span className={paymentBadge(order.paymentStatus)}>{paymentLabel(order.paymentStatus)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="progress-track flex-1">
-                        <div className={cn("progress-fill", progress === 100 ? "bg-emerald-500" : "bg-primary")} style={{ width: `${progress}%` }} />
+                      <div className="min-w-0 flex-1">
+                        <p className="font-bold leading-snug">{order.bidTitle}</p>
+                        <p className="text-xs text-muted-foreground">{order.id}</p>
                       </div>
-                      <span className="text-[10px] font-semibold tabular-nums text-muted-foreground">{progress}%</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">{order.department}</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-bold tabular-nums">{formatCurrency(order.totalValue)}</p>
+                        <p className="text-xs text-muted-foreground">{formatDate(order.orderDate)}</p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={statusBadge(order.status)}>{statusLabel(order.status)}</span>
+                        <span className={cn(paymentBadge(order.paymentStatus), "gap-1")}>
+                          {paymentLabel(order.paymentStatus)}
+                          <ChevronDown className={cn("size-3", expanded && "rotate-180")} />
+                        </span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Desktop — LoadLogic table row */}
+                  {/* Desktop */}
                   <div className="hidden md:grid md:grid-cols-12 md:items-center md:gap-4">
-                    <div className="col-span-4 flex items-center gap-2.5 min-w-0">
-                      <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted">
-                        <Package className="size-4 text-muted-foreground" />
+                    <div className="col-span-5 flex items-center gap-3">
+                      <div className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted">
+                        <Package className="size-5 text-muted-foreground" />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-bold truncate">{order.bidTitle}</p>
-                        <p className="text-[10px] text-muted-foreground">{order.id}</p>
+                        <p className="truncate font-bold">{order.bidTitle}</p>
+                        <p className="text-xs text-muted-foreground">{order.id}</p>
                       </div>
                     </div>
-                    <div className="col-span-2 text-xs text-muted-foreground truncate">{order.department}</div>
-                    <div className="col-span-1 text-xs font-semibold tabular-nums">{formatCurrency(order.totalValue)}</div>
-                    <div className="col-span-1 text-[10px] text-muted-foreground">{formatDate(order.orderDate)}</div>
-                    <div className="col-span-2 flex items-center gap-2">
-                      <span className={statusBadge(order.status)}>
-                        <span className={cn("size-1.5 rounded-full", statusDot(order.status))} />
-                        {statusLabel(order.status)}
-                      </span>
-                      <div className="progress-track w-16">
-                        <div className={cn("progress-fill", progress === 100 ? "bg-emerald-500" : "bg-primary")} style={{ width: `${progress}%` }} />
-                      </div>
-                      <span className="text-[10px] font-semibold tabular-nums text-muted-foreground">{progress}%</span>
+                    <div className="col-span-3">
+                      <p className="truncate text-sm text-muted-foreground">{order.department}</p>
                     </div>
-                    <div className="col-span-1 flex items-center justify-between">
-                      <span className={paymentBadge(order.paymentStatus)}>
+                    <div className="col-span-2">
+                      <p className="font-bold tabular-nums">{formatCurrency(order.totalValue)}</p>
+                      <p className="text-xs text-muted-foreground">{formatDate(order.orderDate)}</p>
+                    </div>
+                    <div className="col-span-2 flex items-center justify-end gap-2">
+                      <span className={statusBadge(order.status)}>{statusLabel(order.status)}</span>
+                      <span className={cn(paymentBadge(order.paymentStatus), "gap-1")}>
                         {paymentLabel(order.paymentStatus)}
+                        <ChevronDown
+                          className={cn("size-3 transition-transform", expanded && "rotate-180")}
+                        />
                       </span>
-                      <ChevronDown className={cn("size-4 text-muted-foreground transition-transform", expanded && "rotate-180")} />
                     </div>
                   </div>
                 </button>
 
-                {/* ── EXPANDED DETAIL ── */}
                 {expanded && (
-                  <div className="border-t bg-muted/10 px-5 py-4 slide-in-forward">
-                    <div className="grid gap-4 md:grid-cols-12">
-                      <div className="md:col-span-5">
-                        <p className="mb-2 text-xs font-bold">Delivery timeline</p>
-                        <ol className="relative ml-1.5 space-y-0 border-l-2 border-muted">
-                          {getTimeline(order).map((step) => (
-                            <li key={step.label} className="relative flex gap-2.5 pb-3 pl-4 last:pb-0">
-                              <span className="absolute -left-[7px] top-0.5 bg-card">
-                                {step.done ? (
-                                  <CheckCircle2 className="size-3.5 text-emerald-500" />
-                                ) : (
-                                  <Circle className="size-3.5 text-muted-foreground/40" />
-                                )}
-                              </span>
-                              <div>
-                                <span className={cn("text-[11px]", step.done ? "font-medium" : "text-muted-foreground")}>{step.label}</span>
-                                {step.date && <p className="text-[9px] text-muted-foreground">{formatDate(step.date)}</p>}
-                              </div>
-                            </li>
-                          ))}
-                        </ol>
-                      </div>
-                      <div className="md:col-span-7 space-y-2">
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          <div className="rounded-lg bg-muted/40 p-2.5">
-                            <p className="text-[10px] text-muted-foreground">Quantity</p>
-                            <p className="font-semibold">{order.quantity} × {formatCurrency(order.unitPrice)}</p>
-                          </div>
-                          <div className="rounded-lg bg-muted/40 p-2.5">
-                            <p className="text-[10px] text-muted-foreground">Total value</p>
-                            <p className="font-semibold">{formatCurrency(order.totalValue)}</p>
-                          </div>
-                          <div className="rounded-lg bg-muted/40 p-2.5">
-                            <p className="text-[10px] text-muted-foreground">CRAC</p>
-                            <p className="font-semibold">
-                              {order.cracGenerated ? <span className="text-emerald-600">Generated ✓</span> : <span className="text-amber-600">Pending</span>}
+                  <div className="mt-2 rounded-2xl border bg-muted/20 p-5">
+                    <p className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                      Delivery timeline
+                    </p>
+                    <ol className="relative ml-2 space-y-0 border-l-2 border-muted">
+                      {getTimeline(order).map((step) => (
+                        <li key={step.label} className="relative flex gap-3 pb-4 pl-5 last:pb-0">
+                          <span className="absolute -left-[9px] top-0.5 bg-muted/20">
+                            {step.done ? (
+                              <CheckCircle2 className="size-4 text-emerald-500" />
+                            ) : (
+                              <Circle className="size-4 text-muted-foreground/40" />
+                            )}
+                          </span>
+                          <div>
+                            <p
+                              className={cn(
+                                "text-sm",
+                                step.done ? "font-medium" : "text-muted-foreground"
+                              )}
+                            >
+                              {step.label}
                             </p>
+                            {step.date && (
+                              <p className="text-xs text-muted-foreground">
+                                {formatDate(step.date)}
+                              </p>
+                            )}
                           </div>
-                          <div className="rounded-lg bg-muted/40 p-2.5">
-                            <p className="text-[10px] text-muted-foreground">Payment</p>
-                            <span className={paymentBadge(order.paymentStatus)}>{paymentLabel(order.paymentStatus)}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                        </li>
+                      ))}
+                    </ol>
                   </div>
                 )}
               </div>
@@ -341,6 +343,17 @@ export default function OrdersPage() {
           })}
         </div>
       )}
+
+      {/* Disclaimer */}
+      <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50/60 px-4 py-3 text-xs text-amber-800 dark:border-amber-800 dark:bg-amber-950/20 dark:text-amber-200">
+        <span className="mt-0.5 text-sm">ℹ️</span>
+        <div className="space-y-0.5">
+          <p className="font-medium">Not affiliated with GeM. Prototype data for demonstration.</p>
+          <p className="text-[10px] text-amber-600 dark:text-amber-400">
+            Statistics: Source: Business Standard, Apr 2026. Legal claims: Source: MSMED Act 2006, RBI Dec 2025.
+          </p>
+        </div>
+      </div>
     </PageShell>
   );
 }
