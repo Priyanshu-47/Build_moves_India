@@ -209,7 +209,7 @@ export function LandingPage() {
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-medium text-primary">
               <Sparkles className="size-4" aria-hidden="true" />
-              Built for India&apos;s 51 Lakh MSE sellers
+              Built for India&apos;s MSE sellers
             </div>
             <h1 className="text-4xl font-extrabold leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-6xl xl:text-7xl">
               Don&apos;t just find tenders.{" "}
