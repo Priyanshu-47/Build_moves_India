@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Factory, LineChart } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,10 +24,18 @@ export function UdyamQualificationCheck() {
   const category = valid ? classifyUdyamInvestment(investmentCr, turnoverCr) : null;
 
   return (
-    <div className="space-y-3 rounded-lg border bg-muted/30 p-4">
-      <div className="grid gap-3 sm:grid-cols-2">
-        <div className="space-y-2">
-          <Label htmlFor="investment">Plant & machinery investment (₹ Crore)</Label>
+    <div className="space-y-4">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl border bg-muted/25 p-4">
+          <Label
+            htmlFor="investment"
+            className="mb-2 flex items-center gap-2 text-xs font-semibold text-foreground"
+          >
+            <span className="flex size-8 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+              <Factory className="size-4" aria-hidden="true" />
+            </span>
+            Plant &amp; machinery investment (₹ Crore)
+          </Label>
           <Input
             id="investment"
             type="number"
@@ -35,10 +44,24 @@ export function UdyamQualificationCheck() {
             placeholder="e.g. 0.8"
             value={investment}
             onChange={(event) => setInvestment(event.target.value)}
+            className="mt-2 h-11 rounded-xl bg-background"
           />
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            Micro: investment ≤ ₹{MICRO_INVESTMENT_LIMIT_CR} Cr, turnover ≤ ₹
+            {MICRO_TURNOVER_LIMIT_CR} Cr
+          </p>
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="turnover">Annual turnover (₹ Crore, optional)</Label>
+
+        <div className="rounded-2xl border bg-muted/25 p-4">
+          <Label
+            htmlFor="turnover"
+            className="mb-2 flex items-center gap-2 text-xs font-semibold text-foreground"
+          >
+            <span className="flex size-8 items-center justify-center rounded-lg bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-400">
+              <LineChart className="size-4" aria-hidden="true" />
+            </span>
+            Annual turnover (₹ Crore, optional)
+          </Label>
           <Input
             id="turnover"
             type="number"
@@ -47,15 +70,22 @@ export function UdyamQualificationCheck() {
             placeholder="e.g. 3.5"
             value={turnover}
             onChange={(event) => setTurnover(event.target.value)}
+            className="mt-2 h-11 rounded-xl bg-background"
           />
+          <p className="mt-2 text-[11px] text-muted-foreground">
+            Small: investment ≤ ₹{SMALL_INVESTMENT_LIMIT_CR} Cr, turnover ≤ ₹
+            {SMALL_TURNOVER_LIMIT_CR} Cr
+          </p>
         </div>
       </div>
 
       {valid && category && (
         <p
           className={cn(
-            "text-sm font-medium",
-            category === "not_eligible" ? "text-destructive" : "text-green-700 dark:text-green-400"
+            "rounded-xl px-4 py-3 text-sm font-medium",
+            category === "not_eligible"
+              ? "bg-rose-50 text-rose-800 dark:bg-rose-950/30 dark:text-rose-200"
+              : "bg-emerald-50 text-emerald-800 dark:bg-emerald-950/30 dark:text-emerald-200"
           )}
         >
           {category === "micro" &&
@@ -66,12 +96,6 @@ export function UdyamQualificationCheck() {
             `Exceeds MSME limits (investment > ₹${SMALL_INVESTMENT_LIMIT_CR} Cr or turnover > ₹${SMALL_TURNOVER_LIMIT_CR} Cr). Verify with latest Udyam norms.`}
         </p>
       )}
-
-      <p className="text-xs text-muted-foreground">
-        Micro: investment ≤ ₹{MICRO_INVESTMENT_LIMIT_CR} Cr, turnover ≤ ₹{MICRO_TURNOVER_LIMIT_CR}{" "}
-        Cr · Small: investment ≤ ₹{SMALL_INVESTMENT_LIMIT_CR} Cr, turnover ≤ ₹
-        {SMALL_TURNOVER_LIMIT_CR} Cr
-      </p>
     </div>
   );
 }

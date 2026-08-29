@@ -175,7 +175,7 @@ export function buildFilterGroups(bids: BidOpportunity[]): {
     },
     {
       key: "valueRange",
-      label: "Value",
+      label: "Value (₹)",
       options: [
         { value: "0-5", label: "0–5L" },
         { value: "5-20", label: "5–20L" },
@@ -189,11 +189,11 @@ export function buildFilterGroups(bids: BidOpportunity[]): {
     },
     {
       key: "closingWithin",
-      label: "Closing",
+      label: "Closing in",
       options: [
         { value: "7", label: "7 days" },
         { value: "14", label: "14 days" },
-        { value: "30", label: "30 days" },
+        { value: "30", label: "30 days+" },
       ],
     },
   ];

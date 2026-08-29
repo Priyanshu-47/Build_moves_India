@@ -104,9 +104,9 @@ export default function AlertsPage() {
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
         <div>
-          <button type="button" onClick={() => window.history.back()} className="mb-1 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition">
-            <ArrowLeft className="size-3" /> Back
-          </button>
+          <Link href="/" className="mb-1 inline-flex items-center gap-1 text-xs text-muted-foreground transition hover:text-foreground">
+            <ArrowLeft className="size-3" aria-hidden="true" /> Back
+          </Link>
           <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl">Notifications</h1>
           <p className="mt-1 text-sm text-muted-foreground">Time-sensitive alerts for payments, tenders, and compliance.</p>
         </div>

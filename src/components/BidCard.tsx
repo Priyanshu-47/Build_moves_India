@@ -1,9 +1,17 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { Calendar, IndianRupee, MapPin, Package, Play, FileText } from "lucide-react";
+import {
+  Bookmark,
+  Calendar,
+  MapPin,
+  Package,
+  Play,
+  FileText,
+} from "lucide-react";
 
 import { MatchScore } from "@/components/MatchScore";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { BidOpportunity, MatchResult } from "@/lib/schemas";
 import { getToday } from "@/lib/rules/msme-rights";
 import { cn } from "@/lib/utils";
@@ -37,119 +45,135 @@ function daysUntilDeadline(deadline: string): number {
 }
 
 function matchBorderColor(score: number): string {
-  if (score > 80) return "border-l-green-500";
+  if (score > 80) return "border-l-emerald-500";
   if (score >= 60) return "border-l-amber-500";
-  return "border-l-red-500";
-}
-
-function statusLabel(status: BidOpportunity["status"]): string {
-  return status === "closing_soon" ? "Closing Soon" : "Open";
+  return "border-l-rose-500";
 }
 
 export function BidCard({ bid, match, className }: BidCardProps) {
+  const [bookmarked, setBookmarked] = useState(false);
   const daysLeft = daysUntilDeadline(bid.deadline);
-  const isLocal = bid.location.state.toLowerCase().includes("rajasthan") ||
-    bid.location.city.toLowerCase().includes("jaipur");
+  const isLocal =
+    bid.location.state.toLowerCase().includes("rajasthan") ||
+    bid.location.city.toLowerCase().includes("jaipur") ||
+    bid.location.state.toLowerCase().includes("uttar pradesh");
 
   return (
-    <Card
+    <article
       className={cn(
-        "border-l-4 transition-all duration-200 hover:scale-[1.01] hover:shadow-md",
+        "relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-sm transition hover:shadow-md",
+        "border-l-[3px]",
         matchBorderColor(match.matchScore),
         className
       )}
     >
-      <CardContent className="relative flex gap-3 pt-4 sm:gap-4">
-        <div className="absolute top-3 right-3">
-          <MatchScore
-            score={match.matchScore}
-            dimensions={match.dimensions}
-            className="shrink-0"
-          />
-        </div>
-
-        <div className="min-w-0 flex-1 space-y-3 pr-16">
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-start gap-2">
+      <div className="p-5 sm:p-6">
+        <div className="flex gap-4">
+          <div className="min-w-0 flex-1">
+            <div className="pr-14 sm:pr-20">
               <Link
                 href={`/opportunities/${bid.id}`}
-                className="text-base font-bold leading-snug break-words outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring"
+                className="text-base font-bold leading-snug text-foreground outline-none hover:text-primary focus-visible:ring-2 focus-visible:ring-ring sm:text-lg"
               >
                 {bid.title}
               </Link>
+              <p className="mt-1 text-sm text-muted-foreground">{bid.department}</p>
             </div>
-            <p className="text-sm text-muted-foreground">{bid.department}</p>
 
-            <div className="flex flex-wrap gap-1.5">
+            <div className="mt-3 flex flex-wrap gap-1.5">
               {bid.status === "closing_soon" && (
-                <Badge variant="destructive">Closing Soon</Badge>
+                <span className="inline-flex items-center rounded-full bg-rose-50 px-2.5 py-0.5 text-[11px] font-semibold text-rose-600 ring-1 ring-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:ring-rose-800">
+                  Closing Soon
+                </span>
               )}
               {bid.mseReserved && (
-                <Badge className="bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300">
+                <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:ring-emerald-800">
                   MSE Reserved
-                </Badge>
-              )}
-              {daysLeft <= 7 && daysLeft > 0 && (
-                <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
-                  {daysLeft} day{daysLeft !== 1 ? "s" : ""} left
-                </Badge>
+                </span>
               )}
               {isLocal && (
-                <Badge variant="outline" className="border-blue-300 text-blue-700">
+                <span className="inline-flex items-center rounded-full bg-sky-50 px-2.5 py-0.5 text-[11px] font-semibold text-sky-700 ring-1 ring-sky-200 dark:bg-sky-950/40 dark:text-sky-300 dark:ring-sky-800">
                   Local Delivery
-                </Badge>
+                </span>
               )}
               {bid.status === "open" && daysLeft > 7 && (
-                <Badge variant="secondary">{statusLabel(bid.status)}</Badge>
+                <span className="inline-flex items-center rounded-full bg-slate-50 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600 ring-1 ring-slate-200 dark:bg-slate-900 dark:text-slate-300 dark:ring-slate-700">
+                  Open
+                </span>
               )}
             </div>
 
-            <p className="flex items-center gap-1 text-sm text-muted-foreground">
+            <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
               <MapPin className="size-3.5 shrink-0" aria-hidden="true" />
               {bid.location.city}, {bid.location.state}
             </p>
+
+            {/* Qty · Value · Deadline */}
+            <div className="mt-4 grid gap-3 sm:grid-cols-3 sm:items-end">
+              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                <Package className="size-3.5 shrink-0" aria-hidden="true" />
+                <span>
+                  {bid.quantity.toLocaleString("en-IN")} {bid.unit}
+                </span>
+              </div>
+              <div>
+                <p className="text-base font-bold tabular-nums text-foreground">
+                  {formatCurrency(bid.estimatedValue)}
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">Estimated Value</p>
+              </div>
+              <div>
+                <p className="flex items-center gap-1.5 text-sm font-medium text-foreground">
+                  <Calendar className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
+                  {formatDeadline(bid.deadline)}
+                  {daysLeft > 0 && (
+                    <span className="text-xs font-semibold text-amber-600">
+                      ({daysLeft}d left)
+                    </span>
+                  )}
+                </p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">Deadline</p>
+              </div>
+            </div>
+
+            <div className="mt-5 flex flex-wrap gap-2.5">
+              <Link
+                href={`/simulate?bid=${bid.id}`}
+                className="inline-flex h-10 items-center gap-1.5 rounded-full border border-border bg-background px-4 text-sm font-semibold text-foreground transition hover:bg-muted"
+              >
+                <Play className="size-3.5" aria-hidden="true" />
+                Simulate
+              </Link>
+              <Link
+                href={`/opportunities/${bid.id}`}
+                className="inline-flex h-10 items-center gap-1.5 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-sm transition hover:bg-primary/90"
+              >
+                <FileText className="size-3.5" aria-hidden="true" />
+                Bid Prep
+              </Link>
+            </div>
           </div>
 
-          <div className="grid gap-2 text-sm sm:grid-cols-3">
-            <p className="flex items-center gap-1.5">
-              <Package className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
-              {bid.quantity.toLocaleString("en-IN")} {bid.unit}
-            </p>
-            <p className="flex items-center gap-1.5 font-semibold text-foreground">
-              <IndianRupee className="size-3.5 shrink-0 text-primary" aria-hidden="true" />
-              {formatCurrency(bid.estimatedValue)}
-            </p>
-            <p className="flex items-center gap-1.5">
-              <Calendar className="size-3.5 shrink-0 text-muted-foreground" aria-hidden="true" />
-              <span>
-                {formatDeadline(bid.deadline)}
-                {daysLeft > 0 && (
-                  <span className="ml-1 text-xs text-amber-600">
-                    ({daysLeft}d left)
-                  </span>
-                )}
-              </span>
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2 pt-1">
-            <Link
-              href={`/simulate?bid=${bid.id}`}
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border px-3 text-sm font-medium transition-all duration-200 hover:bg-muted"
+          {/* Match + bookmark */}
+          <div className="flex shrink-0 flex-col items-end gap-2">
+            <button
+              type="button"
+              onClick={() => setBookmarked((v) => !v)}
+              className={cn(
+                "flex size-8 items-center justify-center rounded-lg text-muted-foreground transition hover:bg-muted hover:text-foreground",
+                bookmarked && "text-primary"
+              )}
+              aria-label={bookmarked ? "Remove bookmark" : "Bookmark tender"}
             >
-              <Play className="size-3.5" aria-hidden="true" />
-              Simulate
-            </Link>
-            <Link
-              href={`/opportunities/${bid.id}`}
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-lg gradient-cta px-3 text-sm font-medium text-white"
-            >
-              <FileText className="size-3.5" aria-hidden="true" />
-              Bid Prep
-            </Link>
+              <Bookmark
+                className={cn("size-4", bookmarked && "fill-primary")}
+                aria-hidden="true"
+              />
+            </button>
+            <MatchScore score={match.matchScore} dimensions={match.dimensions} />
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </article>
   );
 }

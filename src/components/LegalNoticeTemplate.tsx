@@ -105,27 +105,40 @@ export function LegalNoticeTemplate() {
   }
 
   return (
-    <div className="space-y-3 print-content print-expand">
-      <pre className="max-h-64 overflow-auto rounded-lg border bg-muted/40 p-4 text-xs leading-relaxed whitespace-pre-wrap">
+    <div className="space-y-4 print-content print-expand">
+      <pre className="max-h-56 overflow-auto rounded-xl border bg-muted/35 p-4 font-mono text-xs leading-relaxed whitespace-pre-wrap text-foreground">
         {SAMPLE_NOTICE}
       </pre>
       <div className="flex flex-wrap gap-2">
-        <Button type="button" size="sm" onClick={() => setGenerated(true)}>
+        <Button
+          type="button"
+          size="sm"
+          className="h-9 rounded-full px-4"
+          onClick={() => setGenerated(true)}
+        >
           Generate notice
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={() => downloadNotice(SAMPLE_NOTICE)}>
-          <Download className="size-4" aria-hidden="true" />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-4"
+          onClick={() => downloadNotice(SAMPLE_NOTICE)}
+        >
+          <Download className="size-3.5" aria-hidden="true" />
           Download as .txt
         </Button>
-        <Button type="button" variant="outline" size="sm" onClick={handleCopy}>
-          <Copy className="size-4" aria-hidden="true" />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="h-9 rounded-full px-4"
+          onClick={handleCopy}
+        >
+          <Copy className="size-3.5" aria-hidden="true" />
           {copied ? "Copied!" : "Copy to clipboard"}
         </Button>
       </div>
-      <p className="text-xs text-muted-foreground">
-        Template pre-filled with mock order data for demonstration. Consult a legal professional
-        before sending.
-      </p>
     </div>
   );
 }
