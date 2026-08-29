@@ -99,7 +99,7 @@ export default function ProfilePage() {
 
   function handleLogout() {
     logout();
-    router.replace("/");
+    window.location.replace("/welcome");
   }
 
   const capacityPercent = Math.min(100, Math.round((seller.monthlyCapacity / 67) * 100));

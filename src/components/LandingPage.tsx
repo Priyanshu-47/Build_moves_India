@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
   ArrowRight,
   Briefcase,
-  CheckCircle2,
   IndianRupee,
   Scale,
   Search,
@@ -31,7 +30,7 @@ function getInitials(name: string): string {
   return name.split(" ").map((p) => p[0]).join("").slice(0, 2).toUpperCase();
 }
 
-function DemoUserDropdown() {
+function DemoUserDropdown({ compact = false }: { compact?: boolean }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const accounts = getDemoAccounts();
@@ -49,8 +48,9 @@ function DemoUserDropdown() {
         type="button"
         onClick={() => setOpen(!open)}
         className={cn(
-          buttonVariants({ size: "lg" }),
-          "gradient-cta h-12 border-0 px-8 text-base text-white shadow-lg shadow-primary/25"
+          buttonVariants({ size: compact ? "sm" : "lg" }),
+          "gradient-cta border-0 text-white shadow-lg shadow-primary/25",
+          compact ? "h-9 rounded-xl px-4 text-sm" : "h-12 px-8 text-base"
         )}
       >
         Try a demo account
@@ -118,9 +118,7 @@ function LandingNav() {
             Impact
           </a>
         </div>
-        <div className="flex items-center gap-2">
-          <DemoUserDropdown />
-        </div>
+        <DemoUserDropdown compact />
       </nav>
     </header>
   );
@@ -223,23 +221,6 @@ export function LandingPage() {
               Sahayak is your GeM co-pilot — from registration to payment. Match scoring,
               bid readiness, and MSMED payment protection in one place.
             </p>
-            <div className="flex flex-wrap items-center gap-3">
-              <DemoUserDropdown />
-              <Link
-                href="/onboarding"
-                className={cn(buttonVariants({ variant: "outline", size: "lg" }), "h-12 px-8")}
-              >
-                How it works
-              </Link>
-            </div>
-            <div className="flex flex-wrap gap-6 pt-2 text-sm">
-              {["No credit card", "4-min setup", "GeM-compliant"].map((item) => (
-                <span key={item} className="flex items-center gap-1.5 text-muted-foreground">
-                  <CheckCircle2 className="size-4 text-emerald-600" aria-hidden="true" />
-                  {item}
-                </span>
-              ))}
-            </div>
           </div>
           <div className="relative lg:pl-8">
             <ProductMockup />
@@ -398,11 +379,20 @@ export function LandingPage() {
             Ready to transform your GeM journey?
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-blue-100/90">
-            Join thousands of MSE sellers. No registration needed — try a demo account in 30
-            seconds.
+            Join thousands of MSE sellers. Pick a demo account from the top bar, or read the
+            full judge brief on how Sahayak works.
           </p>
           <div className="mt-8">
-            <DemoUserDropdown />
+            <Link
+              href="/how-it-works"
+              className={cn(
+                buttonVariants({ size: "lg" }),
+                "h-12 border-0 bg-white px-8 text-base font-semibold text-primary hover:bg-white/90"
+              )}
+            >
+              How Sahayak works
+              <ArrowRight className="ml-2 size-4" />
+            </Link>
           </div>
         </div>
       </section>

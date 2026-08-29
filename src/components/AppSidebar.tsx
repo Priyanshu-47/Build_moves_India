@@ -103,10 +103,10 @@ export function AppSidebar() {
           <div className="rounded-xl bg-gradient-to-br from-primary/10 to-blue-500/5 p-4">
             <p className="text-xs font-semibold text-primary">Need help?</p>
             <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
-              Explore the onboarding walkthrough or visit Impact to see what Sahayak can do.
+              Read the full Sahayak brief — pain points, features, and economic impact.
             </p>
             <Link
-              href="/onboarding"
+              href="/how-it-works"
               className="mt-3 inline-block text-xs font-semibold text-primary underline-offset-2 hover:underline"
             >
               How Sahayak works →

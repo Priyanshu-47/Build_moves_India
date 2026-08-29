@@ -73,7 +73,7 @@ export default function SettingsPage() {
     localStorage.clear();
     clearSeller();
     logout();
-    router.replace("/");
+    window.location.replace("/welcome");
   }
 
   function handlePrint() {

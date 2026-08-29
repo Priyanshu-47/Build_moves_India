@@ -12,7 +12,7 @@ import { MobileNav } from "@/components/MobileNav";
 import { NotificationBell } from "@/components/NotificationBell";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const PUBLIC_PATHS = ["/login", "/welcome", "/onboarding"];
+const PUBLIC_PATHS = ["/login", "/welcome", "/onboarding", "/how-it-works"];
 
 type AppShellProps = {
   children: React.ReactNode;

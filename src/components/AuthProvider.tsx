@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { isLoggedIn } from "@/lib/auth";
 
-const PUBLIC_PATHS = ["/login", "/welcome", "/onboarding"];
+const PUBLIC_PATHS = ["/login", "/welcome", "/onboarding", "/how-it-works"];
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -21,14 +21,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
   );
 
   useEffect(() => {
-    const loggedIn = isLoggedIn();
-
-    if (!loggedIn && !isPublic) {
+    // Sign-in route disabled — demo accounts cover auth
+    if (pathname === "/login" || pathname.startsWith("/login/")) {
+      setReady(false);
       router.replace("/welcome");
       return;
     }
 
-    if (loggedIn && (pathname === "/login" || pathname === "/welcome" || pathname === "/onboarding")) {
+    const loggedIn = isLoggedIn();
+
+    if (!loggedIn && !isPublic) {
+      setReady(false);
+      router.replace("/welcome");
+      return;
+    }
+
+    if (loggedIn && (pathname === "/welcome" || pathname === "/onboarding")) {
+      setReady(false);
       router.replace("/");
       return;
     }

@@ -108,6 +108,17 @@ export function isLoggedIn(): boolean {
   return readSession() !== null && getCurrentUser() !== null;
 }
 
+/** Ensure a demo session exists (default: first account). Used for deep-links from public pages. */
+export function ensureDemoSession(username = "ramesh"): LoginResult {
+  if (isLoggedIn()) {
+    const seller = getCurrentUser();
+    if (seller) return { success: true, seller };
+  }
+  const account = findAccountByUsername(username) ?? accounts[0];
+  if (!account) return { success: false, error: "No demo account available" };
+  return login(account.username, account.password);
+}
+
 export function getCurrentAccount(): DemoAccount | null {
   const session = readSession();
   if (!session) return null;
